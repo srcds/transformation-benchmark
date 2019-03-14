@@ -1,0 +1,892 @@
+<project default="benchmark">
+   <target name="benchmark">
+      <exec executable="java" timeout="3600000">
+         <arg value="-Xmx1400m"/>
+         <arg value="-DSQLite.library.path=."/>
+         <arg value="-jar"/>
+         <arg value="jars/experiment-v0.0.1.jar"/>
+         <arg value="ADULT"/>
+         <arg value="MULTI_DIMENSIONAL_GENERALIZATION"/>
+         <arg value="MONDRIAN"/>
+         <arg value="2"/>
+         <arg value="9"/>
+         <arg value="results/results-mondrian.csv"/>
+      </exec>
+      <exec executable="java" timeout="3600000">
+         <arg value="-Xmx1400m"/>
+         <arg value="-DSQLite.library.path=."/>
+         <arg value="-jar"/>
+         <arg value="jars/experiment-v0.0.1.jar"/>
+         <arg value="ADULT"/>
+         <arg value="MULTI_DIMENSIONAL_GENERALIZATION"/>
+         <arg value="MONDRIAN"/>
+         <arg value="3"/>
+         <arg value="9"/>
+         <arg value="results/results-mondrian.csv"/>
+      </exec>
+      <exec executable="java" timeout="3600000">
+         <arg value="-Xmx1400m"/>
+         <arg value="-DSQLite.library.path=."/>
+         <arg value="-jar"/>
+         <arg value="jars/experiment-v0.0.1.jar"/>
+         <arg value="ADULT"/>
+         <arg value="MULTI_DIMENSIONAL_GENERALIZATION"/>
+         <arg value="MONDRIAN"/>
+         <arg value="5"/>
+         <arg value="9"/>
+         <arg value="results/results-mondrian.csv"/>
+      </exec>
+      <exec executable="java" timeout="3600000">
+         <arg value="-Xmx1400m"/>
+         <arg value="-DSQLite.library.path=."/>
+         <arg value="-jar"/>
+         <arg value="jars/experiment-v0.0.1.jar"/>
+         <arg value="ADULT"/>
+         <arg value="MULTI_DIMENSIONAL_GENERALIZATION"/>
+         <arg value="MONDRIAN"/>
+         <arg value="10"/>
+         <arg value="9"/>
+         <arg value="results/results-mondrian.csv"/>
+      </exec>
+      <exec executable="java" timeout="3600000">
+         <arg value="-Xmx1400m"/>
+         <arg value="-DSQLite.library.path=."/>
+         <arg value="-jar"/>
+         <arg value="jars/experiment-v0.0.1.jar"/>
+         <arg value="ADULT"/>
+         <arg value="MULTI_DIMENSIONAL_GENERALIZATION"/>
+         <arg value="MONDRIAN"/>
+         <arg value="5"/>
+         <arg value="1"/>
+         <arg value="results/results-mondrian.csv"/>
+      </exec>
+      <exec executable="java" timeout="3600000">
+         <arg value="-Xmx1400m"/>
+         <arg value="-DSQLite.library.path=."/>
+         <arg value="-jar"/>
+         <arg value="jars/experiment-v0.0.1.jar"/>
+         <arg value="ADULT"/>
+         <arg value="MULTI_DIMENSIONAL_GENERALIZATION"/>
+         <arg value="MONDRIAN"/>
+         <arg value="5"/>
+         <arg value="2"/>
+         <arg value="results/results-mondrian.csv"/>
+      </exec>
+      <exec executable="java" timeout="3600000">
+         <arg value="-Xmx1400m"/>
+         <arg value="-DSQLite.library.path=."/>
+         <arg value="-jar"/>
+         <arg value="jars/experiment-v0.0.1.jar"/>
+         <arg value="ADULT"/>
+         <arg value="MULTI_DIMENSIONAL_GENERALIZATION"/>
+         <arg value="MONDRIAN"/>
+         <arg value="5"/>
+         <arg value="3"/>
+         <arg value="results/results-mondrian.csv"/>
+      </exec>
+      <exec executable="java" timeout="3600000">
+         <arg value="-Xmx1400m"/>
+         <arg value="-DSQLite.library.path=."/>
+         <arg value="-jar"/>
+         <arg value="jars/experiment-v0.0.1.jar"/>
+         <arg value="ADULT"/>
+         <arg value="MULTI_DIMENSIONAL_GENERALIZATION"/>
+         <arg value="MONDRIAN"/>
+         <arg value="5"/>
+         <arg value="4"/>
+         <arg value="results/results-mondrian.csv"/>
+      </exec>
+      <exec executable="java" timeout="3600000">
+         <arg value="-Xmx1400m"/>
+         <arg value="-DSQLite.library.path=."/>
+         <arg value="-jar"/>
+         <arg value="jars/experiment-v0.0.1.jar"/>
+         <arg value="ADULT"/>
+         <arg value="MULTI_DIMENSIONAL_GENERALIZATION"/>
+         <arg value="MONDRIAN"/>
+         <arg value="5"/>
+         <arg value="5"/>
+         <arg value="results/results-mondrian.csv"/>
+      </exec>
+      <exec executable="java" timeout="3600000">
+         <arg value="-Xmx1400m"/>
+         <arg value="-DSQLite.library.path=."/>
+         <arg value="-jar"/>
+         <arg value="jars/experiment-v0.0.1.jar"/>
+         <arg value="ADULT"/>
+         <arg value="MULTI_DIMENSIONAL_GENERALIZATION"/>
+         <arg value="MONDRIAN"/>
+         <arg value="5"/>
+         <arg value="6"/>
+         <arg value="results/results-mondrian.csv"/>
+      </exec>
+      <exec executable="java" timeout="3600000">
+         <arg value="-Xmx1400m"/>
+         <arg value="-DSQLite.library.path=."/>
+         <arg value="-jar"/>
+         <arg value="jars/experiment-v0.0.1.jar"/>
+         <arg value="ADULT"/>
+         <arg value="MULTI_DIMENSIONAL_GENERALIZATION"/>
+         <arg value="MONDRIAN"/>
+         <arg value="5"/>
+         <arg value="7"/>
+         <arg value="results/results-mondrian.csv"/>
+      </exec>
+      <exec executable="java" timeout="3600000">
+         <arg value="-Xmx1400m"/>
+         <arg value="-DSQLite.library.path=."/>
+         <arg value="-jar"/>
+         <arg value="jars/experiment-v0.0.1.jar"/>
+         <arg value="ADULT"/>
+         <arg value="MULTI_DIMENSIONAL_GENERALIZATION"/>
+         <arg value="MONDRIAN"/>
+         <arg value="5"/>
+         <arg value="8"/>
+         <arg value="results/results-mondrian.csv"/>
+      </exec>
+      <exec executable="java" timeout="3600000">
+         <arg value="-Xmx1400m"/>
+         <arg value="-DSQLite.library.path=."/>
+         <arg value="-jar"/>
+         <arg value="jars/experiment-v0.0.1.jar"/>
+         <arg value="ADULT"/>
+         <arg value="MULTI_DIMENSIONAL_GENERALIZATION"/>
+         <arg value="MONDRIAN"/>
+         <arg value="5"/>
+         <arg value="9"/>
+         <arg value="results/results-mondrian.csv"/>
+      </exec>
+      <exec executable="java" timeout="3600000">
+         <arg value="-Xmx1400m"/>
+         <arg value="-DSQLite.library.path=."/>
+         <arg value="-jar"/>
+         <arg value="jars/experiment-v0.0.1.jar"/>
+         <arg value="CUP"/>
+         <arg value="MULTI_DIMENSIONAL_GENERALIZATION"/>
+         <arg value="MONDRIAN"/>
+         <arg value="2"/>
+         <arg value="8"/>
+         <arg value="results/results-mondrian.csv"/>
+      </exec>
+      <exec executable="java" timeout="3600000">
+         <arg value="-Xmx1400m"/>
+         <arg value="-DSQLite.library.path=."/>
+         <arg value="-jar"/>
+         <arg value="jars/experiment-v0.0.1.jar"/>
+         <arg value="CUP"/>
+         <arg value="MULTI_DIMENSIONAL_GENERALIZATION"/>
+         <arg value="MONDRIAN"/>
+         <arg value="3"/>
+         <arg value="8"/>
+         <arg value="results/results-mondrian.csv"/>
+      </exec>
+      <exec executable="java" timeout="3600000">
+         <arg value="-Xmx1400m"/>
+         <arg value="-DSQLite.library.path=."/>
+         <arg value="-jar"/>
+         <arg value="jars/experiment-v0.0.1.jar"/>
+         <arg value="CUP"/>
+         <arg value="MULTI_DIMENSIONAL_GENERALIZATION"/>
+         <arg value="MONDRIAN"/>
+         <arg value="5"/>
+         <arg value="8"/>
+         <arg value="results/results-mondrian.csv"/>
+      </exec>
+      <exec executable="java" timeout="3600000">
+         <arg value="-Xmx1400m"/>
+         <arg value="-DSQLite.library.path=."/>
+         <arg value="-jar"/>
+         <arg value="jars/experiment-v0.0.1.jar"/>
+         <arg value="CUP"/>
+         <arg value="MULTI_DIMENSIONAL_GENERALIZATION"/>
+         <arg value="MONDRIAN"/>
+         <arg value="10"/>
+         <arg value="8"/>
+         <arg value="results/results-mondrian.csv"/>
+      </exec>
+      <exec executable="java" timeout="3600000">
+         <arg value="-Xmx1400m"/>
+         <arg value="-DSQLite.library.path=."/>
+         <arg value="-jar"/>
+         <arg value="jars/experiment-v0.0.1.jar"/>
+         <arg value="CUP"/>
+         <arg value="MULTI_DIMENSIONAL_GENERALIZATION"/>
+         <arg value="MONDRIAN"/>
+         <arg value="5"/>
+         <arg value="1"/>
+         <arg value="results/results-mondrian.csv"/>
+      </exec>
+      <exec executable="java" timeout="3600000">
+         <arg value="-Xmx1400m"/>
+         <arg value="-DSQLite.library.path=."/>
+         <arg value="-jar"/>
+         <arg value="jars/experiment-v0.0.1.jar"/>
+         <arg value="CUP"/>
+         <arg value="MULTI_DIMENSIONAL_GENERALIZATION"/>
+         <arg value="MONDRIAN"/>
+         <arg value="5"/>
+         <arg value="2"/>
+         <arg value="results/results-mondrian.csv"/>
+      </exec>
+      <exec executable="java" timeout="3600000">
+         <arg value="-Xmx1400m"/>
+         <arg value="-DSQLite.library.path=."/>
+         <arg value="-jar"/>
+         <arg value="jars/experiment-v0.0.1.jar"/>
+         <arg value="CUP"/>
+         <arg value="MULTI_DIMENSIONAL_GENERALIZATION"/>
+         <arg value="MONDRIAN"/>
+         <arg value="5"/>
+         <arg value="3"/>
+         <arg value="results/results-mondrian.csv"/>
+      </exec>
+      <exec executable="java" timeout="3600000">
+         <arg value="-Xmx1400m"/>
+         <arg value="-DSQLite.library.path=."/>
+         <arg value="-jar"/>
+         <arg value="jars/experiment-v0.0.1.jar"/>
+         <arg value="CUP"/>
+         <arg value="MULTI_DIMENSIONAL_GENERALIZATION"/>
+         <arg value="MONDRIAN"/>
+         <arg value="5"/>
+         <arg value="4"/>
+         <arg value="results/results-mondrian.csv"/>
+      </exec>
+      <exec executable="java" timeout="3600000">
+         <arg value="-Xmx1400m"/>
+         <arg value="-DSQLite.library.path=."/>
+         <arg value="-jar"/>
+         <arg value="jars/experiment-v0.0.1.jar"/>
+         <arg value="CUP"/>
+         <arg value="MULTI_DIMENSIONAL_GENERALIZATION"/>
+         <arg value="MONDRIAN"/>
+         <arg value="5"/>
+         <arg value="5"/>
+         <arg value="results/results-mondrian.csv"/>
+      </exec>
+      <exec executable="java" timeout="3600000">
+         <arg value="-Xmx1400m"/>
+         <arg value="-DSQLite.library.path=."/>
+         <arg value="-jar"/>
+         <arg value="jars/experiment-v0.0.1.jar"/>
+         <arg value="CUP"/>
+         <arg value="MULTI_DIMENSIONAL_GENERALIZATION"/>
+         <arg value="MONDRIAN"/>
+         <arg value="5"/>
+         <arg value="6"/>
+         <arg value="results/results-mondrian.csv"/>
+      </exec>
+      <exec executable="java" timeout="3600000">
+         <arg value="-Xmx1400m"/>
+         <arg value="-DSQLite.library.path=."/>
+         <arg value="-jar"/>
+         <arg value="jars/experiment-v0.0.1.jar"/>
+         <arg value="CUP"/>
+         <arg value="MULTI_DIMENSIONAL_GENERALIZATION"/>
+         <arg value="MONDRIAN"/>
+         <arg value="5"/>
+         <arg value="7"/>
+         <arg value="results/results-mondrian.csv"/>
+      </exec>
+      <exec executable="java" timeout="3600000">
+         <arg value="-Xmx1400m"/>
+         <arg value="-DSQLite.library.path=."/>
+         <arg value="-jar"/>
+         <arg value="jars/experiment-v0.0.1.jar"/>
+         <arg value="CUP"/>
+         <arg value="MULTI_DIMENSIONAL_GENERALIZATION"/>
+         <arg value="MONDRIAN"/>
+         <arg value="5"/>
+         <arg value="8"/>
+         <arg value="results/results-mondrian.csv"/>
+      </exec>
+      <exec executable="java" timeout="3600000">
+         <arg value="-Xmx1400m"/>
+         <arg value="-DSQLite.library.path=."/>
+         <arg value="-jar"/>
+         <arg value="jars/experiment-v0.0.1.jar"/>
+         <arg value="FARS"/>
+         <arg value="MULTI_DIMENSIONAL_GENERALIZATION"/>
+         <arg value="MONDRIAN"/>
+         <arg value="2"/>
+         <arg value="8"/>
+         <arg value="results/results-mondrian.csv"/>
+      </exec>
+      <exec executable="java" timeout="3600000">
+         <arg value="-Xmx1400m"/>
+         <arg value="-DSQLite.library.path=."/>
+         <arg value="-jar"/>
+         <arg value="jars/experiment-v0.0.1.jar"/>
+         <arg value="FARS"/>
+         <arg value="MULTI_DIMENSIONAL_GENERALIZATION"/>
+         <arg value="MONDRIAN"/>
+         <arg value="3"/>
+         <arg value="8"/>
+         <arg value="results/results-mondrian.csv"/>
+      </exec>
+      <exec executable="java" timeout="3600000">
+         <arg value="-Xmx1400m"/>
+         <arg value="-DSQLite.library.path=."/>
+         <arg value="-jar"/>
+         <arg value="jars/experiment-v0.0.1.jar"/>
+         <arg value="FARS"/>
+         <arg value="MULTI_DIMENSIONAL_GENERALIZATION"/>
+         <arg value="MONDRIAN"/>
+         <arg value="5"/>
+         <arg value="8"/>
+         <arg value="results/results-mondrian.csv"/>
+      </exec>
+      <exec executable="java" timeout="3600000">
+         <arg value="-Xmx1400m"/>
+         <arg value="-DSQLite.library.path=."/>
+         <arg value="-jar"/>
+         <arg value="jars/experiment-v0.0.1.jar"/>
+         <arg value="FARS"/>
+         <arg value="MULTI_DIMENSIONAL_GENERALIZATION"/>
+         <arg value="MONDRIAN"/>
+         <arg value="10"/>
+         <arg value="8"/>
+         <arg value="results/results-mondrian.csv"/>
+      </exec>
+      <exec executable="java" timeout="3600000">
+         <arg value="-Xmx1400m"/>
+         <arg value="-DSQLite.library.path=."/>
+         <arg value="-jar"/>
+         <arg value="jars/experiment-v0.0.1.jar"/>
+         <arg value="FARS"/>
+         <arg value="MULTI_DIMENSIONAL_GENERALIZATION"/>
+         <arg value="MONDRIAN"/>
+         <arg value="5"/>
+         <arg value="1"/>
+         <arg value="results/results-mondrian.csv"/>
+      </exec>
+      <exec executable="java" timeout="3600000">
+         <arg value="-Xmx1400m"/>
+         <arg value="-DSQLite.library.path=."/>
+         <arg value="-jar"/>
+         <arg value="jars/experiment-v0.0.1.jar"/>
+         <arg value="FARS"/>
+         <arg value="MULTI_DIMENSIONAL_GENERALIZATION"/>
+         <arg value="MONDRIAN"/>
+         <arg value="5"/>
+         <arg value="2"/>
+         <arg value="results/results-mondrian.csv"/>
+      </exec>
+      <exec executable="java" timeout="3600000">
+         <arg value="-Xmx1400m"/>
+         <arg value="-DSQLite.library.path=."/>
+         <arg value="-jar"/>
+         <arg value="jars/experiment-v0.0.1.jar"/>
+         <arg value="FARS"/>
+         <arg value="MULTI_DIMENSIONAL_GENERALIZATION"/>
+         <arg value="MONDRIAN"/>
+         <arg value="5"/>
+         <arg value="3"/>
+         <arg value="results/results-mondrian.csv"/>
+      </exec>
+      <exec executable="java" timeout="3600000">
+         <arg value="-Xmx1400m"/>
+         <arg value="-DSQLite.library.path=."/>
+         <arg value="-jar"/>
+         <arg value="jars/experiment-v0.0.1.jar"/>
+         <arg value="FARS"/>
+         <arg value="MULTI_DIMENSIONAL_GENERALIZATION"/>
+         <arg value="MONDRIAN"/>
+         <arg value="5"/>
+         <arg value="4"/>
+         <arg value="results/results-mondrian.csv"/>
+      </exec>
+      <exec executable="java" timeout="3600000">
+         <arg value="-Xmx1400m"/>
+         <arg value="-DSQLite.library.path=."/>
+         <arg value="-jar"/>
+         <arg value="jars/experiment-v0.0.1.jar"/>
+         <arg value="FARS"/>
+         <arg value="MULTI_DIMENSIONAL_GENERALIZATION"/>
+         <arg value="MONDRIAN"/>
+         <arg value="5"/>
+         <arg value="5"/>
+         <arg value="results/results-mondrian.csv"/>
+      </exec>
+      <exec executable="java" timeout="3600000">
+         <arg value="-Xmx1400m"/>
+         <arg value="-DSQLite.library.path=."/>
+         <arg value="-jar"/>
+         <arg value="jars/experiment-v0.0.1.jar"/>
+         <arg value="FARS"/>
+         <arg value="MULTI_DIMENSIONAL_GENERALIZATION"/>
+         <arg value="MONDRIAN"/>
+         <arg value="5"/>
+         <arg value="6"/>
+         <arg value="results/results-mondrian.csv"/>
+      </exec>
+      <exec executable="java" timeout="3600000">
+         <arg value="-Xmx1400m"/>
+         <arg value="-DSQLite.library.path=."/>
+         <arg value="-jar"/>
+         <arg value="jars/experiment-v0.0.1.jar"/>
+         <arg value="FARS"/>
+         <arg value="MULTI_DIMENSIONAL_GENERALIZATION"/>
+         <arg value="MONDRIAN"/>
+         <arg value="5"/>
+         <arg value="7"/>
+         <arg value="results/results-mondrian.csv"/>
+      </exec>
+      <exec executable="java" timeout="3600000">
+         <arg value="-Xmx1400m"/>
+         <arg value="-DSQLite.library.path=."/>
+         <arg value="-jar"/>
+         <arg value="jars/experiment-v0.0.1.jar"/>
+         <arg value="FARS"/>
+         <arg value="MULTI_DIMENSIONAL_GENERALIZATION"/>
+         <arg value="MONDRIAN"/>
+         <arg value="5"/>
+         <arg value="8"/>
+         <arg value="results/results-mondrian.csv"/>
+      </exec>
+      <exec executable="java" timeout="3600000">
+         <arg value="-Xmx1400m"/>
+         <arg value="-DSQLite.library.path=."/>
+         <arg value="-jar"/>
+         <arg value="jars/experiment-v0.0.1.jar"/>
+         <arg value="ATUS"/>
+         <arg value="MULTI_DIMENSIONAL_GENERALIZATION"/>
+         <arg value="MONDRIAN"/>
+         <arg value="2"/>
+         <arg value="9"/>
+         <arg value="results/results-mondrian.csv"/>
+      </exec>
+      <exec executable="java" timeout="3600000">
+         <arg value="-Xmx1400m"/>
+         <arg value="-DSQLite.library.path=."/>
+         <arg value="-jar"/>
+         <arg value="jars/experiment-v0.0.1.jar"/>
+         <arg value="ATUS"/>
+         <arg value="MULTI_DIMENSIONAL_GENERALIZATION"/>
+         <arg value="MONDRIAN"/>
+         <arg value="3"/>
+         <arg value="9"/>
+         <arg value="results/results-mondrian.csv"/>
+      </exec>
+      <exec executable="java" timeout="3600000">
+         <arg value="-Xmx1400m"/>
+         <arg value="-DSQLite.library.path=."/>
+         <arg value="-jar"/>
+         <arg value="jars/experiment-v0.0.1.jar"/>
+         <arg value="ATUS"/>
+         <arg value="MULTI_DIMENSIONAL_GENERALIZATION"/>
+         <arg value="MONDRIAN"/>
+         <arg value="5"/>
+         <arg value="9"/>
+         <arg value="results/results-mondrian.csv"/>
+      </exec>
+      <exec executable="java" timeout="3600000">
+         <arg value="-Xmx1400m"/>
+         <arg value="-DSQLite.library.path=."/>
+         <arg value="-jar"/>
+         <arg value="jars/experiment-v0.0.1.jar"/>
+         <arg value="ATUS"/>
+         <arg value="MULTI_DIMENSIONAL_GENERALIZATION"/>
+         <arg value="MONDRIAN"/>
+         <arg value="10"/>
+         <arg value="9"/>
+         <arg value="results/results-mondrian.csv"/>
+      </exec>
+      <exec executable="java" timeout="3600000">
+         <arg value="-Xmx1400m"/>
+         <arg value="-DSQLite.library.path=."/>
+         <arg value="-jar"/>
+         <arg value="jars/experiment-v0.0.1.jar"/>
+         <arg value="ATUS"/>
+         <arg value="MULTI_DIMENSIONAL_GENERALIZATION"/>
+         <arg value="MONDRIAN"/>
+         <arg value="5"/>
+         <arg value="1"/>
+         <arg value="results/results-mondrian.csv"/>
+      </exec>
+      <exec executable="java" timeout="3600000">
+         <arg value="-Xmx1400m"/>
+         <arg value="-DSQLite.library.path=."/>
+         <arg value="-jar"/>
+         <arg value="jars/experiment-v0.0.1.jar"/>
+         <arg value="ATUS"/>
+         <arg value="MULTI_DIMENSIONAL_GENERALIZATION"/>
+         <arg value="MONDRIAN"/>
+         <arg value="5"/>
+         <arg value="2"/>
+         <arg value="results/results-mondrian.csv"/>
+      </exec>
+      <exec executable="java" timeout="3600000">
+         <arg value="-Xmx1400m"/>
+         <arg value="-DSQLite.library.path=."/>
+         <arg value="-jar"/>
+         <arg value="jars/experiment-v0.0.1.jar"/>
+         <arg value="ATUS"/>
+         <arg value="MULTI_DIMENSIONAL_GENERALIZATION"/>
+         <arg value="MONDRIAN"/>
+         <arg value="5"/>
+         <arg value="3"/>
+         <arg value="results/results-mondrian.csv"/>
+      </exec>
+      <exec executable="java" timeout="3600000">
+         <arg value="-Xmx1400m"/>
+         <arg value="-DSQLite.library.path=."/>
+         <arg value="-jar"/>
+         <arg value="jars/experiment-v0.0.1.jar"/>
+         <arg value="ATUS"/>
+         <arg value="MULTI_DIMENSIONAL_GENERALIZATION"/>
+         <arg value="MONDRIAN"/>
+         <arg value="5"/>
+         <arg value="4"/>
+         <arg value="results/results-mondrian.csv"/>
+      </exec>
+      <exec executable="java" timeout="3600000">
+         <arg value="-Xmx1400m"/>
+         <arg value="-DSQLite.library.path=."/>
+         <arg value="-jar"/>
+         <arg value="jars/experiment-v0.0.1.jar"/>
+         <arg value="ATUS"/>
+         <arg value="MULTI_DIMENSIONAL_GENERALIZATION"/>
+         <arg value="MONDRIAN"/>
+         <arg value="5"/>
+         <arg value="5"/>
+         <arg value="results/results-mondrian.csv"/>
+      </exec>
+      <exec executable="java" timeout="3600000">
+         <arg value="-Xmx1400m"/>
+         <arg value="-DSQLite.library.path=."/>
+         <arg value="-jar"/>
+         <arg value="jars/experiment-v0.0.1.jar"/>
+         <arg value="ATUS"/>
+         <arg value="MULTI_DIMENSIONAL_GENERALIZATION"/>
+         <arg value="MONDRIAN"/>
+         <arg value="5"/>
+         <arg value="6"/>
+         <arg value="results/results-mondrian.csv"/>
+      </exec>
+      <exec executable="java" timeout="3600000">
+         <arg value="-Xmx1400m"/>
+         <arg value="-DSQLite.library.path=."/>
+         <arg value="-jar"/>
+         <arg value="jars/experiment-v0.0.1.jar"/>
+         <arg value="ATUS"/>
+         <arg value="MULTI_DIMENSIONAL_GENERALIZATION"/>
+         <arg value="MONDRIAN"/>
+         <arg value="5"/>
+         <arg value="7"/>
+         <arg value="results/results-mondrian.csv"/>
+      </exec>
+      <exec executable="java" timeout="3600000">
+         <arg value="-Xmx1400m"/>
+         <arg value="-DSQLite.library.path=."/>
+         <arg value="-jar"/>
+         <arg value="jars/experiment-v0.0.1.jar"/>
+         <arg value="ATUS"/>
+         <arg value="MULTI_DIMENSIONAL_GENERALIZATION"/>
+         <arg value="MONDRIAN"/>
+         <arg value="5"/>
+         <arg value="8"/>
+         <arg value="results/results-mondrian.csv"/>
+      </exec>
+      <exec executable="java" timeout="3600000">
+         <arg value="-Xmx1400m"/>
+         <arg value="-DSQLite.library.path=."/>
+         <arg value="-jar"/>
+         <arg value="jars/experiment-v0.0.1.jar"/>
+         <arg value="ATUS"/>
+         <arg value="MULTI_DIMENSIONAL_GENERALIZATION"/>
+         <arg value="MONDRIAN"/>
+         <arg value="5"/>
+         <arg value="9"/>
+         <arg value="results/results-mondrian.csv"/>
+      </exec>
+      <exec executable="java" timeout="3600000">
+         <arg value="-Xmx1400m"/>
+         <arg value="-DSQLite.library.path=."/>
+         <arg value="-jar"/>
+         <arg value="jars/experiment-v0.0.1.jar"/>
+         <arg value="IHIS"/>
+         <arg value="MULTI_DIMENSIONAL_GENERALIZATION"/>
+         <arg value="MONDRIAN"/>
+         <arg value="2"/>
+         <arg value="9"/>
+         <arg value="results/results-mondrian.csv"/>
+      </exec>
+      <exec executable="java" timeout="3600000">
+         <arg value="-Xmx1400m"/>
+         <arg value="-DSQLite.library.path=."/>
+         <arg value="-jar"/>
+         <arg value="jars/experiment-v0.0.1.jar"/>
+         <arg value="IHIS"/>
+         <arg value="MULTI_DIMENSIONAL_GENERALIZATION"/>
+         <arg value="MONDRIAN"/>
+         <arg value="3"/>
+         <arg value="9"/>
+         <arg value="results/results-mondrian.csv"/>
+      </exec>
+      <exec executable="java" timeout="3600000">
+         <arg value="-Xmx1400m"/>
+         <arg value="-DSQLite.library.path=."/>
+         <arg value="-jar"/>
+         <arg value="jars/experiment-v0.0.1.jar"/>
+         <arg value="IHIS"/>
+         <arg value="MULTI_DIMENSIONAL_GENERALIZATION"/>
+         <arg value="MONDRIAN"/>
+         <arg value="5"/>
+         <arg value="9"/>
+         <arg value="results/results-mondrian.csv"/>
+      </exec>
+      <exec executable="java" timeout="3600000">
+         <arg value="-Xmx1400m"/>
+         <arg value="-DSQLite.library.path=."/>
+         <arg value="-jar"/>
+         <arg value="jars/experiment-v0.0.1.jar"/>
+         <arg value="IHIS"/>
+         <arg value="MULTI_DIMENSIONAL_GENERALIZATION"/>
+         <arg value="MONDRIAN"/>
+         <arg value="10"/>
+         <arg value="9"/>
+         <arg value="results/results-mondrian.csv"/>
+      </exec>
+      <exec executable="java" timeout="3600000">
+         <arg value="-Xmx1400m"/>
+         <arg value="-DSQLite.library.path=."/>
+         <arg value="-jar"/>
+         <arg value="jars/experiment-v0.0.1.jar"/>
+         <arg value="IHIS"/>
+         <arg value="MULTI_DIMENSIONAL_GENERALIZATION"/>
+         <arg value="MONDRIAN"/>
+         <arg value="5"/>
+         <arg value="1"/>
+         <arg value="results/results-mondrian.csv"/>
+      </exec>
+      <exec executable="java" timeout="3600000">
+         <arg value="-Xmx1400m"/>
+         <arg value="-DSQLite.library.path=."/>
+         <arg value="-jar"/>
+         <arg value="jars/experiment-v0.0.1.jar"/>
+         <arg value="IHIS"/>
+         <arg value="MULTI_DIMENSIONAL_GENERALIZATION"/>
+         <arg value="MONDRIAN"/>
+         <arg value="5"/>
+         <arg value="2"/>
+         <arg value="results/results-mondrian.csv"/>
+      </exec>
+      <exec executable="java" timeout="3600000">
+         <arg value="-Xmx1400m"/>
+         <arg value="-DSQLite.library.path=."/>
+         <arg value="-jar"/>
+         <arg value="jars/experiment-v0.0.1.jar"/>
+         <arg value="IHIS"/>
+         <arg value="MULTI_DIMENSIONAL_GENERALIZATION"/>
+         <arg value="MONDRIAN"/>
+         <arg value="5"/>
+         <arg value="3"/>
+         <arg value="results/results-mondrian.csv"/>
+      </exec>
+      <exec executable="java" timeout="3600000">
+         <arg value="-Xmx1400m"/>
+         <arg value="-DSQLite.library.path=."/>
+         <arg value="-jar"/>
+         <arg value="jars/experiment-v0.0.1.jar"/>
+         <arg value="IHIS"/>
+         <arg value="MULTI_DIMENSIONAL_GENERALIZATION"/>
+         <arg value="MONDRIAN"/>
+         <arg value="5"/>
+         <arg value="4"/>
+         <arg value="results/results-mondrian.csv"/>
+      </exec>
+      <exec executable="java" timeout="3600000">
+         <arg value="-Xmx1400m"/>
+         <arg value="-DSQLite.library.path=."/>
+         <arg value="-jar"/>
+         <arg value="jars/experiment-v0.0.1.jar"/>
+         <arg value="IHIS"/>
+         <arg value="MULTI_DIMENSIONAL_GENERALIZATION"/>
+         <arg value="MONDRIAN"/>
+         <arg value="5"/>
+         <arg value="5"/>
+         <arg value="results/results-mondrian.csv"/>
+      </exec>
+      <exec executable="java" timeout="3600000">
+         <arg value="-Xmx1400m"/>
+         <arg value="-DSQLite.library.path=."/>
+         <arg value="-jar"/>
+         <arg value="jars/experiment-v0.0.1.jar"/>
+         <arg value="IHIS"/>
+         <arg value="MULTI_DIMENSIONAL_GENERALIZATION"/>
+         <arg value="MONDRIAN"/>
+         <arg value="5"/>
+         <arg value="6"/>
+         <arg value="results/results-mondrian.csv"/>
+      </exec>
+      <exec executable="java" timeout="3600000">
+         <arg value="-Xmx1400m"/>
+         <arg value="-DSQLite.library.path=."/>
+         <arg value="-jar"/>
+         <arg value="jars/experiment-v0.0.1.jar"/>
+         <arg value="IHIS"/>
+         <arg value="MULTI_DIMENSIONAL_GENERALIZATION"/>
+         <arg value="MONDRIAN"/>
+         <arg value="5"/>
+         <arg value="7"/>
+         <arg value="results/results-mondrian.csv"/>
+      </exec>
+      <exec executable="java" timeout="3600000">
+         <arg value="-Xmx1400m"/>
+         <arg value="-DSQLite.library.path=."/>
+         <arg value="-jar"/>
+         <arg value="jars/experiment-v0.0.1.jar"/>
+         <arg value="IHIS"/>
+         <arg value="MULTI_DIMENSIONAL_GENERALIZATION"/>
+         <arg value="MONDRIAN"/>
+         <arg value="5"/>
+         <arg value="8"/>
+         <arg value="results/results-mondrian.csv"/>
+      </exec>
+      <exec executable="java" timeout="3600000">
+         <arg value="-Xmx1400m"/>
+         <arg value="-DSQLite.library.path=."/>
+         <arg value="-jar"/>
+         <arg value="jars/experiment-v0.0.1.jar"/>
+         <arg value="IHIS"/>
+         <arg value="MULTI_DIMENSIONAL_GENERALIZATION"/>
+         <arg value="MONDRIAN"/>
+         <arg value="5"/>
+         <arg value="9"/>
+         <arg value="results/results-mondrian.csv"/>
+      </exec>
+      <exec executable="java" timeout="3600000">
+         <arg value="-Xmx1400m"/>
+         <arg value="-DSQLite.library.path=."/>
+         <arg value="-jar"/>
+         <arg value="jars/experiment-v0.0.1.jar"/>
+         <arg value="SS13ACS"/>
+         <arg value="MULTI_DIMENSIONAL_GENERALIZATION"/>
+         <arg value="MONDRIAN"/>
+         <arg value="2"/>
+         <arg value="30"/>
+         <arg value="results/results-mondrian.csv"/>
+      </exec>
+      <exec executable="java" timeout="3600000">
+         <arg value="-Xmx1400m"/>
+         <arg value="-DSQLite.library.path=."/>
+         <arg value="-jar"/>
+         <arg value="jars/experiment-v0.0.1.jar"/>
+         <arg value="SS13ACS"/>
+         <arg value="MULTI_DIMENSIONAL_GENERALIZATION"/>
+         <arg value="MONDRIAN"/>
+         <arg value="3"/>
+         <arg value="30"/>
+         <arg value="results/results-mondrian.csv"/>
+      </exec>
+      <exec executable="java" timeout="3600000">
+         <arg value="-Xmx1400m"/>
+         <arg value="-DSQLite.library.path=."/>
+         <arg value="-jar"/>
+         <arg value="jars/experiment-v0.0.1.jar"/>
+         <arg value="SS13ACS"/>
+         <arg value="MULTI_DIMENSIONAL_GENERALIZATION"/>
+         <arg value="MONDRIAN"/>
+         <arg value="5"/>
+         <arg value="30"/>
+         <arg value="results/results-mondrian.csv"/>
+      </exec>
+      <exec executable="java" timeout="3600000">
+         <arg value="-Xmx1400m"/>
+         <arg value="-DSQLite.library.path=."/>
+         <arg value="-jar"/>
+         <arg value="jars/experiment-v0.0.1.jar"/>
+         <arg value="SS13ACS"/>
+         <arg value="MULTI_DIMENSIONAL_GENERALIZATION"/>
+         <arg value="MONDRIAN"/>
+         <arg value="10"/>
+         <arg value="30"/>
+         <arg value="results/results-mondrian.csv"/>
+      </exec>
+      <exec executable="java" timeout="3600000">
+         <arg value="-Xmx1400m"/>
+         <arg value="-DSQLite.library.path=."/>
+         <arg value="-jar"/>
+         <arg value="jars/experiment-v0.0.1.jar"/>
+         <arg value="SS13ACS"/>
+         <arg value="MULTI_DIMENSIONAL_GENERALIZATION"/>
+         <arg value="MONDRIAN"/>
+         <arg value="5"/>
+         <arg value="1"/>
+         <arg value="results/results-mondrian.csv"/>
+      </exec>
+      <exec executable="java" timeout="3600000">
+         <arg value="-Xmx1400m"/>
+         <arg value="-DSQLite.library.path=."/>
+         <arg value="-jar"/>
+         <arg value="jars/experiment-v0.0.1.jar"/>
+         <arg value="SS13ACS"/>
+         <arg value="MULTI_DIMENSIONAL_GENERALIZATION"/>
+         <arg value="MONDRIAN"/>
+         <arg value="5"/>
+         <arg value="5"/>
+         <arg value="results/results-mondrian.csv"/>
+      </exec>
+      <exec executable="java" timeout="3600000">
+         <arg value="-Xmx1400m"/>
+         <arg value="-DSQLite.library.path=."/>
+         <arg value="-jar"/>
+         <arg value="jars/experiment-v0.0.1.jar"/>
+         <arg value="SS13ACS"/>
+         <arg value="MULTI_DIMENSIONAL_GENERALIZATION"/>
+         <arg value="MONDRIAN"/>
+         <arg value="5"/>
+         <arg value="10"/>
+         <arg value="results/results-mondrian.csv"/>
+      </exec>
+      <exec executable="java" timeout="3600000">
+         <arg value="-Xmx1400m"/>
+         <arg value="-DSQLite.library.path=."/>
+         <arg value="-jar"/>
+         <arg value="jars/experiment-v0.0.1.jar"/>
+         <arg value="SS13ACS"/>
+         <arg value="MULTI_DIMENSIONAL_GENERALIZATION"/>
+         <arg value="MONDRIAN"/>
+         <arg value="5"/>
+         <arg value="15"/>
+         <arg value="results/results-mondrian.csv"/>
+      </exec>
+      <exec executable="java" timeout="3600000">
+         <arg value="-Xmx1400m"/>
+         <arg value="-DSQLite.library.path=."/>
+         <arg value="-jar"/>
+         <arg value="jars/experiment-v0.0.1.jar"/>
+         <arg value="SS13ACS"/>
+         <arg value="MULTI_DIMENSIONAL_GENERALIZATION"/>
+         <arg value="MONDRIAN"/>
+         <arg value="5"/>
+         <arg value="20"/>
+         <arg value="results/results-mondrian.csv"/>
+      </exec>
+      <exec executable="java" timeout="3600000">
+         <arg value="-Xmx1400m"/>
+         <arg value="-DSQLite.library.path=."/>
+         <arg value="-jar"/>
+         <arg value="jars/experiment-v0.0.1.jar"/>
+         <arg value="SS13ACS"/>
+         <arg value="MULTI_DIMENSIONAL_GENERALIZATION"/>
+         <arg value="MONDRIAN"/>
+         <arg value="5"/>
+         <arg value="25"/>
+         <arg value="results/results-mondrian.csv"/>
+      </exec>
+      <exec executable="java" timeout="3600000">
+         <arg value="-Xmx1400m"/>
+         <arg value="-DSQLite.library.path=."/>
+         <arg value="-jar"/>
+         <arg value="jars/experiment-v0.0.1.jar"/>
+         <arg value="SS13ACS"/>
+         <arg value="MULTI_DIMENSIONAL_GENERALIZATION"/>
+         <arg value="MONDRIAN"/>
+         <arg value="5"/>
+         <arg value="30"/>
+         <arg value="results/results-mondrian.csv"/>
+      </exec>
+   </target>
+</project>
