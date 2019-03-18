@@ -293,7 +293,6 @@ public class BenchmarkAnalysis {
         params.rotateXTicks = 0;
         params.printValues = false;
         params.size = 0.5;
-        //params.ratio = 1d;
         params.keypos = KeyPos.NONE;
         params.font = ",10";
         params.printValuesFormatString= "%.0f";
@@ -304,13 +303,9 @@ public class BenchmarkAnalysis {
 
         List<PlotGroup> groups = new ArrayList<>();
         groups.add(new PlotGroup("Utility over "+(k ? "k" : "QIs")+" for transformation model: " + BenchmarkSetup.getDataLabel(transformation), plots, params, 1d/6d));
-        String dir = "results/" + file + "-method-" + BenchmarkSetup.getDataLabel(transformation).toLowerCase() + "-utility-" + BenchmarkSetup.getDataLabel(quality) + "-" +
+        String filename = "results/" + file + "-method-" + BenchmarkSetup.getDataLabel(transformation).toLowerCase() + "-utility-" + BenchmarkSetup.getDataLabel(quality) + "-" +
                      (k ? "k" : "qis");
-        dir = dir.toLowerCase().replace(' ', '-');
-        if (!new File(dir).exists()) {
-            new File(dir).mkdir();
-        }
-        LaTeX.plot(groups, dir + "/plot", false);
+        LaTeX.plot(groups, filename, false);
 	}
 
 	/**
@@ -439,7 +434,6 @@ public class BenchmarkAnalysis {
         params.rotateXTicks = 0;
         params.printValues = false;
         params.size = 0.5;
-        //params.ratio = 1d;
         params.font = ",10";
         params.logY = true;
         params.keypos = KeyPos.NONE;
@@ -449,12 +443,8 @@ public class BenchmarkAnalysis {
         
         List<PlotGroup> groups = new ArrayList<>();
         groups.add(new PlotGroup("Scaling over " + (k ? "k" : "QIs") + " for transformation model: " + BenchmarkSetup.getDataLabel(transformation), plots, params,  1d/6d));
-        String dir = "results/" + file + "-method-" + BenchmarkSetup.getDataLabel(transformation).toLowerCase() + "-scalability-" + (k ? "k" : "qis");
-        dir = dir.toLowerCase().replace(' ', '-');
-        if (!new File(dir).exists()) {
-            new File(dir).mkdir();
-        }
-        LaTeX.plot(groups, dir + "/plot", false);
+        String filename = "results/" + file + "-method-" + BenchmarkSetup.getDataLabel(transformation).toLowerCase() + "-scalability-" + (k ? "k" : "qis");
+        LaTeX.plot(groups, filename, false);
     }
 
     /**
