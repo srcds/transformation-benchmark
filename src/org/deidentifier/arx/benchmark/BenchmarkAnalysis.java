@@ -148,23 +148,6 @@ public class BenchmarkAnalysis {
 							BenchmarkAlgorithm.MONDRIAN,
 							BenchmarkQualityModel.SSE,
         					true);
-        generateRuntime("results-sdcmicro", 
-							BenchmarkTransformationModel.CELL_SUPPRESSION, 
-							BenchmarkAlgorithm.ARX,
-							BenchmarkAlgorithm.SDCMICRO,
-        					true);
-		generateUtility("results-sdcmicro", 
-							BenchmarkTransformationModel.CELL_SUPPRESSION, 
-							BenchmarkAlgorithm.ARX,
-							BenchmarkAlgorithm.SDCMICRO,
-							BenchmarkQualityModel.LOSS,
-        					true);
-		generateUtility("results-sdcmicro", 
-							BenchmarkTransformationModel.CELL_SUPPRESSION, 
-							BenchmarkAlgorithm.ARX,
-							BenchmarkAlgorithm.SDCMICRO,
-							BenchmarkQualityModel.NUENTROPY,
-        					true);
 		
 		// QI
         generateRuntime("results-sanchez", 
@@ -200,23 +183,6 @@ public class BenchmarkAnalysis {
 						BenchmarkAlgorithm.ARX,
 						BenchmarkAlgorithm.MONDRIAN,
 						BenchmarkQualityModel.SSE,
-						false);
-		generateRuntime("results-sdcmicro", 
-						BenchmarkTransformationModel.CELL_SUPPRESSION, 
-						BenchmarkAlgorithm.ARX,
-						BenchmarkAlgorithm.SDCMICRO,
-						false);
-		generateUtility("results-sdcmicro", 
-						BenchmarkTransformationModel.CELL_SUPPRESSION, 
-						BenchmarkAlgorithm.ARX,
-						BenchmarkAlgorithm.SDCMICRO,
-						BenchmarkQualityModel.LOSS,
-						false);
-		generateUtility("results-sdcmicro", 
-						BenchmarkTransformationModel.CELL_SUPPRESSION, 
-						BenchmarkAlgorithm.ARX,
-						BenchmarkAlgorithm.SDCMICRO,
-						BenchmarkQualityModel.NUENTROPY,
 						false);
     }
 

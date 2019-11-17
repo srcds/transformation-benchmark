@@ -96,12 +96,10 @@ public class BenchmarkExperiment {
         BenchmarkTransformationModel[] transformations = new BenchmarkTransformationModel[] {
                                                                                              BenchmarkTransformationModel.MULTI_DIMENSIONAL_GENERALIZATION,
                                                                                              BenchmarkTransformationModel.LOCAL_GENERALIZATION,
-                                                                                             BenchmarkTransformationModel.CELL_SUPPRESSION
                                                                                              };
         
         BenchmarkAlgorithm[] algorithms = new BenchmarkAlgorithm[] {    BenchmarkAlgorithm.SANCHEZ,
                                                                         BenchmarkAlgorithm.ARX,
-                                                                        BenchmarkAlgorithm.SDCMICRO,
                                                                         BenchmarkAlgorithm.MONDRIAN
                                                                         };
         
@@ -158,20 +156,14 @@ public class BenchmarkExperiment {
 								  BenchmarkAlgorithm algorithm, int qis, int k) throws IOException, RollbackRequiredException {
 
         // Forbidden combinations
-        if (transformation == BenchmarkTransformationModel.CELL_SUPPRESSION) {
-            if (algorithm == BenchmarkAlgorithm.MONDRIAN || algorithm == BenchmarkAlgorithm.SANCHEZ) {
-            	// Only for ARX and sdcMicro
-            	return;
-            }
-        }
         if (transformation == BenchmarkTransformationModel.LOCAL_GENERALIZATION) {
-            if (algorithm == BenchmarkAlgorithm.SDCMICRO || algorithm == BenchmarkAlgorithm.MONDRIAN) {
+            if (algorithm == BenchmarkAlgorithm.MONDRIAN) {
             	// Only for ARX and Sanchez
             	return;
             }
         }
         if (transformation == BenchmarkTransformationModel.MULTI_DIMENSIONAL_GENERALIZATION) {
-            if (algorithm == BenchmarkAlgorithm.SDCMICRO || algorithm == BenchmarkAlgorithm.SANCHEZ) {
+            if (algorithm == BenchmarkAlgorithm.SANCHEZ) {
             	// Only for ARX and Mondrian
             	return;
             }
@@ -187,9 +179,6 @@ public class BenchmarkExperiment {
 			break;
 		case MONDRIAN:
 			executor = new BenchmarkExecutorMondrian(dataset, transformation, qis, k, BenchmarkSetup.TIME_LIMIT);
-			break;
-		case SDCMICRO:
-			executor = new BenchmarkExecutorSDC(dataset, transformation, qis, k, BenchmarkSetup.TIME_LIMIT);
 			break;
 		case SANCHEZ:
 			executor = new BenchmarkExecutorSanchez(dataset, transformation, qis, k, BenchmarkSetup.TIME_LIMIT);

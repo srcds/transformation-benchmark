@@ -21,7 +21,7 @@ public class BenchmarkSetup {
      * Algorithms
      */
 	public static enum BenchmarkAlgorithm {
-		ARX, MONDRIAN, SANCHEZ, SDCMICRO
+		ARX, MONDRIAN, SANCHEZ
 	}
 
 	/**
@@ -43,7 +43,7 @@ public class BenchmarkSetup {
      * Transformation models
      */
 	public static enum BenchmarkTransformationModel {
-		MULTI_DIMENSIONAL_GENERALIZATION, LOCAL_GENERALIZATION, CELL_SUPPRESSION,
+		MULTI_DIMENSIONAL_GENERALIZATION, LOCAL_GENERALIZATION, 
 	}
 
     /** 1 hour*/
@@ -85,11 +85,7 @@ public class BenchmarkSetup {
         Data data = getProjectedDataset(getData(dataset), Arrays.copyOf(getQuasiIdentifyingAttributes(dataset), qis));
         int num = 0;
         for (String qi : getQuasiIdentifyingAttributes(dataset)) {
-            if (tm == BenchmarkTransformationModel.CELL_SUPPRESSION) {
-            	data.getDefinition().setAttributeType(qi, getCellSuppressionHierarchy(dataset, qi));
-            } else {
-            	data.getDefinition().setAttributeType(qi, getHierarchy(dataset, qi));
-            }
+            data.getDefinition().setAttributeType(qi, getHierarchy(dataset, qi));
             num++;
             if (num == qis) {
             	break;
@@ -148,8 +144,6 @@ public class BenchmarkSetup {
 		switch (transformation) {
 		case LOCAL_GENERALIZATION:
 			return "Local generalization";
-		case CELL_SUPPRESSION:
-			return "Cell suppression";
 		case MULTI_DIMENSIONAL_GENERALIZATION:
 			return "Multi-dimensional global generalization";
 		}

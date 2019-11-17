@@ -4,7 +4,6 @@ Benchmark
 Requirements
 ------
 - MS Windows
-- Local installation of R and sdcMicro
 
 How to run
 ------

@@ -21,7 +21,6 @@ import org.deidentifier.arx.io.CSVDataOutput;
 import org.deidentifier.arx.metric.Metric;
 import org.deidentifier.arx.utility.UtilityMeasure;
 import org.deidentifier.arx.utility.UtilityMeasureGranularity;
-import org.deidentifier.arx.utility.UtilityMeasureNonUniformEntropy;
 import org.deidentifier.arx.utility.UtilityMeasureSSE;
 import org.deidentifier.arx.utility.util.DataConverter;
 
@@ -112,8 +111,6 @@ public class BenchmarkExecutorARX extends BenchmarkExecutor {
         DataConverter converter = new DataConverter();
         String[][] _input = converter.toArray(input);
         String[][] _output = converter.toArray(output);
-        String[] _header = converter.getHeader(output);
-        Map<String, String[][]> hierarchies = converter.toMap(input.getDefinition());
 
         new CSVDataOutput("output-benchmark.csv").write(output.iterator());
         
@@ -127,25 +124,12 @@ public class BenchmarkExecutorARX extends BenchmarkExecutor {
         double val = model.evaluate(_output).getUtility().doubleValue();
         result.put(BenchmarkQualityModel.LOSS, (1d - ((val - min) / (max - min))));
 
-        if (this.transformation == BenchmarkTransformationModel.CELL_SUPPRESSION) {
-
-	        // NUENTROPY
-	        model = new UtilityMeasureNonUniformEntropy<Double>(_header, _input, hierarchies);
-	        min = model.evaluate(_input).getUtility().doubleValue();
-	        max = model.evaluate(suppress(_input)).getUtility().doubleValue();
-	        val = model.evaluate(_output).getUtility().doubleValue();
-	        result.put(BenchmarkQualityModel.NUENTROPY, (1d - ((val - min) / (max - min))));
-	        
-        } else {
-
-	        // SSE
-	        model = new UtilityMeasureSSE(_input);
-	        min = model.evaluate(_input).getUtility().doubleValue();
-	        max = model.evaluate(suppress(_input)).getUtility().doubleValue();
-	        val = model.evaluate(_output).getUtility().doubleValue();
-	        result.put(BenchmarkQualityModel.SSE, (1d - ((val - min) / (max - min))));
-	        
-        }
+		// SSE
+		model = new UtilityMeasureSSE(_input);
+		min = model.evaluate(_input).getUtility().doubleValue();
+		max = model.evaluate(suppress(_input)).getUtility().doubleValue();
+		val = model.evaluate(_output).getUtility().doubleValue();
+		result.put(BenchmarkQualityModel.SSE, (1d - ((val - min) / (max - min))));
 
         // Done
         return result;
@@ -157,11 +141,7 @@ public class BenchmarkExecutorARX extends BenchmarkExecutor {
         // Result
         Map<BenchmarkQualityModel, Double> result = new HashMap<>();
         result.put(BenchmarkQualityModel.LOSS, 0d);
-        if (this.transformation == BenchmarkTransformationModel.CELL_SUPPRESSION) {
-	        result.put(BenchmarkQualityModel.NUENTROPY, 0d);
-        } else {
-	        result.put(BenchmarkQualityModel.SSE, 0d);
-        }
+        result.put(BenchmarkQualityModel.SSE, 0d);
         return result;
 	}
 }
