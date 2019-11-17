@@ -247,7 +247,7 @@ public class Distances {
 	        min = this.min[column];
 	        max = this.max[column];
 	        
-	    // Suppressed in sdcMicro
+	    // Suppressed 
 		} else if (value.equals("NA")) {
 			min = this.min[column];
 			max = this.max[column];

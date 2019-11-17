@@ -7,7 +7,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.deidentifier.arx.AttributeType.Hierarchy;
-import org.deidentifier.arx.AttributeType.Hierarchy.DefaultHierarchy;
 import org.deidentifier.arx.Data;
 import org.deidentifier.arx.DataHandle;
 
@@ -49,28 +48,6 @@ public class BenchmarkSetup {
     /** 1 hour*/
     public static final int TIME_LIMIT = 3600000;
     
-    /** Location of R executable*/
-	public static final String LOCATION_OF_R = "C:\\Program Files\\R\\R-3.5.2\\bin";
-    
-    /**
-     * Returns the generalization hierarchy for the dataset and attribute
-     * @param dataset
-     * @param attribute
-     * @return
-     * @throws IOException
-     */
-    public static Hierarchy getCellSuppressionHierarchy(BenchmarkDataset dataset, String attribute) throws IOException {
-    	
-        DefaultHierarchy hierarchy = Hierarchy.create();
-        Data data = getData(dataset);
-        int col = data.getHandle().getColumnIndexOf(attribute);
-        String[] values = data.getHandle().getDistinctValues(col);
-        for (String value : values) {
-            hierarchy.add(value, "*");
-        }
-        return hierarchy;
-    }
-
     /**
      * Configures and returns the dataset
      * @param dataset

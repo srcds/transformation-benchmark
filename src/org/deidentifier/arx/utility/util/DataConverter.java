@@ -242,7 +242,7 @@ public class DataConverter {
     }
     
     /**
-     * Converts output from the UTD toolbox and sdcMicro
+     * Converts output from the UTD toolbox
      * @param file
      * @param header
      * @return
