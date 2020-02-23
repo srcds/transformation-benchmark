@@ -62,6 +62,8 @@ public class BenchmarkExecutorARX extends BenchmarkExecutor {
         // Quality
 		ARXConfiguration config = ARXConfiguration.create();
 		config.setQualityModel(Metric.createLossMetric(0d));
+		config.setGeneticAlgorithmDeterministic(false);
+		config.setHeuristicSearchStepLimit(1000);
 		
 		// Privacy
 		config.addPrivacyModel(new KAnonymity(k));

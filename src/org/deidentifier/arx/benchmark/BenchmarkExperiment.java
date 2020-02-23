@@ -35,43 +35,12 @@ public class BenchmarkExperiment {
     public static final int        UTILITY   = BENCHMARK.addMeasure("Utility");
 
     /** FILE */
-    private static File            FILE;
+    private static File            FILE      = new File("results/arx_ga.csv");
 
-    /** FILE */
-    private static String          FILENAME;
 	
-	static {
-	    try {
-            FILE = File.createTempFile("benchmark", "benchmark");
-        } catch (IOException e) {
-            System.exit(-1);
-        }
-	    Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    if (FILE.exists() && FILE.length() != 0) {
-                        File output = new File(FILENAME);
-                        boolean ignoreHeader = output.exists();
-                        BufferedWriter writer = new BufferedWriter(new FileWriter(output, true));
-                        try (BufferedReader br = new BufferedReader(new FileReader(FILE))) {
-                            int count = 1;
-                            for (String line; (line = br.readLine()) != null;) {
-                                if (!(ignoreHeader && count <= 2)) { // Ignore header
-                                    writer.write(line+"\n");
-                                }
-                                count++;
-                            }
-                        }
-                        writer.close();
-                    }
-                } catch (Exception e) {
-                    // Nothing we can do
-                }
-            }
-	    }));
-	}
     
+	
+	
     /**
      * Main entry point
      * 
@@ -98,16 +67,17 @@ public class BenchmarkExperiment {
                                                                                              BenchmarkTransformationModel.LOCAL_GENERALIZATION,
                                                                                              };
         
-        BenchmarkAlgorithm[] algorithms = new BenchmarkAlgorithm[] {    BenchmarkAlgorithm.SANCHEZ,
-                                                                        BenchmarkAlgorithm.ARX,
-                                                                        BenchmarkAlgorithm.MONDRIAN
+        BenchmarkAlgorithm[] algorithms = new BenchmarkAlgorithm[] {    //BenchmarkAlgorithm.SANCHEZ,
+                                                                        BenchmarkAlgorithm.ARX
+                                                                        //BenchmarkAlgorithm.MONDRIAN
                                                                         };
         
-        int[] ks = new int[] {2, 3, 5, 10};
+        //int[] ks = new int[] {2, 3, 5, 10};
+        int[] ks = new int[] {5};
         
         int[] vals = new int[] { 1, 2, 3, 4, 5, 6, 7, 8 };
         
-        FILENAME = "results/results.csv";
+
         
         // Read from command line
         if (args != null && args.length > 0) {
@@ -116,7 +86,7 @@ public class BenchmarkExperiment {
             algorithms = new BenchmarkAlgorithm[]{BenchmarkAlgorithm.valueOf(args[2])};
             ks = new int[]{Integer.valueOf(args[3])};
             vals = new int[]{Integer.valueOf(args[4])};
-            FILENAME = args[5];
+            //FILENAME = args[5];
         }
         
         // For each data set
