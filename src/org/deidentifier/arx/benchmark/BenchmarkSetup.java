@@ -16,13 +16,6 @@ import org.deidentifier.arx.DataHandle;
  */
 public class BenchmarkSetup {
 
-    /**
-     * Algorithms
-     */
-	public static enum BenchmarkAlgorithm {
-		ARX, MONDRIAN, SANCHEZ
-	}
-
 	/**
 	 * Datasets
 	 *
@@ -38,9 +31,6 @@ public class BenchmarkSetup {
 		LOSS, NUENTROPY, SSE
 	}
 
-    /**
-     * Transformation models
-     */
 	public static enum BenchmarkTransformationModel {
 		MULTI_DIMENSIONAL_GENERALIZATION, LOCAL_GENERALIZATION, 
 	}
@@ -57,7 +47,7 @@ public class BenchmarkSetup {
      * @throws IOException
      */
 
-    public static Data getData(BenchmarkDataset dataset, BenchmarkTransformationModel tm, int qis) throws IOException {
+    public static Data getData(BenchmarkDataset dataset, int qis) throws IOException {
 
         Data data = getProjectedDataset(getData(dataset), Arrays.copyOf(getQuasiIdentifyingAttributes(dataset), qis));
         int num = 0;
@@ -112,21 +102,6 @@ public class BenchmarkSetup {
 		throw new IllegalArgumentException("Unknown quality model: " + quality);
 	}
     
-    /**
-     * Returns labels for the paper
-     * @param transformation
-     * @return
-     */
-	public static String getDataLabel(BenchmarkTransformationModel transformation) {
-		switch (transformation) {
-		case LOCAL_GENERALIZATION:
-			return "Local generalization";
-		case MULTI_DIMENSIONAL_GENERALIZATION:
-			return "Multi-dimensional global generalization";
-		}
-		throw new IllegalArgumentException("Unknown transformation model: " + transformation);
-	}
-
     /**
      * Returns the generalization hierarchy for the dataset and attribute
      * @param dataset
@@ -282,7 +257,7 @@ public class BenchmarkSetup {
      * @return
      * @throws IOException
      */
-    private static Data getData(BenchmarkDataset dataset) throws IOException {
+    public static Data getData(BenchmarkDataset dataset) throws IOException {
     	String filename = null;
 		switch (dataset) {
 		case ADULT:
