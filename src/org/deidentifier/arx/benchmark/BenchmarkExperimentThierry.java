@@ -2,13 +2,18 @@ package org.deidentifier.arx.benchmark;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.deidentifier.arx.ARXAnonymizer;
 import org.deidentifier.arx.ARXConfiguration;
 import org.deidentifier.arx.ARXResult;
 import org.deidentifier.arx.Data;
 import org.deidentifier.arx.DataHandle;
+import org.deidentifier.arx.aggregates.StatisticsQuality;
 import org.deidentifier.arx.benchmark.BenchmarkSetup.BenchmarkDataset;
+import org.deidentifier.arx.benchmark.BenchmarkSetup.BenchmarkQualityModel;
 import org.deidentifier.arx.criteria.KAnonymity;
 import org.deidentifier.arx.exceptions.RollbackRequiredException;
 import org.deidentifier.arx.metric.Metric;
@@ -26,7 +31,7 @@ import de.linearbits.subframe.analyzer.ValueBuffer;
 public class BenchmarkExperimentThierry {
 
 	/** The benchmark instance */
-	private static final Benchmark BENCHMARK = new Benchmark(new String[] { "Dataset", "k", "QIs", "Iterations", "Run_Number" });
+	private static final Benchmark BENCHMARK = new Benchmark(new String[] { "Dataset", "k", "QIs", "Iterations", "Round", "QualityModel" });
 
 	/** TIME */
 	private static final int TIME = BENCHMARK.addMeasure("Time");
@@ -37,6 +42,8 @@ public class BenchmarkExperimentThierry {
 	/** FILE */
 	private static final File FILE = new File("results/results-thierry.csv");
 
+	private static boolean coldRun = true;
+	
 	/**
 	 * Main entry point
 	 * 
@@ -46,14 +53,18 @@ public class BenchmarkExperimentThierry {
 	 */
 	public static void main(String[] args) throws IOException, RollbackRequiredException {
 
-		int[] ks = new int[] { 2, 3, 5, 10 };
-		int[] vals = new int[] { 1, 2, 3, 4, 5, 6, 7, 8 };
-		int[] iterations = new int[] {100,500,1000,5000};
+		//int[] ks = new int[] { 2, 3, 5, 10 };
+		int[] ks = new int[] {5};
+		//int[] vals = new int[] { 1, 2, 3, 4, 5, 6, 7, 8 };
+		int[] vals = new int[] {5};
+		int[] iterations = new int[] {50,100,500};
 		BenchmarkTransformationModel[] transformations = new BenchmarkTransformationModel[] {
                 BenchmarkTransformationModel.MULTI_DIMENSIONAL_GENERALIZATION,
                 BenchmarkTransformationModel.LOCAL_GENERALIZATION,
                 };
-
+		int testRounds = 10;
+		
+		
 		// Init
 		BENCHMARK.addAnalyzer(TIME, new ValueBuffer());
 		BENCHMARK.addAnalyzer(UTILITY, new ValueBuffer());
@@ -70,8 +81,10 @@ public class BenchmarkExperimentThierry {
 				for (int val : vals) {
 					
 					for (int iter : iterations) {
-
-					benchmark(dataset, k, val, iter);
+						
+						for (int testRound = 0; testRound < testRounds; testRound++) {
+							benchmark(dataset, k, val, iter, testRound);
+						}
 					}
 				}
 			}
@@ -85,56 +98,59 @@ public class BenchmarkExperimentThierry {
 	 * @throws IOException
 	 * @throws RollbackRequiredException
 	 */
-	private static void benchmark(BenchmarkDataset dataset, int k, int qis, int gaIterations) throws IOException, RollbackRequiredException {
-
-		// TODO: WARMUP, DANN N WIEDERHOLUNGEN
-		int testIterations = 3;
+	private static void benchmark(BenchmarkDataset dataset, int k, int qis, int gaIterations, int testRound) throws IOException, RollbackRequiredException {
 
 		// Quality
 		ARXConfiguration config = ARXConfiguration.create();
 		config.setQualityModel(Metric.createLossMetric(0d));
 
-		// Privacy
+		// config
 		config.addPrivacyModel(new KAnonymity(k));
-		config.setHeuristicSearchStepLimit(gaIterations);
+		config.setGeneticAlgorithmIterations(100);
+		config.setHeuristicSearchStepLimit(Integer.MAX_VALUE);
+		config.setHeuristicSearchTimeLimit(3000);
 
 		// Dataset
 		Data input = BenchmarkSetup.getData(dataset, qis);
 
 		// Anonymize (warmup)
 		ARXAnonymizer anonymizer = new ARXAnonymizer();
+		
+		long time = System.currentTimeMillis();
 		ARXResult result = anonymizer.anonymize(input, config);
+		time = System.currentTimeMillis() - time;
 		DataHandle output = result.getOutput();
-		double utility = output.getStatistics().getQualityStatistics().getGranularity().getArithmeticMean();
+		
+        Map<BenchmarkQualityModel, Double> utility = analyze(output.getStatistics().getQualityStatistics());
 
-		long time;
+        if (coldRun) {
+        	coldRun = false;
+        	benchmark(dataset, k, qis, gaIterations, testRound);
+        	return;
+        }
+        	
+        	
+        
+        System.out.println(String.valueOf(dataset) + " | " + String.valueOf(k) +" | "+ String.valueOf(qis) + " | "+ String.valueOf(gaIterations) + " | " + testRound);
+        
+        // Store
+        for (Entry<BenchmarkQualityModel, Double> entry : utility.entrySet()) {
+			BENCHMARK.addRun(String.valueOf(dataset), String.valueOf(k), String.valueOf(qis), String.valueOf(gaIterations), String.valueOf(testRound), String.valueOf(entry.getKey().toString()) );
+	        BENCHMARK.addValue(TIME, time);
+	        BENCHMARK.addValue(UTILITY, entry.getValue());
+        }
 		
-		System.out.println(String.valueOf(dataset) + " | " + String.valueOf(k) +" | "+ String.valueOf(qis) + " | "+ String.valueOf(gaIterations));
-		for(int i = 0; i < testIterations; i++) {
-			
-			time = System.currentTimeMillis();
-			anonymizer = new ARXAnonymizer();
-			input = BenchmarkSetup.getData(dataset, qis);
-			result = anonymizer.anonymize(input, config);
-			output = result.getOutput();
-			utility = output.getStatistics().getQualityStatistics().getGranularity().getArithmeticMean();
-			output.release();
-			BENCHMARK.addRun(String.valueOf(dataset), String.valueOf(k), String.valueOf(qis), String.valueOf(gaIterations), String.valueOf(i));
-			
-			BENCHMARK.addValue(TIME, System.currentTimeMillis() - time);
-			BENCHMARK.addValue(UTILITY, utility);
-			// Save
-			BENCHMARK.getResults().write(FILE);
-			
-			System.out.print(".");
-		
-		}
-		
-		// Store
-		//BENCHMARK.addRun(String.valueOf(dataset), String.valueOf(k), String.valueOf(qis));
-		// BENCHMARK.addRun(String.valueOf(dataset));
+		BENCHMARK.getResults().write(FILE);
 
 	}
 	
+	private static Map<BenchmarkQualityModel, Double> analyze(StatisticsQuality stats){
+		Map<BenchmarkQualityModel, Double> result = new HashMap<>();
+		
+		result.put(BenchmarkQualityModel.SSE, stats.getSSESST().getValue());
+		result.put(BenchmarkQualityModel.LOSS, stats.getGranularity().getArithmeticMean());
+		
+		return result;
+	}
 
 }
