@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 
 import org.deidentifier.arx.ARXAnonymizer;
 import org.deidentifier.arx.ARXConfiguration;
+import org.deidentifier.arx.ARXConfiguration.AnonymizationAlgorithm;
 import org.deidentifier.arx.ARXResult;
 import org.deidentifier.arx.Data;
 import org.deidentifier.arx.DataHandle;
@@ -27,6 +28,7 @@ import de.linearbits.subframe.analyzer.ValueBuffer;
  * Main benchmark class.
  * 
  * @author Fabian Prasser
+ * @author Thierry Meurers
  */
 public class BenchmarkExperimentThierry {
 
@@ -54,24 +56,30 @@ public class BenchmarkExperimentThierry {
 	public static void main(String[] args) throws IOException, RollbackRequiredException {
 
 		//int[] ks = new int[] { 2, 3, 5, 10 };
-		int[] ks = new int[] {5};
+		int[] ks = new int[] {1};
+		
 		//int[] vals = new int[] { 1, 2, 3, 4, 5, 6, 7, 8 };
-		int[] vals = new int[] {5};
-		int[] iterations = new int[] {50,100,500};
+		int[] vals = new int[] {10};
+		
+		//int[] iterations = new int[] {50,100,500};
+		int[] iterations = new int[] {10, 100, 1000, 10000, 100000};
+		
 		BenchmarkTransformationModel[] transformations = new BenchmarkTransformationModel[] {
                 BenchmarkTransformationModel.MULTI_DIMENSIONAL_GENERALIZATION,
                 BenchmarkTransformationModel.LOCAL_GENERALIZATION,
                 };
-		int testRounds = 10;
+		int testRounds = 1;
 		
+
 		
 		// Init
 		BENCHMARK.addAnalyzer(TIME, new ValueBuffer());
 		BENCHMARK.addAnalyzer(UTILITY, new ValueBuffer());
 
 		// Standard all config
-		BenchmarkDataset[] datasets = new BenchmarkDataset[] { BenchmarkDataset.ADULT, BenchmarkDataset.CUP,
-				BenchmarkDataset.FARS, BenchmarkDataset.ATUS, BenchmarkDataset.IHIS, BenchmarkDataset.SS13ACS };
+		//BenchmarkDataset[] datasets = new BenchmarkDataset[] { BenchmarkDataset.ADULT, BenchmarkDataset.CUP, BenchmarkDataset.FARS, BenchmarkDataset.ATUS, BenchmarkDataset.IHIS, BenchmarkDataset.SS13ACS };
+		
+		BenchmarkDataset[] datasets = new BenchmarkDataset[] { BenchmarkDataset.SS13ACS};
 
 		// For each data set
 		for (BenchmarkDataset dataset : datasets) {
@@ -106,10 +114,16 @@ public class BenchmarkExperimentThierry {
 
 		// config
 		config.addPrivacyModel(new KAnonymity(k));
-		config.setGeneticAlgorithmIterations(100);
+		config.setGeneticAlgorithmIterations(gaIterations);
 		config.setHeuristicSearchStepLimit(Integer.MAX_VALUE);
-		config.setHeuristicSearchTimeLimit(3000);
+		config.setHeuristicSearchTimeLimit(Integer.MAX_VALUE);
+		config.setGeneticAlgorithmSubpopulationSize(100);
+		config.setGeneticAlgorithmEliteFraction(0.2);
+		config.setGeneticAlgorithmCrossoverFraction(0.1);
+		config.setAlgorithm(AnonymizationAlgorithm.BEST_EFFORT_GENETIC);
 
+		
+		
 		// Dataset
 		Data input = BenchmarkSetup.getData(dataset, qis);
 
