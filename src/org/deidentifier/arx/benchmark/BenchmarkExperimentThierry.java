@@ -44,7 +44,6 @@ public class BenchmarkExperimentThierry {
 	/** FILE */
 	private static final File FILE = new File("results/results-thierry.csv");
 
-	private static boolean coldRun = true;
 	
 	/**
 	 * Main entry point
@@ -56,19 +55,19 @@ public class BenchmarkExperimentThierry {
 	public static void main(String[] args) throws IOException, RollbackRequiredException {
 
 		//int[] ks = new int[] { 2, 3, 5, 10 };
-		int[] ks = new int[] {1};
+		int[] ks = new int[] {5};
 		
 		//int[] vals = new int[] { 1, 2, 3, 4, 5, 6, 7, 8 };
-		int[] vals = new int[] {10};
+		int[] vals = new int[] {5};
 		
 		//int[] iterations = new int[] {50,100,500};
-		int[] iterations = new int[] {10, 100, 1000, 10000, 100000};
+		int[] iterations = new int[] {10, 100, 500};
 		
 		BenchmarkTransformationModel[] transformations = new BenchmarkTransformationModel[] {
                 BenchmarkTransformationModel.MULTI_DIMENSIONAL_GENERALIZATION,
                 BenchmarkTransformationModel.LOCAL_GENERALIZATION,
                 };
-		int testRounds = 1;
+		int testRounds = 5;
 		
 
 		
@@ -77,9 +76,9 @@ public class BenchmarkExperimentThierry {
 		BENCHMARK.addAnalyzer(UTILITY, new ValueBuffer());
 
 		// Standard all config
-		//BenchmarkDataset[] datasets = new BenchmarkDataset[] { BenchmarkDataset.ADULT, BenchmarkDataset.CUP, BenchmarkDataset.FARS, BenchmarkDataset.ATUS, BenchmarkDataset.IHIS, BenchmarkDataset.SS13ACS };
+		BenchmarkDataset[] datasets = new BenchmarkDataset[] { BenchmarkDataset.ADULT, BenchmarkDataset.CUP, BenchmarkDataset.FARS, BenchmarkDataset.ATUS, BenchmarkDataset.IHIS, BenchmarkDataset.SS13ACS };
 		
-		BenchmarkDataset[] datasets = new BenchmarkDataset[] { BenchmarkDataset.SS13ACS};
+		//BenchmarkDataset[] datasets = new BenchmarkDataset[] { BenchmarkDataset.IHIS};
 
 		// For each data set
 		for (BenchmarkDataset dataset : datasets) {
@@ -91,7 +90,7 @@ public class BenchmarkExperimentThierry {
 					for (int iter : iterations) {
 						
 						for (int testRound = 0; testRound < testRounds; testRound++) {
-							benchmark(dataset, k, val, iter, testRound);
+							benchmark(dataset, k, val, iter, testRound, true);
 						}
 					}
 				}
@@ -106,28 +105,33 @@ public class BenchmarkExperimentThierry {
 	 * @throws IOException
 	 * @throws RollbackRequiredException
 	 */
-	private static void benchmark(BenchmarkDataset dataset, int k, int qis, int gaIterations, int testRound) throws IOException, RollbackRequiredException {
+	private static void benchmark(BenchmarkDataset dataset, int k, int qis, int gaIterations, int testRound, boolean coldRun) throws IOException, RollbackRequiredException {
 
+	    System.out.println(String.valueOf(dataset) + " | " + String.valueOf(k) +" | "+ String.valueOf(qis) + " | "+ String.valueOf(gaIterations) + " | " + testRound);
+	    
 		// Quality
 		ARXConfiguration config = ARXConfiguration.create();
 		config.setQualityModel(Metric.createLossMetric(0d));
 
 		// config
 		config.addPrivacyModel(new KAnonymity(k));
+		config.setSuppressionLimit(1d);
+		
 		config.setGeneticAlgorithmIterations(gaIterations);
 		config.setHeuristicSearchStepLimit(Integer.MAX_VALUE);
 		config.setHeuristicSearchTimeLimit(Integer.MAX_VALUE);
 		config.setGeneticAlgorithmSubpopulationSize(100);
 		config.setGeneticAlgorithmEliteFraction(0.2);
-		config.setGeneticAlgorithmCrossoverFraction(0.1);
+		config.setGeneticAlgorithmCrossoverFraction(0.2);
 		config.setAlgorithm(AnonymizationAlgorithm.BEST_EFFORT_GENETIC);
+		//config.setGeneticAlgorithmMutationProbability(0.2);
 
 		
 		
 		// Dataset
 		Data input = BenchmarkSetup.getData(dataset, qis);
 
-		// Anonymize (warmup)
+		
 		ARXAnonymizer anonymizer = new ARXAnonymizer();
 		
 		long time = System.currentTimeMillis();
@@ -138,14 +142,10 @@ public class BenchmarkExperimentThierry {
         Map<BenchmarkQualityModel, Double> utility = analyze(output.getStatistics().getQualityStatistics());
 
         if (coldRun) {
-        	coldRun = false;
-        	benchmark(dataset, k, qis, gaIterations, testRound);
+        	benchmark(dataset, k, qis, gaIterations, testRound, false);
         	return;
         }
         	
-        	
-        
-        System.out.println(String.valueOf(dataset) + " | " + String.valueOf(k) +" | "+ String.valueOf(qis) + " | "+ String.valueOf(gaIterations) + " | " + testRound);
         
         // Store
         for (Entry<BenchmarkQualityModel, Double> entry : utility.entrySet()) {
@@ -155,6 +155,8 @@ public class BenchmarkExperimentThierry {
         }
 		
 		BENCHMARK.getResults().write(FILE);
+		
+		System.out.println();
 
 	}
 	
