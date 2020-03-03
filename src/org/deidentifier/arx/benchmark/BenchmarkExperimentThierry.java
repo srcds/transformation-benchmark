@@ -12,6 +12,8 @@ import org.deidentifier.arx.ARXConfiguration.AnonymizationAlgorithm;
 import org.deidentifier.arx.ARXResult;
 import org.deidentifier.arx.Data;
 import org.deidentifier.arx.DataHandle;
+//import org.deidentifier.arx.aggregates.AggregateFunction;
+import org.deidentifier.arx.metric.Metric.AggregateFunction;
 import org.deidentifier.arx.aggregates.StatisticsQuality;
 import org.deidentifier.arx.benchmark.BenchmarkSetup.BenchmarkDataset;
 import org.deidentifier.arx.benchmark.BenchmarkSetup.BenchmarkQualityModel;
@@ -47,7 +49,7 @@ public class BenchmarkExperimentThierry {
     private static final int       UTILITY   = BENCHMARK.addMeasure("Utility");
 
     /** FILE */
-    private static final File      FILE      = new File("results/results-thierry.csv");
+    private static final File      FILE      = new File("results/results-GA.csv");
 
 	
 	/**
@@ -63,16 +65,16 @@ public class BenchmarkExperimentThierry {
 		int[] ks = new int[] {5};
 		
 		//int[] vals = new int[] { 1, 2, 3, 4, 5, 6, 7, 8 };
-		int[] vals = new int[] {5};
+		int[] vals = new int[] {0};
 		
 		//int[] iterations = new int[] {50,100,500};
-		int[] iterations = new int[] {200};
+		int[] iterations = new int[] {50};
 		
 		BenchmarkTransformationModel[] transformations = new BenchmarkTransformationModel[] {
                 BenchmarkTransformationModel.MULTI_DIMENSIONAL_GENERALIZATION,
                 BenchmarkTransformationModel.LOCAL_GENERALIZATION,
                 };
-		int testRounds = 1;
+		int testRounds = 10;
 		
 
 		
@@ -81,7 +83,7 @@ public class BenchmarkExperimentThierry {
 		BENCHMARK.addAnalyzer(UTILITY, new ValueBuffer());
 
 		// Standard all config
-		BenchmarkDataset[] datasets = new BenchmarkDataset[] { BenchmarkDataset.ADULT, BenchmarkDataset.CUP, BenchmarkDataset.FARS, BenchmarkDataset.ATUS, BenchmarkDataset.IHIS, BenchmarkDataset.SS13ACS };
+		BenchmarkDataset[] datasets = new BenchmarkDataset[] { BenchmarkDataset.ADULT, BenchmarkDataset.CUP, BenchmarkDataset.FARS, BenchmarkDataset.ATUS, BenchmarkDataset.IHIS };
 		
 		//BenchmarkDataset[] datasets = new BenchmarkDataset[] { BenchmarkDataset.IHIS};
 
@@ -95,6 +97,8 @@ public class BenchmarkExperimentThierry {
 					for (int iter : iterations) {
 						
 						for (int testRound = 0; testRound < testRounds; testRound++) {
+							if (testRound == 0)
+							    benchmark(dataset, k, val, iter, testRound, true);
 							benchmark(dataset, k, val, iter, testRound, false);
 						}
 					}
@@ -111,32 +115,47 @@ public class BenchmarkExperimentThierry {
 	 * @throws RollbackRequiredException
 	 */
 	private static void benchmark(BenchmarkDataset dataset, int k, int qis, int gaIterations, int testRound, boolean coldRun) throws IOException, RollbackRequiredException {
-
-	    System.out.println(String.valueOf(dataset) + " | " + String.valueOf(k) +" | "+ String.valueOf(qis) + " | "+ String.valueOf(gaIterations) + " | " + testRound);
 	    
 		// Quality
 		ARXConfiguration config = ARXConfiguration.create();
 		config.setQualityModel(Metric.createLossMetric(0d));
+		config.setQualityModel(Metric.createLossMetric(0.5, AggregateFunction.ARITHMETIC_MEAN));
 
 		// config
 		config.addPrivacyModel(new KAnonymity(k));
 		config.setSuppressionLimit(1d);
 		
-		config.setGeneticAlgorithmIterations(gaIterations);
-		config.setHeuristicSearchStepLimit(Integer.MAX_VALUE);
-		config.setHeuristicSearchTimeLimit(Integer.MAX_VALUE);
-		config.setGeneticAlgorithmSubpopulationSize(100);
-		config.setGeneticAlgorithmEliteFraction(0.2);
-		config.setGeneticAlgorithmCrossoverFraction(0.2);
-		config.setAlgorithm(AnonymizationAlgorithm.BEST_EFFORT_GENETIC);
-		//config.setGeneticAlgorithmMutationProbability(0.2);
-
 		
+		int algorithmIndex = 0;
+		
+		switch(algorithmIndex) {
+		case 0: 
+            config.setGeneticAlgorithmIterations(gaIterations);
+            config.setHeuristicSearchStepLimit(Integer.MAX_VALUE);
+            config.setHeuristicSearchTimeLimit(Integer.MAX_VALUE);
+            config.setGeneticAlgorithmSubpopulationSize(100);
+            config.setGeneticAlgorithmEliteFraction(0.2);
+            config.setGeneticAlgorithmCrossoverFraction(0.2);
+            config.setAlgorithm(AnonymizationAlgorithm.BEST_EFFORT_GENETIC);
+            // config.setGeneticAlgorithmMutationProbability(0.2);
+            break;
+		case 1:
+            config.setAlgorithm(AnonymizationAlgorithm.OPTIMAL);
+            break;
+		case 2:
+		    config.setAlgorithm(AnonymizationAlgorithm.BEST_EFFORT_BOTTOM_UP);
+		    config.setHeuristicSearchTimeLimit(1000);
+		    break;
+        }
 		
 		// Dataset
 		//Data input = BenchmarkSetup.getData(dataset, qis);
-		Data input = BenchmarkSetup.getData(dataset, BenchmarkSetup.getQuasiIdentifyingAttributes(dataset).length);
+        if(qis == 0) {
+            qis = BenchmarkSetup.getQuasiIdentifyingAttributes(dataset).length;
+        }
+		Data input = BenchmarkSetup.getData(dataset, qis);
 
+	    System.out.println(String.valueOf(dataset) + " | " + String.valueOf(k) +" | "+ String.valueOf(qis) + " | "+ String.valueOf(gaIterations) + " | " + testRound);
 		
 		ARXAnonymizer anonymizer = new ARXAnonymizer();
 		
@@ -147,8 +166,8 @@ public class BenchmarkExperimentThierry {
 		
         Map<BenchmarkQualityModel, Double> utility = analyze(output.getStatistics().getQualityStatistics());
 
+        // Dont log if it was a cold run
         if (coldRun) {
-        	benchmark(dataset, k, qis, gaIterations, testRound, false);
         	return;
         }
         	
@@ -169,7 +188,7 @@ public class BenchmarkExperimentThierry {
 	private static Map<BenchmarkQualityModel, Double> analyze(StatisticsQuality stats){
 		Map<BenchmarkQualityModel, Double> result = new HashMap<>();
 		
-		result.put(BenchmarkQualityModel.SSE, stats.getSSESST().getValue());
+		//result.put(BenchmarkQualityModel.SSE, stats.getSSESST().getValue());
 		result.put(BenchmarkQualityModel.LOSS, stats.getGranularity().getArithmeticMean());
 		
 		return result;
