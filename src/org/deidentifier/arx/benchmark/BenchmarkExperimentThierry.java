@@ -118,7 +118,7 @@ public class BenchmarkExperimentThierry {
 	    
 		// Quality
 		ARXConfiguration config = ARXConfiguration.create();
-		config.setQualityModel(Metric.createLossMetric(0d));
+		//config.setQualityModel(Metric.createLossMetric(0d));
 		config.setQualityModel(Metric.createLossMetric(0.5, AggregateFunction.ARITHMETIC_MEAN));
 
 		// config
