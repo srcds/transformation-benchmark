@@ -32,17 +32,22 @@ import de.linearbits.subframe.analyzer.ValueBuffer;
  */
 public class BenchmarkExperimentThierry {
 
-	/** The benchmark instance */
-	private static final Benchmark BENCHMARK = new Benchmark(new String[] { "Dataset", "k", "QIs", "Iterations", "Round", "QualityModel" });
+    /** The benchmark instance */
+    private static final Benchmark BENCHMARK = new Benchmark(new String[] { "Dataset",
+                                                                            "k",
+                                                                            "QIs",
+                                                                            "Iterations",
+                                                                            "Round",
+                                                                            "QualityModel" });
 
-	/** TIME */
-	private static final int TIME = BENCHMARK.addMeasure("Time");
+    /** TIME */
+    private static final int       TIME      = BENCHMARK.addMeasure("Time");
 
-	/** UTILITY */
-	private static final int UTILITY = BENCHMARK.addMeasure("Utility");
+    /** UTILITY */
+    private static final int       UTILITY   = BENCHMARK.addMeasure("Utility");
 
-	/** FILE */
-	private static final File FILE = new File("results/results-thierry.csv");
+    /** FILE */
+    private static final File      FILE      = new File("results/results-thierry.csv");
 
 	
 	/**
@@ -61,13 +66,13 @@ public class BenchmarkExperimentThierry {
 		int[] vals = new int[] {5};
 		
 		//int[] iterations = new int[] {50,100,500};
-		int[] iterations = new int[] {10, 100, 500};
+		int[] iterations = new int[] {200};
 		
 		BenchmarkTransformationModel[] transformations = new BenchmarkTransformationModel[] {
                 BenchmarkTransformationModel.MULTI_DIMENSIONAL_GENERALIZATION,
                 BenchmarkTransformationModel.LOCAL_GENERALIZATION,
                 };
-		int testRounds = 5;
+		int testRounds = 1;
 		
 
 		
@@ -90,7 +95,7 @@ public class BenchmarkExperimentThierry {
 					for (int iter : iterations) {
 						
 						for (int testRound = 0; testRound < testRounds; testRound++) {
-							benchmark(dataset, k, val, iter, testRound, true);
+							benchmark(dataset, k, val, iter, testRound, false);
 						}
 					}
 				}
@@ -129,7 +134,8 @@ public class BenchmarkExperimentThierry {
 		
 		
 		// Dataset
-		Data input = BenchmarkSetup.getData(dataset, qis);
+		//Data input = BenchmarkSetup.getData(dataset, qis);
+		Data input = BenchmarkSetup.getData(dataset, BenchmarkSetup.getQuasiIdentifyingAttributes(dataset).length);
 
 		
 		ARXAnonymizer anonymizer = new ARXAnonymizer();
