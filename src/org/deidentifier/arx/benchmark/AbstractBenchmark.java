@@ -45,51 +45,56 @@ public abstract class AbstractBenchmark {
     public void start() throws IOException {
         List<TestConfiguration> testConfigurations = generateTestConfigurations(); 
         for(TestConfiguration testConfiguration : testConfigurations) {
+            System.out.println(testConfiguration);
             executeTest(testConfiguration);
         }
     }
     
     public abstract List<TestConfiguration> generateTestConfigurations();
     
-    protected void executeTest(TestConfiguration testConfig) throws IOException {
+    protected void executeTest(TestConfiguration testConfiguration) throws IOException {
         
-        ARXConfiguration config = ARXConfiguration.create();
+        // reset lossLimit to avoid side effects
+        AbstractAlgorithm.lossLimit = -1;
         
-        config.setQualityModel(testConfig.model);
-        config.addPrivacyModel(new KAnonymity(testConfig.k));
-        config.setSuppressionLimit(testConfig.supression);
-        
-        config.setAlgorithm(testConfig.algorithm);
-        
-        config.setGeneticAlgorithmIterations(testConfig.iterations);
-        config.setGeneticAlgorithmSubpopulationSize(testConfig.subpopulationSize);
-        config.setGeneticAlgorithmEliteFraction(testConfig.eliteFraction);
-        config.setGeneticAlgorithmCrossoverFraction(testConfig.crossoverFraction);
-        config.setGeneticAlgorithmMutationProbability(testConfig.mutationProbability);
+        // Copy benchmark config to arx config
+        ARXConfiguration arxConfiguration = ARXConfiguration.create();
+        arxConfiguration.setQualityModel(testConfiguration.model);
+        arxConfiguration.addPrivacyModel(new KAnonymity(testConfiguration.k));
+        arxConfiguration.setSuppressionLimit(testConfiguration.supression);
+        arxConfiguration.setAlgorithm(testConfiguration.algorithm);
+        arxConfiguration.setGeneticAlgorithmIterations(testConfiguration.iterations);
+        arxConfiguration.setGeneticAlgorithmSubpopulationSize(testConfiguration.subpopulationSize);
+        arxConfiguration.setGeneticAlgorithmEliteFraction(testConfiguration.eliteFraction);
+        arxConfiguration.setGeneticAlgorithmCrossoverFraction(testConfiguration.crossoverFraction);
+        arxConfiguration.setGeneticAlgorithmMutationProbability(testConfiguration.mutationProbability);
+        arxConfiguration.setHeuristicSearchStepLimit(testConfiguration.stepLimit);
+        arxConfiguration.setHeuristicSearchTimeLimit(testConfiguration.timeLimit);
 
-        config.setHeuristicSearchStepLimit(testConfig.stepLimit);
-        config.setHeuristicSearchTimeLimit(testConfig.timeLimit);
-
-        if(testConfig.limitByOptimalLoss)
-            findAndSetOptimum(testConfig);
+        // find and set optimum as stop limit
+        if(testConfiguration.limitByOptimalLoss)
+            findAndSetOptimum(testConfiguration);
                  
-        Data input = getInputData(testConfig);
+        // load data
+        Data input = getInputData(testConfiguration);
         
+        // Init and start anonymizer
         ARXAnonymizer anonymizer = new ARXAnonymizer();
         long time = System.currentTimeMillis();
-        ARXResult result = anonymizer.anonymize(input, config);
+        ARXResult result = anonymizer.anonymize(input, arxConfiguration);
         time = System.currentTimeMillis() - time;
         
-        if(testConfig.writeToFile) {
-            BENCHMARK.addRun(String.valueOf(testConfig.algorithm),
-                             String.valueOf(testConfig.dataset),
-                             String.valueOf(testConfig.k),
-                             String.valueOf(testConfig.qids),
-                             String.valueOf(testConfig.iterations),
-                             String.valueOf(testConfig.timeLimit),
-                             String.valueOf(testConfig.stepLimit),
-                             String.valueOf(testConfig.limitByOptimalLoss),
-                             String.valueOf(testConfig.batchNumber),
+        // write result
+        if(testConfiguration.writeToFile) {
+            BENCHMARK.addRun(String.valueOf(testConfiguration.algorithm),
+                             String.valueOf(testConfiguration.dataset),
+                             String.valueOf(testConfiguration.k),
+                             String.valueOf(testConfiguration.qids),
+                             String.valueOf(testConfiguration.iterations),
+                             String.valueOf(testConfiguration.timeLimit),
+                             String.valueOf(testConfiguration.stepLimit),
+                             String.valueOf(testConfiguration.limitByOptimalLoss),
+                             String.valueOf(testConfiguration.testRunNumber),
                              String.valueOf(time),
                              String.valueOf(result.getOutput().getStatistics().getQualityStatistics().getGranularity().getArithmeticMean()));
             BENCHMARK.getResults().write(file);
@@ -97,37 +102,50 @@ public abstract class AbstractBenchmark {
     }
         
     private Data getInputData(TestConfiguration benchConfig) throws IOException {
+
+        int qids = benchConfig.qids;
+        if (qids == 0) {
+            qids = BenchmarkSetup.getQuasiIdentifyingAttributes(benchConfig.dataset).length;
+        }
+
+        return BenchmarkSetup.getData(benchConfig.dataset, qids);
+    }
+    
+    @Deprecated
+    // Broken idea as an Data object is changed when its used for anonymization
+    private Data getInputDataFromHashMap(TestConfiguration testConfiguration) throws IOException {
         
-        Integer key = benchConfig.hashInputConfig();
+        Integer key = testConfiguration.hashInputConfig();
         
         if(!inputDataHM.containsKey(key)) {
-            int qids = benchConfig.qids;
+            int qids = testConfiguration.qids;
             if (qids == 0) {
-                qids = BenchmarkSetup.getQuasiIdentifyingAttributes(benchConfig.dataset).length;
+                qids = BenchmarkSetup.getQuasiIdentifyingAttributes(testConfiguration.dataset).length;
             }
-            inputDataHM.put(key, BenchmarkSetup.getData(benchConfig.dataset, qids));
+            System.out.println("Created new InputData (" + String.valueOf(testConfiguration.dataset) + " , qids=" + qids + ") with key " + key);
+            inputDataHM.put(key, BenchmarkSetup.getData(testConfiguration.dataset, qids));
         }
         
         return inputDataHM.get(key);
     }
     
-    private void findAndSetOptimum(TestConfiguration benchConfig) throws IOException {
+    private void findAndSetOptimum(TestConfiguration testConfiguration) throws IOException {
         
-        Integer key = benchConfig.hashObjective();
+        Integer key = testConfiguration.hashObjective();
         
         if(!optimalLossHM.containsKey(key)) {
-            AbstractAlgorithm.lossLimit = -1;
-            
+
             ARXConfiguration config = ARXConfiguration.create();
-            config.setQualityModel(benchConfig.model);
-            config.addPrivacyModel(new KAnonymity(benchConfig.k));
-            config.setSuppressionLimit(benchConfig.supression);
+            config.setQualityModel(testConfiguration.model);
+            config.addPrivacyModel(new KAnonymity(testConfiguration.k));
+            config.setSuppressionLimit(testConfiguration.supression);
             config.setAlgorithm(AnonymizationAlgorithm.OPTIMAL);
             
             ARXAnonymizer anonymizer = new ARXAnonymizer();
-            ARXResult result = anonymizer.anonymize(getInputData(benchConfig), config);
+            ARXResult result = anonymizer.anonymize(getInputData(testConfiguration), config);
             
             optimalLossHM.put(key, Double.valueOf(result.getGlobalOptimum().getHighestScore().toString()));
+            System.out.println("Created new Optimum (" + String.valueOf(testConfiguration.dataset) + " , qids=" + testConfiguration.qids + ") with key " + key);
         }
         
         AbstractAlgorithm.lossLimit = optimalLossHM.get(key);                         
@@ -135,7 +153,7 @@ public abstract class AbstractBenchmark {
     
     class TestConfiguration{
 
-        int batchNumber = -1;
+        int testRunNumber = -1;
         boolean writeToFile = true;
         
         //Anonymization requirements and metrics
@@ -167,7 +185,13 @@ public abstract class AbstractBenchmark {
         }
         
         Integer hashObjective() {
-            return (int) (hashInputConfig() * model.hashCode() + k + supression);
+            return (int) (hashInputConfig() + k + supression);
+        }
+        
+        @Override
+        public String toString() {
+            String output = String.format("%s | %s | k=%d | qids=%d | RunNumber=%d", algorithm, dataset, k, qids, testRunNumber);
+            return output;
         }
 
     }
