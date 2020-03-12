@@ -88,8 +88,8 @@ public abstract class AbstractBenchmark {
         time = System.currentTimeMillis() - time;
         
         // write result
-        if (!writeAllTrackedOptimums) {
-            if (testConfiguration.writeToFile) {
+        if (testConfiguration.writeToFile) {
+            if (!writeAllTrackedOptimums) {
                 BENCHMARK.addRun(String.valueOf(testConfiguration.algorithm),
                                  String.valueOf(testConfiguration.dataset),
                                  String.valueOf(testConfiguration.k),
@@ -106,27 +106,27 @@ public abstract class AbstractBenchmark {
                                                       .getGranularity()
                                                       .getArithmeticMean()));
                 BENCHMARK.getResults().write(file);
-            }
-        } else {
-            List<TimeUtilityTuple> trackedOptimums = AbstractAlgorithm.getTrackedOptimums();
-            for(TimeUtilityTuple trackedOptimum :  trackedOptimums) {
-                BENCHMARK.addRun(String.valueOf(testConfiguration.algorithm),
-                                 String.valueOf(testConfiguration.dataset),
-                                 String.valueOf(testConfiguration.k),
-                                 String.valueOf(testConfiguration.qids),
-                                 String.valueOf(testConfiguration.iterations),
-                                 String.valueOf(testConfiguration.timeLimit),
-                                 String.valueOf(testConfiguration.stepLimit),
-                                 String.valueOf(testConfiguration.limitByOptimalLoss),
-                                 String.valueOf(testConfiguration.testRunNumber),
-                                 String.valueOf(trackedOptimum.getTime()),
-                                 String.valueOf(trackedOptimum.getUtility()));
-                BENCHMARK.getResults().write(file);
-                
+            } else {
+                List<TimeUtilityTuple> trackedOptimums = AbstractAlgorithm.getTrackedOptimums();
+                for (TimeUtilityTuple trackedOptimum : trackedOptimums) {
+                    BENCHMARK.addRun(String.valueOf(testConfiguration.algorithm),
+                                     String.valueOf(testConfiguration.dataset),
+                                     String.valueOf(testConfiguration.k),
+                                     String.valueOf(testConfiguration.qids),
+                                     String.valueOf(testConfiguration.iterations),
+                                     String.valueOf(testConfiguration.timeLimit),
+                                     String.valueOf(testConfiguration.stepLimit),
+                                     String.valueOf(testConfiguration.limitByOptimalLoss),
+                                     String.valueOf(testConfiguration.testRunNumber),
+                                     String.valueOf(trackedOptimum.getTime()),
+                                     String.valueOf(trackedOptimum.getUtility()));
+                    BENCHMARK.getResults().write(file);
+
+                }
             }
         }
     }
-        
+
     private Data getInputData(TestConfiguration benchConfig) throws IOException {
 
         int qids = benchConfig.qids;
