@@ -17,9 +17,12 @@ import org.deidentifier.arx.ARXConfiguration.AnonymizationAlgorithm;
 import org.deidentifier.arx.ARXResult;
 import org.deidentifier.arx.Data;
 import org.deidentifier.arx.algorithm.AbstractAlgorithm;
+import org.deidentifier.arx.algorithm.AbstractAlgorithm.TimeUtilityTuple;
 import org.deidentifier.arx.benchmark.BenchmarkSetup.BenchmarkDataset;
 
 public abstract class AbstractBenchmark {
+    
+    public static final boolean writeAllTrackedOptimums = true;
 
     private static final Benchmark BENCHMARK = new Benchmark(new String[] { "algorithm",
                                                                             "dataset",
@@ -85,19 +88,42 @@ public abstract class AbstractBenchmark {
         time = System.currentTimeMillis() - time;
         
         // write result
-        if(testConfiguration.writeToFile) {
-            BENCHMARK.addRun(String.valueOf(testConfiguration.algorithm),
-                             String.valueOf(testConfiguration.dataset),
-                             String.valueOf(testConfiguration.k),
-                             String.valueOf(testConfiguration.qids),
-                             String.valueOf(testConfiguration.iterations),
-                             String.valueOf(testConfiguration.timeLimit),
-                             String.valueOf(testConfiguration.stepLimit),
-                             String.valueOf(testConfiguration.limitByOptimalLoss),
-                             String.valueOf(testConfiguration.testRunNumber),
-                             String.valueOf(time),
-                             String.valueOf(result.getOutput().getStatistics().getQualityStatistics().getGranularity().getArithmeticMean()));
-            BENCHMARK.getResults().write(file);
+        if (!writeAllTrackedOptimums) {
+            if (testConfiguration.writeToFile) {
+                BENCHMARK.addRun(String.valueOf(testConfiguration.algorithm),
+                                 String.valueOf(testConfiguration.dataset),
+                                 String.valueOf(testConfiguration.k),
+                                 String.valueOf(testConfiguration.qids),
+                                 String.valueOf(testConfiguration.iterations),
+                                 String.valueOf(testConfiguration.timeLimit),
+                                 String.valueOf(testConfiguration.stepLimit),
+                                 String.valueOf(testConfiguration.limitByOptimalLoss),
+                                 String.valueOf(testConfiguration.testRunNumber),
+                                 String.valueOf(time),
+                                 String.valueOf(result.getOutput()
+                                                      .getStatistics()
+                                                      .getQualityStatistics()
+                                                      .getGranularity()
+                                                      .getArithmeticMean()));
+                BENCHMARK.getResults().write(file);
+            }
+        } else {
+            List<TimeUtilityTuple> trackedOptimums = AbstractAlgorithm.getTrackedOptimums();
+            for(TimeUtilityTuple trackedOptimum :  trackedOptimums) {
+                BENCHMARK.addRun(String.valueOf(testConfiguration.algorithm),
+                                 String.valueOf(testConfiguration.dataset),
+                                 String.valueOf(testConfiguration.k),
+                                 String.valueOf(testConfiguration.qids),
+                                 String.valueOf(testConfiguration.iterations),
+                                 String.valueOf(testConfiguration.timeLimit),
+                                 String.valueOf(testConfiguration.stepLimit),
+                                 String.valueOf(testConfiguration.limitByOptimalLoss),
+                                 String.valueOf(testConfiguration.testRunNumber),
+                                 String.valueOf(trackedOptimum.getTime()),
+                                 String.valueOf(trackedOptimum.getUtility()));
+                BENCHMARK.getResults().write(file);
+                
+            }
         }
     }
         

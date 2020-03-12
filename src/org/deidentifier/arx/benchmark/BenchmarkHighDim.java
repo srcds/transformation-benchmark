@@ -15,7 +15,7 @@ public class BenchmarkHighDim extends AbstractBenchmark{
     }
 
     public static void main(String args[]) throws IOException {
-        new BenchmarkHighDim("results_high_dim.csv").start();
+        new BenchmarkHighDim("results_high_dim_tracked.csv").start();
         
     }
     @Override
@@ -23,20 +23,20 @@ public class BenchmarkHighDim extends AbstractBenchmark{
         
         List<TestConfiguration> testConfigs = new ArrayList<TestConfiguration>();
 
-        AnonymizationAlgorithm[] algorithms = new AnonymizationAlgorithm[] {AnonymizationAlgorithm.BEST_EFFORT_BOTTOM_UP, AnonymizationAlgorithm.BEST_EFFORT_GENETIC};
-        int[] timeLimits = new int[] {1000,5000,30000, 60000, 120000};
+        AnonymizationAlgorithm[] algorithms = new AnonymizationAlgorithm[] {AnonymizationAlgorithm.BEST_EFFORT_BOTTOM_UP, AnonymizationAlgorithm.BEST_EFFORT_GENETIC, AnonymizationAlgorithm.BEST_EFFORT_TOP_DOWN};
+        //int[] timeLimits = new int[] {1000,5000,30000, 60000, 120000};
         
         int testRuns = 11;
         
         
-            for(int timeLimit : timeLimits) {
+            //for(int timeLimit : timeLimits) {
                 for(int testRun = 0; testRun < testRuns; testRun++) {
                     for (AnonymizationAlgorithm algorithm : algorithms) {
                     
                     TestConfiguration testConfig = new TestConfiguration();
                     
                     testConfig.algorithm = algorithm;
-                    testConfig.timeLimit = timeLimit;
+                    testConfig.timeLimit = 60000;
                     testConfig.dataset = BenchmarkDataset.SS13ACS;
                     testConfig.testRunNumber = testRun;
                     
@@ -46,7 +46,7 @@ public class BenchmarkHighDim extends AbstractBenchmark{
                     testConfigs.add(testConfig);
                 }
             }
-        }
+        //}
 
         return testConfigs;
     }

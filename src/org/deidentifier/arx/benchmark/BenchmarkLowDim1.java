@@ -15,7 +15,7 @@ public class BenchmarkLowDim1 extends AbstractBenchmark{
     }
     
     public static void main(String args[]) throws IOException {
-        new BenchmarkLowDim1("results_low_dim1.csv").start();
+        new BenchmarkLowDim1("results_low_dim1_tracked.csv").start();
     }
 
     @Override
