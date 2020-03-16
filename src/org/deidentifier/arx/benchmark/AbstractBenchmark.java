@@ -8,6 +8,7 @@ import de.linearbits.subframe.Benchmark;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -108,6 +109,7 @@ public abstract class AbstractBenchmark {
                 BENCHMARK.getResults().write(file);
             } else {
                 List<TimeUtilityTuple> trackedOptimums = AbstractAlgorithm.getTrackedOptimums();
+                System.out.println("Vorher: " + trackedOptimums.size());
                 for (TimeUtilityTuple trackedOptimum : trackedOptimums) {
                     BENCHMARK.addRun(String.valueOf(testConfiguration.algorithm),
                                      String.valueOf(testConfiguration.dataset),
@@ -123,8 +125,11 @@ public abstract class AbstractBenchmark {
                     BENCHMARK.getResults().write(file);
 
                 }
+                
+                System.out.println("Nachher " + trackedOptimums.size());
             }
         }
+        AbstractAlgorithm.getTrackedOptimums().clear();
     }
 
     private Data getInputData(TestConfiguration benchConfig) throws IOException {
