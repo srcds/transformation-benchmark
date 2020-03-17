@@ -21,7 +21,7 @@ public class BenchmarkSetup {
 	 *
 	 */
 	public static enum BenchmarkDataset {
-		ADULT, CUP, FARS, ATUS, IHIS, SS13ACS, ADULT_FULL
+		ADULT, CUP, FARS, ATUS, IHIS, SS13ACS, ADULT_FULL, CREDITCARD
 	}
 
     /**
@@ -71,6 +71,8 @@ public class BenchmarkSetup {
 		switch (dataset) {
 		case ADULT:
 			return "US Census";
+		case ADULT_FULL:
+            return "US Census (extended dataset)";
 		case CUP:
 			return "Competition";
 		case FARS:
@@ -81,6 +83,8 @@ public class BenchmarkSetup {
 			return "Health Interviews";
 		case SS13ACS:
 			return "Community Survey";
+		case CREDITCARD:
+            return "Creditcard information";
 		}
 		throw new IllegalArgumentException("Unknown dataset: " + dataset);
 	};
@@ -125,6 +129,8 @@ public class BenchmarkSetup {
             return Hierarchy.create("hierarchies/ihis_int_hierarchy_" + attribute + ".csv", Charset.defaultCharset(), ';');
         case SS13ACS:
             return Hierarchy.create("hierarchies/ss13acs_int_hierarchy_" + attribute + ".csv", Charset.defaultCharset(), ';');
+        case CREDITCARD:
+            return Hierarchy.create("hierarchies/creditcard_hierarchy_" + attribute + ".csv", Charset.defaultCharset(), ';');
         default:
             throw new IllegalArgumentException("Unknown dataset");
         }
@@ -264,7 +270,31 @@ public class BenchmarkSetup {
             		"Insurance Tricare",
             		"Childbirth"
             };
-
+        case CREDITCARD:
+            return new String[] { "LIMIT_BAL",
+                                  "SEX",
+                                  "EDUCATION",
+                                  "MARRIAGE",
+                                  "AGE",
+                                  "PAY_0",
+                                  "PAY_2",
+                                  "PAY_3",
+                                  "PAY_4",
+                                  "PAY_5",
+                                  "PAY_6",
+                                  "BILL_AMT1",
+                                  "BILL_AMT2",
+                                  "BILL_AMT3",
+                                  "BILL_AMT4",
+                                  "BILL_AMT5",
+                                  "BILL_AMT6",
+                                  "PAY_AMT1",
+                                  "PAY_AMT2",
+                                  "PAY_AMT3",
+                                  "PAY_AMT4",
+                                  "PAY_AMT5",
+                                  "PAY_AMT6",
+                                  "default-payment-next-month" };
         default:
             throw new RuntimeException("Invalid dataset");
         }
@@ -292,15 +322,18 @@ public class BenchmarkSetup {
 			filename = "fars_int.csv";
 			break;
 		case ATUS:
-			filename = "atus_int.csv";
-			break;
-		case IHIS:
-			filename = "ihis_int.csv";
-			break;
-		case SS13ACS:
-			filename = "ss13acs_int.csv";
-			break;
-		default:
+            filename = "atus_int.csv";
+            break;
+        case IHIS:
+            filename = "ihis_int.csv";
+            break;
+        case SS13ACS:
+            filename = "ss13acs_int.csv";
+            break;
+        case CREDITCARD:
+            filename = "creditcard.csv";
+            break;
+        default:
 			throw new RuntimeException("Invalid dataset");
 		}
 		return Data.create("data/" + filename, Charset.defaultCharset(), ';');

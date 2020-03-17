@@ -39,7 +39,7 @@ public class BenchmarkHighDim extends AbstractBenchmark{
                     
                     testConfig.algorithm = algorithm;
                     testConfig.timeLimit = 30000;
-                    testConfig.dataset = BenchmarkDataset.ADULT_FULL;
+                    testConfig.dataset = BenchmarkDataset.CREDITCARD;
                     testConfig.testRunNumber = testRun;
                     
                     if(testRun == 0)
