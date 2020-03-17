@@ -21,7 +21,7 @@ public class BenchmarkSetup {
 	 *
 	 */
 	public static enum BenchmarkDataset {
-		ADULT, CUP, FARS, ATUS, IHIS, SS13ACS
+		ADULT, CUP, FARS, ATUS, IHIS, SS13ACS, ADULT_FULL
 	}
 
     /**
@@ -113,6 +113,8 @@ public class BenchmarkSetup {
         switch (dataset) {
         case ADULT:
             return Hierarchy.create("hierarchies/adult_int_hierarchy_" + attribute + ".csv", Charset.defaultCharset(), ';');
+        case ADULT_FULL:
+            return Hierarchy.create("hierarchies/adult_full_hierarchy_" + attribute + ".csv", Charset.defaultCharset(), ';');
         case ATUS:
             return Hierarchy.create("hierarchies/atus_int_hierarchy_" + attribute + ".csv", Charset.defaultCharset(), ';');
         case CUP:
@@ -166,6 +168,23 @@ public class BenchmarkSetup {
                                   "workclass",
                                   "occupation",
                                   "salary-class" };
+        case ADULT_FULL:
+            return new String[] {
+                                  "sex",
+                                  "age",
+                                  "race",
+                                  "marital-status",
+                                  "education",
+                                  "native-country",
+                                  "workclass",
+                                  "occupation",
+                                  "salary-class",
+                                  "fnlwgt",
+                                  "relationship",
+                                  "capital-gain",
+                                  "capital-loss",
+                                  "hours-per-week"
+                                  };
         case ATUS:
             return new String[] {
                                   "Region",
@@ -263,6 +282,9 @@ public class BenchmarkSetup {
 		case ADULT:
 			filename = "adult_int.csv";
 			break;
+	     case ADULT_FULL:
+	        filename = "adult_full.csv";
+	        break;
 		case CUP:
 			filename = "cup_int.csv";
 			break;

@@ -38,8 +38,8 @@ public class BenchmarkHighDim extends AbstractBenchmark{
                     TestConfiguration testConfig = new TestConfiguration();
                     
                     testConfig.algorithm = algorithm;
-                    testConfig.timeLimit = 120000;
-                    testConfig.dataset = BenchmarkDataset.SS13ACS;
+                    testConfig.timeLimit = 30000;
+                    testConfig.dataset = BenchmarkDataset.ADULT_FULL;
                     testConfig.testRunNumber = testRun;
                     
                     if(testRun == 0)
