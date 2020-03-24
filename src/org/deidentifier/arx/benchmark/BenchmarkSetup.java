@@ -21,7 +21,7 @@ public class BenchmarkSetup {
 	 *
 	 */
 	public static enum BenchmarkDataset {
-		ADULT, CUP, FARS, ATUS, IHIS, SS13ACS, ADULT_FULL, CREDITCARD
+		ADULT, CUP, FARS, ATUS, IHIS, SS13ACS, ADULT_FULL, CREDITCARD, CHRONIC2010
 	}
 
     /**
@@ -85,6 +85,8 @@ public class BenchmarkSetup {
 			return "Community Survey";
 		case CREDITCARD:
             return "Creditcard information";
+        case CHRONIC2010:
+            return "Chronic diseases 2010";
 		}
 		throw new IllegalArgumentException("Unknown dataset: " + dataset);
 	};
@@ -131,6 +133,8 @@ public class BenchmarkSetup {
             return Hierarchy.create("hierarchies/ss13acs_int_hierarchy_" + attribute + ".csv", Charset.defaultCharset(), ';');
         case CREDITCARD:
             return Hierarchy.create("hierarchies/creditcard_hierarchy_" + attribute + ".csv", Charset.defaultCharset(), ';');
+        case CHRONIC2010:
+            return Hierarchy.create("hierarchies/chronic2010_hierarchy_" + attribute + ".csv", Charset.defaultCharset(), ';');
         default:
             throw new IllegalArgumentException("Unknown dataset");
         }
@@ -295,6 +299,43 @@ public class BenchmarkSetup {
                                   "PAY_AMT5",
                                   "PAY_AMT6",
                                   "default-payment-next-month" };
+        case CHRONIC2010:
+            return new String[] { "a",
+                                  "b",
+                                  "c",
+                                  "d",
+                                  "e",
+                                  "f",
+                                  "g",
+                                  "h",
+                                  "i",
+                                  "j",
+                                  "k",
+                                  "l",
+                                  "m",
+                                  "n",
+                                  "o",
+                                  "p",
+                                  "q",
+                                  "r",
+                                  "s",
+                                  "t",
+                                  "u",
+                                  "v",
+                                  "w",
+                                  "x",
+                                  "y",
+                                  "aa",
+                                  "ab",
+                                  "ac",
+                                  "ad",
+                                  "ae",
+                                  "af",
+                                  "ag",
+                                  "ah",
+                                  "ai",
+                                  "aj" };
+      
         default:
             throw new RuntimeException("Invalid dataset");
         }
@@ -332,6 +373,9 @@ public class BenchmarkSetup {
             break;
         case CREDITCARD:
             filename = "creditcard.csv";
+            break;
+        case CHRONIC2010:
+            filename = "chronic2010.csv";
             break;
         default:
 			throw new RuntimeException("Invalid dataset");

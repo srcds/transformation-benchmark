@@ -15,7 +15,7 @@ public class BenchmarkHighDim extends AbstractBenchmark{
     }
 
     public static void main(String args[]) throws IOException {
-        new BenchmarkHighDim("results/results_high_dim_tracked.csv").start();
+        new BenchmarkHighDim("results/results_high_dim_chronic_tracked.csv").start();
         
     }
     @Override
@@ -28,7 +28,7 @@ public class BenchmarkHighDim extends AbstractBenchmark{
         
         //int[] timeLimits = new int[] {1000,5000,30000, 60000, 120000};
         
-        int testRuns = 6;
+        int testRuns = 3;
         
         
             //for(int timeLimit : timeLimits) {
@@ -39,7 +39,7 @@ public class BenchmarkHighDim extends AbstractBenchmark{
                     
                     testConfig.algorithm = algorithm;
                     testConfig.timeLimit = 30000;
-                    testConfig.dataset = BenchmarkDataset.CREDITCARD;
+                    testConfig.dataset = BenchmarkDataset.CHRONIC2010;
                     testConfig.testRunNumber = testRun;
                     
                     if(testRun == 0)
