@@ -15,7 +15,7 @@ public class BenchmarkLowDim1 extends AbstractBenchmark{
     }
     
     public static void main(String args[]) throws IOException {
-        new BenchmarkLowDim1("results_low_dim1_tracked.csv").start();
+        new BenchmarkLowDim1("results_low_dim1_1.csv").start();
     }
 
     @Override
@@ -24,8 +24,8 @@ public class BenchmarkLowDim1 extends AbstractBenchmark{
         List<TestConfiguration> testConfigs = new ArrayList<TestConfiguration>();
         
         BenchmarkDataset[] datasets = new BenchmarkDataset[] { BenchmarkDataset.ADULT,BenchmarkDataset.CUP,BenchmarkDataset.FARS,BenchmarkDataset.ATUS,BenchmarkDataset.IHIS };
-        AnonymizationAlgorithm[] algorithms = new AnonymizationAlgorithm[] {AnonymizationAlgorithm.OPTIMAL, AnonymizationAlgorithm.BEST_EFFORT_GENETIC};
-        int testRuns = 11;
+        AnonymizationAlgorithm[] algorithms = new AnonymizationAlgorithm[] {AnonymizationAlgorithm.OPTIMAL, AnonymizationAlgorithm.BEST_EFFORT_GENETIC,AnonymizationAlgorithm.BEST_EFFORT_BOTTOM_UP, AnonymizationAlgorithm.BEST_EFFORT_TOP_DOWN };
+        int testRuns = 6;
         
         for (BenchmarkDataset dataset : datasets) {
             for (int testRun = 0; testRun < testRuns; testRun++) {

@@ -21,7 +21,7 @@ public class BenchmarkSetup {
 	 *
 	 */
 	public static enum BenchmarkDataset {
-		ADULT, CUP, FARS, ATUS, IHIS, SS13ACS, ADULT_FULL, CREDITCARD, CHRONIC2010
+		ADULT, CUP, FARS, ATUS, IHIS, SS13ACS, ADULT_FULL, CREDITCARD, CHRONIC2010, MACH2019
 	}
 
     /**
@@ -87,6 +87,8 @@ public class BenchmarkSetup {
             return "Creditcard information";
         case CHRONIC2010:
             return "Chronic diseases 2010";
+        case MACH2019:
+            return "Machivallianism Test";
 		}
 		throw new IllegalArgumentException("Unknown dataset: " + dataset);
 	};
@@ -135,6 +137,8 @@ public class BenchmarkSetup {
             return Hierarchy.create("hierarchies/creditcard_hierarchy_" + attribute + ".csv", Charset.defaultCharset(), ';');
         case CHRONIC2010:
             return Hierarchy.create("hierarchies/chronic2010_hierarchy_" + attribute + ".csv", Charset.defaultCharset(), ';');
+        case MACH2019:
+            return Hierarchy.create("hierarchies/mach2019_hierarchy_" + attribute + ".csv", Charset.defaultCharset(), ';');
         default:
             throw new IllegalArgumentException("Unknown dataset");
         }
@@ -336,6 +340,27 @@ public class BenchmarkSetup {
                                   "ai",
                                   "aj" };
       
+        case MACH2019:
+            return new String[] {
+                                  "age",
+                                  "familysize",
+                                  "gender",
+                                  "married",
+                                  "race",
+                                  "religion",
+                                  "Q1A",
+                                  "Q2A",
+                                  "Q3A",
+                                  "Q4A",
+                                  "Q5A",
+                                  "Q6A",
+                                  "Q7A",
+                                  "Q8A",
+                                  "Q9A",
+                                  "Q10A"
+                         
+            };
+        
         default:
             throw new RuntimeException("Invalid dataset");
         }
@@ -376,6 +401,9 @@ public class BenchmarkSetup {
             break;
         case CHRONIC2010:
             filename = "chronic2010.csv";
+            break;
+        case MACH2019:
+            filename = "mach2019.csv";
             break;
         default:
 			throw new RuntimeException("Invalid dataset");

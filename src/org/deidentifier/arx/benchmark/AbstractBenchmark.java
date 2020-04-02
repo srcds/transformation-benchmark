@@ -1,6 +1,7 @@
 package org.deidentifier.arx.benchmark;
 
 import org.deidentifier.arx.criteria.KAnonymity;
+import org.deidentifier.arx.exceptions.RollbackRequiredException;
 import org.deidentifier.arx.metric.Metric;
 import org.deidentifier.arx.metric.Metric.AggregateFunction;
 
@@ -8,7 +9,6 @@ import de.linearbits.subframe.Benchmark;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -23,13 +23,16 @@ import org.deidentifier.arx.benchmark.BenchmarkSetup.BenchmarkDataset;
 
 public abstract class AbstractBenchmark {
     
-    public static final boolean writeAllTrackedOptimums = true;
+    public static boolean writeAllTrackedOptimums = false;
 
     private static final Benchmark BENCHMARK = new Benchmark(new String[] { "algorithm",
                                                                             "dataset",
                                                                             "k",
                                                                             "qids",
                                                                             "iterations",
+                                                                            "eliteFraction",
+                                                                            "crossoverFraction",
+                                                                            "mutationProbability",
                                                                             "timeLimit",
                                                                             "stepLimit",
                                                                             "limitByOptimalLoss",
@@ -67,7 +70,7 @@ public abstract class AbstractBenchmark {
         arxConfiguration.addPrivacyModel(new KAnonymity(testConfiguration.k));
         arxConfiguration.setSuppressionLimit(testConfiguration.supression);
         arxConfiguration.setAlgorithm(testConfiguration.algorithm);
-        arxConfiguration.setGeneticAlgorithmIterations(testConfiguration.iterations);
+        arxConfiguration.setGeneticAlgorithmIterations(testConfiguration.gaIterations);
         arxConfiguration.setGeneticAlgorithmSubpopulationSize(testConfiguration.subpopulationSize);
         arxConfiguration.setGeneticAlgorithmEliteFraction(testConfiguration.eliteFraction);
         arxConfiguration.setGeneticAlgorithmCrossoverFraction(testConfiguration.crossoverFraction);
@@ -86,28 +89,49 @@ public abstract class AbstractBenchmark {
         ARXAnonymizer anonymizer = new ARXAnonymizer();
         long time = System.currentTimeMillis();
         ARXResult result = anonymizer.anonymize(input, arxConfiguration);
+        
+        if (testConfiguration.useLocalTransformation && result.isResultAvailable()) {
+            try {
+                result.optimizeIterativeFast(result.getOutput(), 1d / (double) testConfiguration.localTransformationIterations);
+            } catch (RollbackRequiredException e) {
+                e.printStackTrace();
+            }
+        }
+        
         time = System.currentTimeMillis() - time;
         
         // write result
         if (testConfiguration.writeToFile) {
+            
             if (!writeAllTrackedOptimums) {
+            // write just the end result
+                
+                Double utility = 0d;
+                if (result.isResultAvailable())
+                    utility = result.getOutput()
+                            .getStatistics()
+                            .getQualityStatistics()
+                            .getGranularity()
+                            .getArithmeticMean();
+                
                 BENCHMARK.addRun(String.valueOf(testConfiguration.algorithm),
                                  String.valueOf(testConfiguration.dataset),
                                  String.valueOf(testConfiguration.k),
                                  String.valueOf(testConfiguration.qids),
-                                 String.valueOf(testConfiguration.iterations),
+                                 String.valueOf(testConfiguration.gaIterations),
+                                 String.valueOf(testConfiguration.eliteFraction),
+                                 String.valueOf(testConfiguration.crossoverFraction),
+                                 String.valueOf(testConfiguration.mutationProbability),
                                  String.valueOf(testConfiguration.timeLimit),
                                  String.valueOf(testConfiguration.stepLimit),
                                  String.valueOf(testConfiguration.limitByOptimalLoss),
                                  String.valueOf(testConfiguration.testRunNumber),
                                  String.valueOf(time),
-                                 String.valueOf(result.getOutput()
-                                                      .getStatistics()
-                                                      .getQualityStatistics()
-                                                      .getGranularity()
-                                                      .getArithmeticMean()));
+                                 String.valueOf(utility));
                 BENCHMARK.getResults().write(file);
             } else {
+            // write all tracked optimums (does not work for local transformation)
+                
                 List<TimeUtilityTuple> trackedOptimums = AbstractAlgorithm.getTrackedOptimums();
                 System.out.println("Vorher: " + trackedOptimums.size());
                 for (TimeUtilityTuple trackedOptimum : trackedOptimums) {
@@ -115,7 +139,10 @@ public abstract class AbstractBenchmark {
                                      String.valueOf(testConfiguration.dataset),
                                      String.valueOf(testConfiguration.k),
                                      String.valueOf(testConfiguration.qids),
-                                     String.valueOf(testConfiguration.iterations),
+                                     String.valueOf(testConfiguration.gaIterations),
+                                     String.valueOf(testConfiguration.eliteFraction),
+                                     String.valueOf(testConfiguration.crossoverFraction),
+                                     String.valueOf(testConfiguration.mutationProbability),
                                      String.valueOf(testConfiguration.timeLimit),
                                      String.valueOf(testConfiguration.stepLimit),
                                      String.valueOf(testConfiguration.limitByOptimalLoss),
@@ -125,7 +152,7 @@ public abstract class AbstractBenchmark {
                     BENCHMARK.getResults().write(file);
 
                 }
-                
+
                 System.out.println("Nachher " + trackedOptimums.size());
             }
         }
@@ -188,16 +215,18 @@ public abstract class AbstractBenchmark {
         boolean writeToFile = true;
         
         //Anonymization requirements and metrics
-        final Metric<?>        model               = Metric.createLossMetric(0.5, AggregateFunction.ARITHMETIC_MEAN);
-        int                    k                   = 5;
-        double                 supression          = 1d;
+        Metric<?>              model                  = Metric.createLossMetric(0.5, AggregateFunction.ARITHMETIC_MEAN);
+        int                    k                      = 5;
+        double                 supression             = 1d;
+        boolean                useLocalTransformation = false;
+        int                    localTransformationIterations = 0;
 
         // Used algorithm
         AnonymizationAlgorithm algorithm;
 
         // GA specific settings
         int                    subpopulationSize   = 100;
-        int                    iterations          = 50;
+        int                    gaIterations        = Integer.MAX_VALUE;
         double                 eliteFraction       = 0.2;
         double                 crossoverFraction   = 0.2;
         double                 mutationProbability = 0.2;
