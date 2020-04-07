@@ -17,6 +17,7 @@ import org.deidentifier.arx.ARXConfiguration;
 import org.deidentifier.arx.ARXConfiguration.AnonymizationAlgorithm;
 import org.deidentifier.arx.ARXResult;
 import org.deidentifier.arx.Data;
+import org.deidentifier.arx.DataHandle;
 import org.deidentifier.arx.algorithm.AbstractAlgorithm;
 import org.deidentifier.arx.algorithm.AbstractAlgorithm.TimeUtilityTuple;
 import org.deidentifier.arx.benchmark.BenchmarkSetup.BenchmarkDataset;
@@ -51,6 +52,7 @@ public abstract class AbstractBenchmark {
     
     public void start() throws IOException {
         List<TestConfiguration> testConfigurations = generateTestConfigurations(); 
+        System.out.println("Length: " + testConfigurations.size());
         for(TestConfiguration testConfiguration : testConfigurations) {
             System.out.println(testConfiguration);
             executeTest(testConfiguration);
@@ -66,7 +68,7 @@ public abstract class AbstractBenchmark {
         
         // Copy benchmark config to arx config
         ARXConfiguration arxConfiguration = ARXConfiguration.create();
-        arxConfiguration.setQualityModel(testConfiguration.model);
+        arxConfiguration.setQualityModel(Metric.createLossMetric(testConfiguration.gsFactor, testConfiguration.aggregateFunction));
         arxConfiguration.addPrivacyModel(new KAnonymity(testConfiguration.k));
         arxConfiguration.setSuppressionLimit(testConfiguration.supression);
         arxConfiguration.setAlgorithm(testConfiguration.algorithm);
@@ -79,9 +81,9 @@ public abstract class AbstractBenchmark {
         arxConfiguration.setHeuristicSearchTimeLimit(testConfiguration.timeLimit);
 
         // find and set optimum as stop limit
-        if(testConfiguration.limitByOptimalLoss)
+        if (testConfiguration.limitByOptimalLoss) {
             findAndSetOptimum(testConfiguration);
-                 
+        }      
         // load data
         Data input = getInputData(testConfiguration);
         
@@ -90,11 +92,13 @@ public abstract class AbstractBenchmark {
         long time = System.currentTimeMillis();
         ARXResult result = anonymizer.anonymize(input, arxConfiguration);
         
+        DataHandle output = result.getOutput();
         if (testConfiguration.useLocalTransformation && result.isResultAvailable()) {
             try {
-                result.optimizeIterativeFast(result.getOutput(), 1d / (double) testConfiguration.localTransformationIterations);
+                result.optimizeIterativeFast(output, 1d / (double) testConfiguration.localTransformationIterations);
             } catch (RollbackRequiredException e) {
                 e.printStackTrace();
+                throw new RuntimeException(e);
             }
         }
         
@@ -104,16 +108,16 @@ public abstract class AbstractBenchmark {
         if (testConfiguration.writeToFile) {
             
             if (!writeAllTrackedOptimums) {
-            // write just the end result
+            // write just the final result
                 
                 Double utility = 0d;
-                if (result.isResultAvailable())
-                    utility = result.getOutput()
+                if (result.isResultAvailable()) {
+                    utility = output
                             .getStatistics()
                             .getQualityStatistics()
                             .getGranularity()
                             .getArithmeticMean();
-                
+                }
                 BENCHMARK.addRun(String.valueOf(testConfiguration.algorithm),
                                  String.valueOf(testConfiguration.dataset),
                                  String.valueOf(testConfiguration.k),
@@ -165,12 +169,11 @@ public abstract class AbstractBenchmark {
         if (qids == 0) {
             qids = BenchmarkSetup.getQuasiIdentifyingAttributes(benchConfig.dataset).length;
         }
-
         return BenchmarkSetup.getData(benchConfig.dataset, qids);
     }
     
     @Deprecated
-    // Broken idea as an Data object is changed when its used for anonymization
+    // Broken idea as a Data object is changed when its used for anonymization
     private Data getInputDataFromHashMap(TestConfiguration testConfiguration) throws IOException {
         
         Integer key = testConfiguration.hashInputConfig();
@@ -194,7 +197,7 @@ public abstract class AbstractBenchmark {
         if(!optimalLossHM.containsKey(key)) {
 
             ARXConfiguration config = ARXConfiguration.create();
-            config.setQualityModel(testConfiguration.model);
+            config.setQualityModel(Metric.createLossMetric(testConfiguration.gsFactor, testConfiguration.aggregateFunction));
             config.addPrivacyModel(new KAnonymity(testConfiguration.k));
             config.setSuppressionLimit(testConfiguration.supression);
             config.setAlgorithm(AnonymizationAlgorithm.OPTIMAL);
@@ -215,10 +218,12 @@ public abstract class AbstractBenchmark {
         boolean writeToFile = true;
         
         //Anonymization requirements and metrics
-        Metric<?>              model                  = Metric.createLossMetric(0.5, AggregateFunction.ARITHMETIC_MEAN);
-        int                    k                      = 5;
-        double                 supression             = 1d;
-        boolean                useLocalTransformation = false;
+        //Metric<?>              model                  = Metric.createLossMetric(0.5, AggregateFunction.ARITHMETIC_MEAN);
+        double                 gsFactor                      = 0.5d;
+        AggregateFunction      aggregateFunction             = AggregateFunction.ARITHMETIC_MEAN;
+        int                    k                             = 5;
+        double                 supression                    = 1d;
+        boolean                useLocalTransformation        = false;
         int                    localTransformationIterations = 0;
 
         // Used algorithm
@@ -250,7 +255,7 @@ public abstract class AbstractBenchmark {
         
         @Override
         public String toString() {
-            String output = String.format("%s | %s | k=%d | qids=%d | RunNumber=%d", algorithm, dataset, k, qids, testRunNumber);
+            String output = String.format("%s | %s | TimeLimit=%d | RunNumber=%d", algorithm, dataset, timeLimit, testRunNumber);
             return output;
         }
 
