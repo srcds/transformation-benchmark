@@ -1,12 +1,5 @@
 package org.deidentifier.arx.benchmark;
 
-import org.deidentifier.arx.criteria.KAnonymity;
-import org.deidentifier.arx.exceptions.RollbackRequiredException;
-import org.deidentifier.arx.metric.Metric;
-import org.deidentifier.arx.metric.Metric.AggregateFunction;
-
-import de.linearbits.subframe.Benchmark;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -21,6 +14,12 @@ import org.deidentifier.arx.DataHandle;
 import org.deidentifier.arx.algorithm.AbstractAlgorithm;
 import org.deidentifier.arx.algorithm.AbstractAlgorithm.TimeUtilityTuple;
 import org.deidentifier.arx.benchmark.BenchmarkSetup.BenchmarkDataset;
+import org.deidentifier.arx.criteria.KAnonymity;
+import org.deidentifier.arx.exceptions.RollbackRequiredException;
+import org.deidentifier.arx.metric.Metric;
+import org.deidentifier.arx.metric.Metric.AggregateFunction;
+
+import de.linearbits.subframe.Benchmark;
 
 public abstract class AbstractBenchmark {
     
