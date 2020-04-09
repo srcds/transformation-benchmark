@@ -12,8 +12,6 @@ import org.deidentifier.arx.ARXConfiguration.AnonymizationAlgorithm;
 import org.deidentifier.arx.ARXResult;
 import org.deidentifier.arx.Data;
 import org.deidentifier.arx.DataHandle;
-//import org.deidentifier.arx.aggregates.AggregateFunction;
-import org.deidentifier.arx.metric.Metric.AggregateFunction;
 import org.deidentifier.arx.aggregates.StatisticsQuality;
 import org.deidentifier.arx.algorithm.AbstractAlgorithm;
 import org.deidentifier.arx.benchmark.BenchmarkSetup.BenchmarkDataset;
@@ -21,8 +19,8 @@ import org.deidentifier.arx.benchmark.BenchmarkSetup.BenchmarkQualityModel;
 import org.deidentifier.arx.criteria.KAnonymity;
 import org.deidentifier.arx.exceptions.RollbackRequiredException;
 import org.deidentifier.arx.metric.Metric;
-
-import org.deidentifier.arx.benchmark.BenchmarkSetup.BenchmarkTransformationModel;
+//import org.deidentifier.arx.aggregates.AggregateFunction;
+import org.deidentifier.arx.metric.Metric.AggregateFunction;
 
 import de.linearbits.subframe.Benchmark;
 import de.linearbits.subframe.analyzer.ValueBuffer;
