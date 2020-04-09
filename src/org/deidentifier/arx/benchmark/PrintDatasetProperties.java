@@ -8,6 +8,11 @@ import org.deidentifier.arx.ARXConfiguration.AnonymizationAlgorithm;
 import org.deidentifier.arx.benchmark.AbstractBenchmark.TestConfiguration;
 import org.deidentifier.arx.benchmark.BenchmarkSetup.BenchmarkDataset;
 
+/**
+ * @author Thierry
+ *
+ *  Just used to print the size of the solution space - not the cleanest solution
+ */
 public class PrintDatasetProperties extends AbstractBenchmark {
 
     public static void main(String args[]) throws IOException {

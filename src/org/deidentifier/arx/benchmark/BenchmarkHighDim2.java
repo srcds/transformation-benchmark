@@ -8,6 +8,14 @@ import org.deidentifier.arx.ARXConfiguration.AnonymizationAlgorithm;
 import org.deidentifier.arx.benchmark.AbstractBenchmark.TestConfiguration;
 import org.deidentifier.arx.benchmark.BenchmarkSetup.BenchmarkDataset;
 
+/**
+ * @author Thierry
+ *
+ *         Used to perform Benchmarks on high dim datasets. Utility measurement
+ *         is only performed once after reaching the final solution. Also
+ *         capable of using local transformation.
+ * 
+ */
 public class BenchmarkHighDim2 extends AbstractBenchmark {
 
     BenchmarkHighDim2(String fileName) {
@@ -22,6 +30,7 @@ public class BenchmarkHighDim2 extends AbstractBenchmark {
     @Override
     public void generateTestConfigurations(List<TestConfiguration> testConfigs) {
 
+        // Definition of properties that will be varied for the Benchmark
         AnonymizationAlgorithm[] algorithms = new AnonymizationAlgorithm[] { AnonymizationAlgorithm.BEST_EFFORT_BOTTOM_UP,
                                                                              AnonymizationAlgorithm.BEST_EFFORT_GENETIC,
                                                                              AnonymizationAlgorithm.BEST_EFFORT_TOP_DOWN };
@@ -29,15 +38,21 @@ public class BenchmarkHighDim2 extends AbstractBenchmark {
                                                                BenchmarkDataset.MACH2019,
                                                                BenchmarkDataset.SS13ACS };
         int[] timeLimits = new int[] {500000, 1000000, 2000000};
-
+        
+        // Number of testruns
         int testRuns = 5;
+        
+        
+        // Configuration regarding the local transformation
         int localTransformationIterations = 100;
         boolean useLocalTransformation = true;
         boolean splitTimeLimitBetweenRuns = true;
 
-        for (BenchmarkDataset dataset : datasets) {
-            for (int timeLimit : timeLimits) {
-                for (int testRun = 0; testRun < testRuns; testRun++) {
+        // iterate through all possible configuration permutations
+        for (int testRun = 0; testRun < testRuns; testRun++) {
+            for (BenchmarkDataset dataset : datasets) {
+                for (int timeLimit : timeLimits) {
+
                     for (AnonymizationAlgorithm algorithm : algorithms) {
 
                         TestConfiguration testConfig = new TestConfiguration();
@@ -64,11 +79,13 @@ public class BenchmarkHighDim2 extends AbstractBenchmark {
                             testConfig.timeLimit = timeLimit;
                         }
 
-                        // Just for warm-up
+                        // Just for warm-up (dont write to log and limit time to
+                        // 5s)
                         if (testRun == 0) {
                             testConfig.writeToFile = false;
                             if (useLocalTransformation) {
-                                testConfig.timeLimit = (int) (5000 /(double) localTransformationIterations);
+                                testConfig.timeLimit = (int) (5000 /
+                                                              (double) localTransformationIterations);
                             } else {
                                 testConfig.timeLimit = 5000;
                             }

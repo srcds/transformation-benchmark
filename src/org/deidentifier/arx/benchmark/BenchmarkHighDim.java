@@ -8,6 +8,13 @@ import org.deidentifier.arx.ARXConfiguration.AnonymizationAlgorithm;
 import org.deidentifier.arx.benchmark.AbstractBenchmark.TestConfiguration;
 import org.deidentifier.arx.benchmark.BenchmarkSetup.BenchmarkDataset;
 
+/**
+ * @author Thierry
+ *
+ *         Used for execute Benchmarks on high dim datasets with a continuously
+ *         tracked utility improvement over time.
+ *
+ */
 public class BenchmarkHighDim extends AbstractBenchmark {
 
     BenchmarkHighDim(String fileName) {
@@ -23,15 +30,18 @@ public class BenchmarkHighDim extends AbstractBenchmark {
     public void generateTestConfigurations(List<TestConfiguration> testConfigs) {
 
         
-
-        AnonymizationAlgorithm[] algorithms = new AnonymizationAlgorithm[] {AnonymizationAlgorithm.BEST_EFFORT_BOTTOM_UP,AnonymizationAlgorithm.BEST_EFFORT_GENETIC,AnonymizationAlgorithm.BEST_EFFORT_TOP_DOWN};
-        //AnonymizationAlgorithm[] algorithms = new AnonymizationAlgorithm[] { AnonymizationAlgorithm.BEST_EFFORT_GENETIC };
-
+        // Definition of properties that will be varied for the Benchmark
+        AnonymizationAlgorithm[] algorithms = new AnonymizationAlgorithm[] { AnonymizationAlgorithm.BEST_EFFORT_BOTTOM_UP,
+                                                                             AnonymizationAlgorithm.BEST_EFFORT_GENETIC,
+                                                                             AnonymizationAlgorithm.BEST_EFFORT_TOP_DOWN };
+        
+        // AnonymizationAlgorithm[] algorithms = new AnonymizationAlgorithm[] {AnonymizationAlgorithm.BEST_EFFORT_GENETIC };
         // int[] timeLimits = new int[] {1000,5000,30000, 60000, 120000};
 
+        // Number of testruns
         int testRuns = 2;
 
-
+        // iterate through all possible configuration permutations
         for (int testRun = 0; testRun < testRuns; testRun++) {
             for (AnonymizationAlgorithm algorithm : algorithms) {
 
@@ -44,9 +54,7 @@ public class BenchmarkHighDim extends AbstractBenchmark {
 
                 testConfig.useLocalTransformation = false;
                 
-                //testConfig.eliteFraction = 0.1;
-                //testConfig.crossoverFraction = 0.3;
-                //testConfig.mutationProbability = 0.3;
+
 
                 if (testRun == 0) {
                     testConfig.writeToFile = false;

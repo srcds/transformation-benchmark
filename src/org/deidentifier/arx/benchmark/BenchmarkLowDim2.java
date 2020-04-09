@@ -24,12 +24,17 @@ public class BenchmarkLowDim2 extends AbstractBenchmark{
     @Override
     public void generateTestConfigurations(List<TestConfiguration> testConfigs) {
                 
-        
-        BenchmarkDataset[] datasets = new BenchmarkDataset[] { BenchmarkDataset.ADULT,BenchmarkDataset.CUP,BenchmarkDataset.FARS,BenchmarkDataset.ATUS,BenchmarkDataset.IHIS };
-        AnonymizationAlgorithm[] algorithms = new AnonymizationAlgorithm[] {AnonymizationAlgorithm.BEST_EFFORT_BOTTOM_UP, AnonymizationAlgorithm.BEST_EFFORT_GENETIC};
+        // Definition of properties that will be varied for the Benchmark
+        BenchmarkDataset[] datasets = new BenchmarkDataset[] { BenchmarkDataset.ADULT,
+                                                               BenchmarkDataset.CUP,
+                                                               BenchmarkDataset.FARS,
+                                                               BenchmarkDataset.ATUS,
+                                                               BenchmarkDataset.IHIS };
+        AnonymizationAlgorithm[] algorithms = new AnonymizationAlgorithm[] { AnonymizationAlgorithm.BEST_EFFORT_BOTTOM_UP,
+                                                                             AnonymizationAlgorithm.BEST_EFFORT_GENETIC };
         int testRuns = 10;
         
-        
+        // iterate through all possible configuration permutations
         for (BenchmarkDataset dataset : datasets) {
             for (int testRun = 0; testRun < testRuns; testRun++) {
                 for (AnonymizationAlgorithm algorithm : algorithms) {
