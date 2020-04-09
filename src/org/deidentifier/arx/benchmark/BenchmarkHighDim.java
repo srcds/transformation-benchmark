@@ -11,7 +11,7 @@ import org.deidentifier.arx.benchmark.BenchmarkSetup.BenchmarkDataset;
 public class BenchmarkHighDim extends AbstractBenchmark {
 
     BenchmarkHighDim(String fileName) {
-        super(fileName);
+        super(fileName, true, true);
     }
 
     public static void main(String args[]) throws IOException {
@@ -20,12 +20,9 @@ public class BenchmarkHighDim extends AbstractBenchmark {
     }
 
     @Override
-    public List<TestConfiguration> generateTestConfigurations() {
+    public void generateTestConfigurations(List<TestConfiguration> testConfigs) {
 
         
-        AbstractBenchmark.writeAllTrackedOptimums = true;
-        
-        List<TestConfiguration> testConfigs = new ArrayList<TestConfiguration>();
 
         AnonymizationAlgorithm[] algorithms = new AnonymizationAlgorithm[] {AnonymizationAlgorithm.BEST_EFFORT_BOTTOM_UP,AnonymizationAlgorithm.BEST_EFFORT_GENETIC,AnonymizationAlgorithm.BEST_EFFORT_TOP_DOWN};
         //AnonymizationAlgorithm[] algorithms = new AnonymizationAlgorithm[] { AnonymizationAlgorithm.BEST_EFFORT_GENETIC };
@@ -59,7 +56,6 @@ public class BenchmarkHighDim extends AbstractBenchmark {
             }
         }
 
-        return testConfigs;
     }
 
 }

@@ -17,13 +17,11 @@ public class PrintDatasetProperties extends AbstractBenchmark {
     }
     
     PrintDatasetProperties(String fileName) {
-        super(fileName);
+        super(fileName, true, false);
     }
 
     @Override
-    public List<TestConfiguration> generateTestConfigurations() {
-
-        List<TestConfiguration> testConfigs = new ArrayList<TestConfiguration>();
+    public void generateTestConfigurations(List<TestConfiguration> testConfigs) {
         
         BenchmarkDataset[] datasets = new BenchmarkDataset[] { BenchmarkDataset.ADULT,
                                                                BenchmarkDataset.CUP,
@@ -33,7 +31,6 @@ public class PrintDatasetProperties extends AbstractBenchmark {
                                                                BenchmarkDataset.CREDITCARD,
                                                                BenchmarkDataset.MACH2019,
                                                                BenchmarkDataset.SS13ACS};
-        
         
         for (BenchmarkDataset dataset : datasets) {
 
@@ -49,10 +46,9 @@ public class PrintDatasetProperties extends AbstractBenchmark {
         }
         
         
-        return testConfigs;
+        //return testConfigs;
     }
 
     
     
-    
-}
+  }

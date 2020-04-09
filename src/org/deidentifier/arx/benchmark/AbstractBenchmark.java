@@ -9,6 +9,7 @@ import de.linearbits.subframe.Benchmark;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -24,44 +25,91 @@ import org.deidentifier.arx.benchmark.BenchmarkSetup.BenchmarkDataset;
 
 public abstract class AbstractBenchmark {
     
-    public static boolean writeAllTrackedOptimums = false;
 
-    private static final Benchmark BENCHMARK = new Benchmark(new String[] { "algorithm",
-                                                                            "dataset",
-                                                                            "k",
-                                                                            "qids",
-                                                                            "iterations",
-                                                                            "eliteFraction",
-                                                                            "crossoverFraction",
-                                                                            "mutationProbability",
-                                                                            "timeLimit",
-                                                                            "stepLimit",
-                                                                            "limitByOptimalLoss",
-                                                                            "batchNumber",
-                                                                            "time",
-                                                                            "utility"
-                                                                            });
-    File file;
+    // Column-names for log file
+    private static final Benchmark   BENCHMARK     = new Benchmark(new String[] { "algorithm",
+                                                                                  "dataset",
+                                                                                  "k",
+                                                                                  "qids",
+                                                                                  "iterations",
+                                                                                  "eliteFraction",
+                                                                                  "crossoverFraction",
+                                                                                  "mutationProbability",
+                                                                                  "timeLimit",
+                                                                                  "stepLimit",
+                                                                                  "limitByOptimalLoss",
+                                                                                  "batchNumber",
+                                                                                  "time",
+                                                                                  "utility" });
     
-    private HashMap<Integer, Data> inputDataHM = new HashMap<Integer,Data>();
+    // log file handle
+    private File                     file;
+    
+    // hash map to store the data obects (currently nur used)
+    private HashMap<Integer, Data>   inputDataHM   = new HashMap<Integer, Data>();
+    
+    // Stores the optimal solution (/loss) to avoid re-caclulating them
     private HashMap<Integer, Double> optimalLossHM = new HashMap<Integer, Double>();
     
-    AbstractBenchmark(String fileName){
+    // Enable / Disable console output
+    private boolean                  verbose;
+    
+    // Enable / Disable progress (utility improvement) tracking
+    private boolean                  writeAllTrackedOptimums;
+
+    /**
+     * Constructor.
+     * 
+     * @param fileName
+     *            Name of log file
+     * @param verbose
+     *            If true the current testrun configuration will be printed to
+     *            console
+     * @param writeAllTrackedOptimums
+     *            If true, the progress (utility improvement) will be tracked
+     *            continuously and be written to the log file (not usable for
+     *            local transformation)
+     */
+    AbstractBenchmark(String fileName, boolean verbose, boolean writeAllTrackedOptimums){
         file = new File(fileName);
+        this.verbose = verbose;
+        this.writeAllTrackedOptimums = writeAllTrackedOptimums;
     }
     
+    /**
+     * Calls the generateTestConfigurations method and executes all provided
+     * TestConfigurations.
+     * 
+     * @throws IOException
+     */
     public void start() throws IOException {
-        List<TestConfiguration> testConfigurations = generateTestConfigurations(); 
-        System.out.println("Length: " + testConfigurations.size());
+        List<TestConfiguration> testConfigurations = new ArrayList<TestConfiguration>();
+        generateTestConfigurations(testConfigurations); 
         for(TestConfiguration testConfiguration : testConfigurations) {
-            System.out.println(testConfiguration);
+            if (verbose) {
+                System.out.println(testConfiguration);
+            }
             executeTest(testConfiguration);
         }
     }
     
-    public abstract List<TestConfiguration> generateTestConfigurations();
+    /**
+     * This method is called by the Benchmarks start method. It requires the
+     * benchmark implementation to generate an arbitrary number of
+     * testConfigurations that will be processed during the Benchmark
+     * 
+     * @param testConfigurations
+     *            List to store the TestConfigurations
+     */
+    public abstract void generateTestConfigurations(List<TestConfiguration> testConfigurations);
     
-    protected void executeTest(TestConfiguration testConfiguration) throws IOException {
+    /**
+     * Method that executed a single anonymization process / test config.
+     * 
+     * @param testConfiguration config to be executed
+     * @throws IOException
+     */
+    private void executeTest(TestConfiguration testConfiguration) throws IOException {
         
         // reset lossLimit to avoid side effects
         AbstractAlgorithm.lossLimit = -1;
@@ -163,6 +211,13 @@ public abstract class AbstractBenchmark {
         AbstractAlgorithm.getTrackedOptimums().clear();
     }
 
+    /**
+     * Simple method to load the input data using the BenchmarkSetup class.
+     * 
+     * @param benchConfig configuration containing the dataset and qid information
+     * @return Input for the anonmyzation process
+     * @throws IOException
+     */
     private Data getInputData(TestConfiguration benchConfig) throws IOException {
 
         int qids = benchConfig.qids;
@@ -190,35 +245,57 @@ public abstract class AbstractBenchmark {
         return inputDataHM.get(key);
     }
     
+    /**
+     * Method used to get the optimal solution for a given configuration. The
+     * solution is only calculated once (using the OPTIMAL algorithm) and
+     * thereafter stored in a hashMap
+     * 
+     * @param testConfiguration config describing the problem
+     * @throws IOException
+     */
     private void findAndSetOptimum(TestConfiguration testConfiguration) throws IOException {
         
         Integer key = testConfiguration.hashObjective();
         
+        // check if config contained in hashMap
         if(!optimalLossHM.containsKey(key)) {
 
+            // Copy reuiqred informations to ARXconfig
             ARXConfiguration config = ARXConfiguration.create();
             config.setQualityModel(Metric.createLossMetric(testConfiguration.gsFactor, testConfiguration.aggregateFunction));
             config.addPrivacyModel(new KAnonymity(testConfiguration.k));
             config.setSuppressionLimit(testConfiguration.supression);
             config.setAlgorithm(AnonymizationAlgorithm.OPTIMAL);
             
+            // Load data and start anonymization
             ARXAnonymizer anonymizer = new ARXAnonymizer();
             ARXResult result = anonymizer.anonymize(getInputData(testConfiguration), config);
             
+            // Store solution in hashMap
             optimalLossHM.put(key, Double.valueOf(result.getGlobalOptimum().getHighestScore().toString()));
-            System.out.println("Created new Optimum (" + String.valueOf(testConfiguration.dataset) + " , qids=" + testConfiguration.qids + ") with key " + key);
+            
+            if (verbose) {
+                System.out.println("Created new Optimum (" +
+                                   String.valueOf(testConfiguration.dataset) + " , qids=" +
+                                   testConfiguration.qids + ") with key " + key);
+            }
         }
         
+        // return solution from hashMap
         AbstractAlgorithm.lossLimit = optimalLossHM.get(key);                         
     }
     
+    /**
+     * @author Thierry
+     *
+     * Class describing the executed / tested anonymization process
+     */
     class TestConfiguration{
 
         int testRunNumber = -1;
         boolean writeToFile = true;
         
-        //Anonymization requirements and metrics
-        //Metric<?>              model                  = Metric.createLossMetric(0.5, AggregateFunction.ARITHMETIC_MEAN);
+        // Anonymization requirements and metrics
         double                 gsFactor                      = 0.5d;
         AggregateFunction      aggregateFunction             = AggregateFunction.ARITHMETIC_MEAN;
         int                    k                             = 5;
@@ -230,25 +307,26 @@ public abstract class AbstractBenchmark {
         AnonymizationAlgorithm algorithm;
 
         // GA specific settings
-        int                    subpopulationSize   = 100;
-        int                    gaIterations        = Integer.MAX_VALUE;
-        double                 eliteFraction       = 0.2;
-        double                 crossoverFraction   = 0.2;
-        double                 mutationProbability = 0.2;
+        int                    subpopulationSize             = 100;
+        int                    gaIterations                  = Integer.MAX_VALUE;
+        double                 eliteFraction                 = 0.2;
+        double                 crossoverFraction             = 0.2;
+        double                 mutationProbability           = 0.2;
 
         // Limits (GA and LIGHTNING)
-        int                    timeLimit           = Integer.MAX_VALUE;
-        int                    stepLimit           = Integer.MAX_VALUE;
-        boolean                limitByOptimalLoss  = false;
+        int                    timeLimit                     = Integer.MAX_VALUE;
+        int                    stepLimit                     = Integer.MAX_VALUE;
+        boolean                limitByOptimalLoss            = false;
 
         // Input configuration
         BenchmarkDataset       dataset;
-        int                    qids                = 0;
-        
+        int                    qids                          = 0;
+
         Integer hashInputConfig() {
             return (int) (dataset.hashCode() + qids);
         }
         
+        // used to find testConfig in the optimal loss hashmap
         Integer hashObjective() {
             return (int) (hashInputConfig() + k + supression);
         }
