@@ -5,13 +5,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.deidentifier.arx.ARXConfiguration.AnonymizationAlgorithm;
+import org.deidentifier.arx.benchmark.AbstractBenchmark.TestConfiguration;
 import org.deidentifier.arx.benchmark.BenchmarkSetup.BenchmarkDataset;
 
 
 public class BenchmarkTestLossGA extends AbstractBenchmark{
 
     BenchmarkTestLossGA(String fileName) {
-        super(fileName);
+        super(fileName, true, false);
     }
     
     public static void main(String args[]) throws IOException {
@@ -19,9 +20,8 @@ public class BenchmarkTestLossGA extends AbstractBenchmark{
     }
 
     @Override
-    public List<TestConfiguration> generateTestConfigurations() {
+    public void generateTestConfigurations(List<TestConfiguration> testConfigs) {
         
-        List<TestConfiguration> testConfigs = new ArrayList<TestConfiguration>();
         
         BenchmarkDataset[] datasets = new BenchmarkDataset[] { BenchmarkDataset.ADULT,
                                                                BenchmarkDataset.CUP,
@@ -45,7 +45,6 @@ public class BenchmarkTestLossGA extends AbstractBenchmark{
 
         }
 
-        return testConfigs;
     }
 
 }

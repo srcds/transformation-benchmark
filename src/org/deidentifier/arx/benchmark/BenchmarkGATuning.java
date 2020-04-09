@@ -10,7 +10,7 @@ import org.deidentifier.arx.benchmark.BenchmarkSetup.BenchmarkDataset;
 public class BenchmarkGATuning extends AbstractBenchmark{
 
     BenchmarkGATuning(String fileName) {
-        super(fileName);
+        super(fileName, true, false);
     }
 
     public static void main(String args[]) throws IOException {
@@ -19,9 +19,8 @@ public class BenchmarkGATuning extends AbstractBenchmark{
     }
 
     @Override
-    public List<TestConfiguration> generateTestConfigurations() {
+    public void generateTestConfigurations(List<TestConfiguration> testConfigs) {
 
-        List<TestConfiguration> testConfigs = new ArrayList<TestConfiguration>();
 
         AnonymizationAlgorithm[] algorithms = new AnonymizationAlgorithm[] { AnonymizationAlgorithm.BEST_EFFORT_BOTTOM_UP,
                                                                              AnonymizationAlgorithm.BEST_EFFORT_GENETIC,
@@ -63,7 +62,6 @@ public class BenchmarkGATuning extends AbstractBenchmark{
             }
         }
 
-        return testConfigs;
     }
 
 }

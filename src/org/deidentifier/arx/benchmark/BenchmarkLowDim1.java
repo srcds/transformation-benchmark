@@ -5,13 +5,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.deidentifier.arx.ARXConfiguration.AnonymizationAlgorithm;
+import org.deidentifier.arx.benchmark.AbstractBenchmark.TestConfiguration;
 import org.deidentifier.arx.benchmark.BenchmarkSetup.BenchmarkDataset;
 
 
 public class BenchmarkLowDim1 extends AbstractBenchmark{
 
     BenchmarkLowDim1(String fileName) {
-        super(fileName);
+        super(fileName, true, false);
     }
     
     public static void main(String args[]) throws IOException {
@@ -19,9 +20,8 @@ public class BenchmarkLowDim1 extends AbstractBenchmark{
     }
 
     @Override
-    public List<TestConfiguration> generateTestConfigurations() {
-        
-        List<TestConfiguration> testConfigs = new ArrayList<TestConfiguration>();
+    public void generateTestConfigurations(List<TestConfiguration> testConfigs) {
+
         
         BenchmarkDataset[] datasets = new BenchmarkDataset[] { BenchmarkDataset.ADULT,BenchmarkDataset.CUP,BenchmarkDataset.FARS,BenchmarkDataset.ATUS,BenchmarkDataset.IHIS };
         AnonymizationAlgorithm[] algorithms = new AnonymizationAlgorithm[] {AnonymizationAlgorithm.OPTIMAL, AnonymizationAlgorithm.BEST_EFFORT_GENETIC,AnonymizationAlgorithm.BEST_EFFORT_BOTTOM_UP, AnonymizationAlgorithm.BEST_EFFORT_TOP_DOWN };
@@ -44,7 +44,6 @@ public class BenchmarkLowDim1 extends AbstractBenchmark{
             }
         }
 
-        return testConfigs;
     }
 
 }
