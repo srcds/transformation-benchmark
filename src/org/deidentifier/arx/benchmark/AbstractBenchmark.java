@@ -16,14 +16,23 @@ import org.deidentifier.arx.algorithm.AbstractAlgorithm;
 import org.deidentifier.arx.algorithm.AbstractAlgorithm.TimeUtilityTuple;
 import org.deidentifier.arx.benchmark.BenchmarkSetup.BenchmarkDataset;
 import org.deidentifier.arx.criteria.KAnonymity;
+import org.deidentifier.arx.criteria.PopulationUniqueness;
+import org.deidentifier.arx.criteria.PrivacyCriterion;
 import org.deidentifier.arx.exceptions.RollbackRequiredException;
 import org.deidentifier.arx.metric.Metric;
 import org.deidentifier.arx.metric.Metric.AggregateFunction;
+import org.deidentifier.arx.risk.RiskModelPopulationUniqueness.PopulationUniquenessModel;
+import org.deidentifier.arx.ARXPopulationModel;
+import org.deidentifier.arx.ARXPopulationModel.Region;
 
 import de.linearbits.subframe.Benchmark;
 
 public abstract class AbstractBenchmark {
     
+    protected enum PrivacyModel {
+        K_ANONYMITY,
+        POPULATION_UNIQUENESS
+        }
 
     // Column-names for log file
     private static final Benchmark   BENCHMARK     = new Benchmark(new String[] { "algorithm",
@@ -116,7 +125,7 @@ public abstract class AbstractBenchmark {
         // Copy benchmark config to arx config
         ARXConfiguration arxConfiguration = ARXConfiguration.create();
         arxConfiguration.setQualityModel(Metric.createLossMetric(testConfiguration.gsFactor, testConfiguration.aggregateFunction));
-        arxConfiguration.addPrivacyModel(new KAnonymity(testConfiguration.k));
+        arxConfiguration.addPrivacyModel(instantiatePrivacyCriterion(testConfiguration));  
         arxConfiguration.setSuppressionLimit(testConfiguration.supression);
         arxConfiguration.setAlgorithm(testConfiguration.algorithm);
         arxConfiguration.setGeneticAlgorithmIterations(testConfiguration.gaIterations);
@@ -262,7 +271,7 @@ public abstract class AbstractBenchmark {
             // Copy reuiqred informations to ARXconfig
             ARXConfiguration config = ARXConfiguration.create();
             config.setQualityModel(Metric.createLossMetric(testConfiguration.gsFactor, testConfiguration.aggregateFunction));
-            config.addPrivacyModel(new KAnonymity(testConfiguration.k));
+            config.addPrivacyModel(instantiatePrivacyCriterion(testConfiguration));
             config.setSuppressionLimit(testConfiguration.supression);
             config.setAlgorithm(AnonymizationAlgorithm.OPTIMAL);
             
@@ -284,6 +293,20 @@ public abstract class AbstractBenchmark {
         AbstractAlgorithm.lossLimit = optimalLossHM.get(key);                         
     }
     
+    
+    private PrivacyCriterion instantiatePrivacyCriterion(TestConfiguration testConfiguration) {
+        
+        switch(testConfiguration.privacyModel) {
+        case K_ANONYMITY:
+            return (new KAnonymity(testConfiguration.k));
+        case POPULATION_UNIQUENESS:
+            return(new PopulationUniqueness(0.01, PopulationUniquenessModel.PITMAN, ARXPopulationModel.create(Region.USA)));
+        default:
+            throw new RuntimeException("Unknown Privacy Model");
+        }
+        
+    }
+    
     /**
      * @author Thierry
      *
@@ -297,7 +320,9 @@ public abstract class AbstractBenchmark {
         // Anonymization requirements and metrics
         double                 gsFactor                      = 0.5d;
         AggregateFunction      aggregateFunction             = AggregateFunction.ARITHMETIC_MEAN;
+        PrivacyModel           privacyModel                  = PrivacyModel.K_ANONYMITY;
         int                    k                             = 5;
+        
         double                 supression                    = 1d;
         boolean                useLocalTransformation        = false;
         int                    localTransformationIterations = 0;

@@ -7,6 +7,7 @@ import java.util.List;
 import org.deidentifier.arx.ARXConfiguration.AnonymizationAlgorithm;
 import org.deidentifier.arx.benchmark.AbstractBenchmark.TestConfiguration;
 import org.deidentifier.arx.benchmark.BenchmarkSetup.BenchmarkDataset;
+import org.deidentifier.arx.benchmark.AbstractBenchmark.PrivacyModel;
 
 /**
  * @author Thierry
@@ -16,14 +17,14 @@ import org.deidentifier.arx.benchmark.BenchmarkSetup.BenchmarkDataset;
  *         capable of using local transformation.
  * 
  */
-public class BenchmarkHighDim2 extends AbstractBenchmark {
+public class BenchmarkPopUnique extends AbstractBenchmark {
 
-    BenchmarkHighDim2(String fileName) {
+    BenchmarkPopUnique(String fileName) {
         super(fileName, true, false);
     }
 
     public static void main(String args[]) throws IOException {
-        new BenchmarkHighDim2("results/results_high_dim_2_local_5runs_20iters_longer.csv").start();
+        new BenchmarkPopUnique("results/results_pop_unique_local_5runs_0iters_5_10_30_60_120.csv").start();
 
     }
 
@@ -37,7 +38,7 @@ public class BenchmarkHighDim2 extends AbstractBenchmark {
         BenchmarkDataset[] datasets = new BenchmarkDataset[] { BenchmarkDataset.CREDITCARD,
                                                                BenchmarkDataset.MACH2019,
                                                                BenchmarkDataset.SS13ACS };
-        int[] timeLimits = new int[] {500000, 1000000, 2000000};
+        int[] timeLimits = new int[] {5000, 10000, 30000, 60000, 120000};
         
         // Number of testruns
         int testRuns = 5;
@@ -45,7 +46,7 @@ public class BenchmarkHighDim2 extends AbstractBenchmark {
         
         // Configuration regarding the local transformation
         int localTransformationIterations = 200;
-        boolean useLocalTransformation = true;
+        boolean useLocalTransformation = false;
         boolean splitTimeLimitBetweenRuns = true;
 
         // iterate through all possible configuration permutations
@@ -60,6 +61,7 @@ public class BenchmarkHighDim2 extends AbstractBenchmark {
                         testConfig.algorithm = algorithm;
                         testConfig.dataset = dataset;
                         testConfig.testRunNumber = testRun;
+                        testConfig.privacyModel = PrivacyModel.POPULATION_UNIQUENESS;
 
                         if (useLocalTransformation) {
                             testConfig.gsFactor = 0d;
