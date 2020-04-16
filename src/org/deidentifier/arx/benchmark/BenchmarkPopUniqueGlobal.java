@@ -17,14 +17,14 @@ import org.deidentifier.arx.benchmark.AbstractBenchmark.PrivacyModel;
  *         capable of using local transformation.
  * 
  */
-public class BenchmarkPopUnique extends AbstractBenchmark {
+public class BenchmarkPopUniqueGlobal extends AbstractBenchmark {
 
-    BenchmarkPopUnique(String fileName) {
+    BenchmarkPopUniqueGlobal(String fileName) {
         super(fileName, true, false);
     }
 
     public static void main(String args[]) throws IOException {
-        new BenchmarkPopUnique("results/results_pop_unique_local_5runs_0iters_5_10_30_60_120.csv").start();
+        new BenchmarkPopUniqueGlobal("results/results_pop_unique_local_5runs_0iters_5_10_30_60_120.csv").start();
 
     }
 

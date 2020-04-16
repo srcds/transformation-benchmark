@@ -294,6 +294,12 @@ public abstract class AbstractBenchmark {
     }
     
     
+    /**
+     * Used to instantiate the defined privacy criterion / model
+     * 
+     * @param testConfiguration
+     * @return
+     */
     private PrivacyCriterion instantiatePrivacyCriterion(TestConfiguration testConfiguration) {
         
         switch(testConfiguration.privacyModel) {
