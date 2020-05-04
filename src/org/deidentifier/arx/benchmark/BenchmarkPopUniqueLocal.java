@@ -24,7 +24,7 @@ public class BenchmarkPopUniqueLocal extends AbstractBenchmark {
     }
 
     public static void main(String args[]) throws IOException {
-        new BenchmarkPopUniqueLocal("results/results_pop_unique_local_3runs_10iters_30_60_120.csv").start();
+        new BenchmarkPopUniqueLocal("results/results_pop_unique_local_3runs_100iters_5_10_20.csv").start();
 
     }
 
@@ -38,14 +38,14 @@ public class BenchmarkPopUniqueLocal extends AbstractBenchmark {
         BenchmarkDataset[] datasets = new BenchmarkDataset[] { BenchmarkDataset.CREDITCARD,
                                                                BenchmarkDataset.MACH2019,
                                                                BenchmarkDataset.SS13ACS };
-        int[] timeLimits = new int[] {100000, 300000, 500000, 1000000};
+        int[] timeLimits = new int[] {500000, 1000000, 2000000};
         
         // Number of testruns
         int testRuns = 4;
         
         
         // Configuration regarding the local transformation
-        int localTransformationIterations = 50;
+        int localTransformationIterations = 100;
         boolean useLocalTransformation = true;
         boolean splitTimeLimitBetweenRuns = true;
 

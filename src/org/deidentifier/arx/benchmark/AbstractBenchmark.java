@@ -125,6 +125,7 @@ public abstract class AbstractBenchmark {
         // Copy benchmark config to arx config
         ARXConfiguration arxConfiguration = ARXConfiguration.create();
         arxConfiguration.setQualityModel(Metric.createLossMetric(testConfiguration.gsFactor, testConfiguration.aggregateFunction));
+        //arxConfiguration.setQualityModel(Metric.createEntropyMetric(true, testConfiguration.aggregateFunction));
         arxConfiguration.addPrivacyModel(instantiatePrivacyCriterion(testConfiguration));  
         arxConfiguration.setSuppressionLimit(testConfiguration.supression);
         arxConfiguration.setAlgorithm(testConfiguration.algorithm);
@@ -173,6 +174,7 @@ public abstract class AbstractBenchmark {
                             .getQualityStatistics()
                             .getGranularity()
                             .getArithmeticMean();
+                    //utility = output.getStatistics().getQualityStatistics().getNonUniformEntropy().getArithmeticMean();
                 }
                 BENCHMARK.addRun(String.valueOf(testConfiguration.algorithm),
                                  String.valueOf(testConfiguration.dataset),
