@@ -9,14 +9,14 @@ import org.deidentifier.arx.benchmark.AbstractBenchmark.TestConfiguration;
 import org.deidentifier.arx.benchmark.BenchmarkSetup.BenchmarkDataset;
 
 
-public class BenchmarkLowDim2 extends AbstractBenchmark{
+public class BenchmarkLowDim3 extends AbstractBenchmark{
 
-    BenchmarkLowDim2(String fileName) {
+    BenchmarkLowDim3(String fileName) {
         super(fileName, true, false);
     }
     
     public static void main(String args[]) throws IOException {
-        new BenchmarkLowDim2("NEW_results_low_dim_NHI.csv").start();
+        new BenchmarkLowDim3("results_low_dim3.csv").start();
     }
     
 
@@ -30,8 +30,10 @@ public class BenchmarkLowDim2 extends AbstractBenchmark{
                                                                BenchmarkDataset.FARS,
                                                                BenchmarkDataset.ATUS,
                                                                BenchmarkDataset.IHIS };
-        AnonymizationAlgorithm[] algorithms = new AnonymizationAlgorithm[] { AnonymizationAlgorithm.BEST_EFFORT_BOTTOM_UP,
-                                                                             AnonymizationAlgorithm.BEST_EFFORT_GENETIC };
+        AnonymizationAlgorithm[] algorithms = new AnonymizationAlgorithm[] { AnonymizationAlgorithm.OPTIMAL,
+                                                                             AnonymizationAlgorithm.BEST_EFFORT_GENETIC,
+                                                                             AnonymizationAlgorithm.BEST_EFFORT_BOTTOM_UP,
+                                                                             AnonymizationAlgorithm.BEST_EFFORT_TOP_DOWN };
         int testRuns = 6;
         
         // iterate through all possible configuration permutations
@@ -45,13 +47,17 @@ public class BenchmarkLowDim2 extends AbstractBenchmark{
                     testConfig.dataset = dataset;
                     testConfig.testRunNumber = testRun;
 
-                    //testConfig.crossoverFraction = 0.4;
-                    //testConfig.mutationProbability = 0.05;
-                    
-                    
                     testConfig.limitByOptimalLoss = true;
                     testConfig.timeLimit = 600000;
                     
+                    // (partly) new settings
+                    testConfig.eliteFraction = 0.2;
+                    testConfig.crossoverFraction = 0.4;
+                    testConfig.mutationProbability = 0.05;
+                    testConfig.gaIterations = Integer.MAX_VALUE;
+                    testConfig.subpopulationSize = 100;
+                    testConfig.immigrationFraction = 0.2;
+                    testConfig.immigrationInterval = 10;
 
                     if (testRun == 0) testConfig.writeToFile = false;
 

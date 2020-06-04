@@ -134,6 +134,8 @@ public abstract class AbstractBenchmark {
         arxConfiguration.setGeneticAlgorithmEliteFraction(testConfiguration.eliteFraction);
         arxConfiguration.setGeneticAlgorithmCrossoverFraction(testConfiguration.crossoverFraction);
         arxConfiguration.setGeneticAlgorithmMutationProbability(testConfiguration.mutationProbability);
+        arxConfiguration.setGeneticAlgorithmImmigrationFraction(testConfiguration.immigrationFraction);
+        arxConfiguration.setGeneticAlgorithmImmigrationInterval(testConfiguration.immigrationInterval);
         arxConfiguration.setHeuristicSearchStepLimit(testConfiguration.stepLimit);
         arxConfiguration.setHeuristicSearchTimeLimit(testConfiguration.timeLimit);
 
@@ -344,6 +346,8 @@ public abstract class AbstractBenchmark {
         double                 eliteFraction                 = 0.2;
         double                 crossoverFraction             = 0.2;
         double                 mutationProbability           = 0.2;
+        double                 immigrationFraction           = 0.2;
+        int                    immigrationInterval           = 10;
 
         // Limits (GA and LIGHTNING)
         int                    timeLimit                     = Integer.MAX_VALUE;
