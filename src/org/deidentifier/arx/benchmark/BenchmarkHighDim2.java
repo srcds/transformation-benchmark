@@ -23,7 +23,7 @@ public class BenchmarkHighDim2 extends AbstractBenchmark {
     }
 
     public static void main(String args[]) throws IOException {
-        new BenchmarkHighDim2("results/results_high_dim_2_local_5runs_20iters_longer.csv").start();
+        new BenchmarkHighDim2("results/results_high_dim_2_local_5runs_100iters_5_10_20.csv").start();
 
     }
 
@@ -40,11 +40,11 @@ public class BenchmarkHighDim2 extends AbstractBenchmark {
         int[] timeLimits = new int[] {500000, 1000000, 2000000};
         
         // Number of testruns
-        int testRuns = 5;
+        int testRuns = 6;
         
         
         // Configuration regarding the local transformation
-        int localTransformationIterations = 200;
+        int localTransformationIterations = 100;
         boolean useLocalTransformation = true;
         boolean splitTimeLimitBetweenRuns = true;
 
@@ -60,6 +60,7 @@ public class BenchmarkHighDim2 extends AbstractBenchmark {
                         testConfig.algorithm = algorithm;
                         testConfig.dataset = dataset;
                         testConfig.testRunNumber = testRun;
+                        testConfig.mutationProbability = 0.05;
 
                         if (useLocalTransformation) {
                             testConfig.gsFactor = 0d;

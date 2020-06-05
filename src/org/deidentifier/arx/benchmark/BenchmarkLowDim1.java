@@ -22,7 +22,7 @@ public class BenchmarkLowDim1 extends AbstractBenchmark{
     }
     
     public static void main(String args[]) throws IOException {
-        new BenchmarkLowDim1("results_low_dim1_1.csv").start();
+        new BenchmarkLowDim1("NEW_results_IHIS_GA_WAN_MP03.csv").start();
     }
 
     @Override
@@ -30,18 +30,14 @@ public class BenchmarkLowDim1 extends AbstractBenchmark{
 
         
         // Definition of properties that will be varied for the Benchmark
-        BenchmarkDataset[] datasets = new BenchmarkDataset[] { BenchmarkDataset.ADULT,
-                                                               BenchmarkDataset.CUP,
-                                                               BenchmarkDataset.FARS,
-                                                               BenchmarkDataset.ATUS,
-                                                               BenchmarkDataset.IHIS };
-        AnonymizationAlgorithm[] algorithms = new AnonymizationAlgorithm[] { AnonymizationAlgorithm.OPTIMAL,
+        BenchmarkDataset[] datasets = new BenchmarkDataset[] { BenchmarkDataset.IHIS };
+        
+        AnonymizationAlgorithm[] algorithms = new AnonymizationAlgorithm[] { 
                                                                              AnonymizationAlgorithm.BEST_EFFORT_GENETIC,
-                                                                             AnonymizationAlgorithm.BEST_EFFORT_BOTTOM_UP,
-                                                                             AnonymizationAlgorithm.BEST_EFFORT_TOP_DOWN };
+                                                                              };
         
         // number of testruns
-        int testRuns = 6;
+        int testRuns = 51;
         
         // iterate through all possible configuration permutations
         for (BenchmarkDataset dataset : datasets) {
@@ -53,6 +49,10 @@ public class BenchmarkLowDim1 extends AbstractBenchmark{
                     testConfig.algorithm = algorithm;
                     testConfig.dataset = dataset;
                     testConfig.testRunNumber = testRun;
+                    
+                    testConfig.crossoverFraction = 0.4;
+                    testConfig.mutationProbability = 0.3;
+                    testConfig.timeLimit = 10000;
 
                     if (testRun == 0) testConfig.writeToFile = false;
 

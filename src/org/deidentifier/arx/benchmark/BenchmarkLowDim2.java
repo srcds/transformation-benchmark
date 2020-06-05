@@ -16,7 +16,7 @@ public class BenchmarkLowDim2 extends AbstractBenchmark{
     }
     
     public static void main(String args[]) throws IOException {
-        new BenchmarkLowDim2("NEW_results_low_dim_NHI.csv").start();
+        new BenchmarkLowDim2("NEW_results_low_dim_WAN_MP_02.csv").start();
     }
     
 
@@ -31,8 +31,10 @@ public class BenchmarkLowDim2 extends AbstractBenchmark{
                                                                BenchmarkDataset.ATUS,
                                                                BenchmarkDataset.IHIS };
         AnonymizationAlgorithm[] algorithms = new AnonymizationAlgorithm[] { AnonymizationAlgorithm.BEST_EFFORT_BOTTOM_UP,
-                                                                             AnonymizationAlgorithm.BEST_EFFORT_GENETIC };
-        int testRuns = 6;
+                                                                             AnonymizationAlgorithm.BEST_EFFORT_GENETIC,
+                                                                             AnonymizationAlgorithm.BEST_EFFORT_TOP_DOWN,
+                                                                             AnonymizationAlgorithm.OPTIMAL};
+        int testRuns = 3;
         
         // iterate through all possible configuration permutations
         for (BenchmarkDataset dataset : datasets) {
@@ -45,7 +47,7 @@ public class BenchmarkLowDim2 extends AbstractBenchmark{
                     testConfig.dataset = dataset;
                     testConfig.testRunNumber = testRun;
 
-                    //testConfig.crossoverFraction = 0.4;
+                    testConfig.crossoverFraction = 0.4;
                     //testConfig.mutationProbability = 0.05;
                     
                     
