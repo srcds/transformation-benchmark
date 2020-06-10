@@ -16,7 +16,7 @@ public class BenchmarkLowDim3 extends AbstractBenchmark{
     }
     
     public static void main(String args[]) throws IOException {
-        new BenchmarkLowDim3("results_low_dim3.csv").start();
+        new BenchmarkLowDim3("NEW_results_low_dim3.csv").start();
     }
     
 
@@ -48,7 +48,7 @@ public class BenchmarkLowDim3 extends AbstractBenchmark{
                     testConfig.testRunNumber = testRun;
 
                     testConfig.limitByOptimalLoss = true;
-                    testConfig.timeLimit = 600000;
+                    testConfig.timeLimit = 300000;
                     
                     // (partly) new settings
                     testConfig.eliteFraction = 0.2;

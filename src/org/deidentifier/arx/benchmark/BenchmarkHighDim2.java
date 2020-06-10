@@ -23,7 +23,7 @@ public class BenchmarkHighDim2 extends AbstractBenchmark {
     }
 
     public static void main(String args[]) throws IOException {
-        new BenchmarkHighDim2("results/results_high_dim_2_local_5runs_100iters_5_10_20.csv").start();
+        new BenchmarkHighDim2("results/results_high_dim_2_local_5runs_100iters_5_10_20_cf04.csv").start();
 
     }
 
@@ -61,6 +61,7 @@ public class BenchmarkHighDim2 extends AbstractBenchmark {
                         testConfig.dataset = dataset;
                         testConfig.testRunNumber = testRun;
                         testConfig.mutationProbability = 0.05;
+                        testConfig.crossoverFraction = 0.4;
 
                         if (useLocalTransformation) {
                             testConfig.gsFactor = 0d;

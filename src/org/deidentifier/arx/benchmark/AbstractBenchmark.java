@@ -95,7 +95,7 @@ public abstract class AbstractBenchmark {
         generateTestConfigurations(testConfigurations); 
         for(TestConfiguration testConfiguration : testConfigurations) {
             if (verbose) {
-                System.out.println(testConfiguration);
+                System.out.println(java.time.LocalTime.now() + " - " + testConfiguration);
             }
             executeTest(testConfiguration);
         }
@@ -197,7 +197,6 @@ public abstract class AbstractBenchmark {
             // write all tracked optimums (does not work for local transformation)
                 
                 List<TimeUtilityTuple> trackedOptimums = AbstractAlgorithm.getTrackedOptimums();
-                System.out.println("Vorher: " + trackedOptimums.size());
                 for (TimeUtilityTuple trackedOptimum : trackedOptimums) {
                     BENCHMARK.addRun(String.valueOf(testConfiguration.algorithm),
                                      String.valueOf(testConfiguration.dataset),
@@ -216,8 +215,6 @@ public abstract class AbstractBenchmark {
                     BENCHMARK.getResults().write(file);
 
                 }
-
-                System.out.println("Nachher " + trackedOptimums.size());
             }
         }
         AbstractAlgorithm.getTrackedOptimums().clear();
@@ -349,7 +346,7 @@ public abstract class AbstractBenchmark {
         double                 immigrationFraction           = 0.2;
         int                    immigrationInterval           = 10;
 
-        // Limits (GA and LIGHTNING)
+        // Limits
         int                    timeLimit                     = Integer.MAX_VALUE;
         int                    stepLimit                     = Integer.MAX_VALUE;
         boolean                limitByOptimalLoss            = false;
@@ -369,6 +366,7 @@ public abstract class AbstractBenchmark {
         
         @Override
         public String toString() {
+            String output_raw = "%s | %s | TimeLimit=%d |  |RunNumber=%d";
             String output = String.format("%s | %s | TimeLimit=%d | RunNumber=%d", algorithm, dataset, timeLimit, testRunNumber);
             return output;
         }
