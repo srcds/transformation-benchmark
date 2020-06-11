@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.deidentifier.arx.ARXConfiguration.AnonymizationAlgorithm;
+import org.deidentifier.arx.benchmark.AbstractBenchmark.PrivacyModel;
 import org.deidentifier.arx.benchmark.AbstractBenchmark.TestConfiguration;
 import org.deidentifier.arx.benchmark.BenchmarkSetup.BenchmarkDataset;
 
@@ -16,14 +17,15 @@ import org.deidentifier.arx.benchmark.BenchmarkSetup.BenchmarkDataset;
  *         capable of using local transformation.
  * 
  */
-public class BenchmarkHighDim2 extends AbstractBenchmark {
+public class BenchmarkExperiment3Local extends AbstractBenchmark {
 
-    BenchmarkHighDim2(String fileName) {
+    BenchmarkExperiment3Local(String fileName) {
         super(fileName, true, false);
     }
 
     public static void main(String args[]) throws IOException {
-        new BenchmarkHighDim2("results/results_high_dim_2_local_5runs_100iters_5_10_20_cf04.csv").start();
+        //new BenchmarkExperiment3Local("results/results_high_dim_2_local_5runs_100iters_5_10_20_cf04_popUnique.csv").start();
+        new BenchmarkExperiment3Local("dummy.csv").start();
 
     }
 
@@ -60,9 +62,13 @@ public class BenchmarkHighDim2 extends AbstractBenchmark {
                         testConfig.algorithm = algorithm;
                         testConfig.dataset = dataset;
                         testConfig.testRunNumber = testRun;
+                        
+                        testConfig.privacyModel = PrivacyModel.POPULATION_UNIQUENESS;
+                        
                         testConfig.mutationProbability = 0.05;
                         testConfig.crossoverFraction = 0.4;
 
+                        
                         if (useLocalTransformation) {
                             testConfig.gsFactor = 0d;
                             testConfig.useLocalTransformation = useLocalTransformation;

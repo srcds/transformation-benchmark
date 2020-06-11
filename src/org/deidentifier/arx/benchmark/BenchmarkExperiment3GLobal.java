@@ -14,14 +14,14 @@ import org.deidentifier.arx.benchmark.BenchmarkSetup.BenchmarkDataset;
  *         tracked utility improvement over time.
  *
  */
-public class BenchmarkHighDim extends AbstractBenchmark {
+public class BenchmarkExperiment3GLobal extends AbstractBenchmark {
 
-    BenchmarkHighDim(String fileName) {
+    BenchmarkExperiment3GLobal(String fileName) {
         super(fileName, true, false);
     }
 
     public static void main(String args[]) throws IOException {
-        new BenchmarkHighDim("results/results_high_dim_1_global_popUnique.csv").start();
+        new BenchmarkExperiment3GLobal("results/results_high_dim_1_global_popUnique.csv").start();
 
     }
 
