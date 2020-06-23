@@ -16,7 +16,7 @@ public class BenchmarkExperiment1 extends AbstractBenchmark{
     }
     
     public static void main(String args[]) throws IOException {
-        new BenchmarkExperiment1("Experiment1_popUnique_MP005.csv").start();
+        new BenchmarkExperiment1("Experiment1_popUnique_MP005_pruneFix.csv").start();
     }
     
 
@@ -54,7 +54,7 @@ public class BenchmarkExperiment1 extends AbstractBenchmark{
                     
                     
                     testConfig.limitByOptimalLoss = true;
-                    testConfig.timeLimit = 300000;
+                    testConfig.timeLimit = 100000;
                     
 
                     if (testRun == 0) testConfig.writeToFile = false;

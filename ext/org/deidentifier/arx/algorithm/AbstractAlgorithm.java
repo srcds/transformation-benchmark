@@ -83,7 +83,7 @@ public abstract class AbstractAlgorithm {
         this.solutionSpace = solutionSpace;
         this.timeLimit = timeLimit;
         this.checkLimit = checkLimit;
-        
+
         if (timeLimit <= 0) { 
             throw new IllegalArgumentException("Invalid time limit. Must be greater than zero."); 
         }
@@ -208,7 +208,7 @@ public abstract class AbstractAlgorithm {
             ((transformation.getInformationLoss().compareTo(optimalInformationLoss) == 0) && (transformation.getLevel() < globalOptimum.getLevel())))) {
             globalOptimum = transformation;
             optimalInformationLoss = transformation.getInformationLoss();
-            trackedOptimums.add(new TimeUtilityTuple((System.currentTimeMillis() - timeStart), Double.valueOf(optimalInformationLoss.toString())));
+            trackedOptimums.add(new TimeUtilityTuple((System.currentTimeMillis() - timeStart), Double.valueOf(optimalInformationLoss.toString()), transformation));
             //System.out.println(trackedOptimums.get(trackedOptimums.size()-1));
         }
     }
@@ -237,24 +237,39 @@ public abstract class AbstractAlgorithm {
     public class TimeUtilityTuple{
         
         private long time;
-        private double utility;
+        private double internalUtility;
+        private double externalUtility;
+        private Transformation<?> transformation;
         
-        TimeUtilityTuple(long time, double utility){
+        TimeUtilityTuple(long time, double internalUtility, Transformation<?> transformation){
             this.time = time;
-            this.utility = utility;
+            this.internalUtility = internalUtility;
+            this.transformation = transformation;
         }
         
         public long getTime() {
             return time;
         }
         
-        public double getUtility() {
-            return utility;
+        public double getInternalUtility() {
+            return internalUtility;
+        }
+        
+        public double getExternalUtility() {
+            return externalUtility;
+        }
+        
+        public void setExternalUtility(double externalUtility) {
+            this.externalUtility = externalUtility;
+        }
+        
+        public Transformation<?> getTransfomration() {
+            return transformation;
         }
         
         @Override
         public String toString() {
-            return "Time: " + time + "/ Utility: " + utility;
+            return "Time: " + time + "/ Internal Utility: " + internalUtility;
         }
         
     }

@@ -9,6 +9,8 @@ import java.util.List;
 import org.deidentifier.arx.ARXAnonymizer;
 import org.deidentifier.arx.ARXConfiguration;
 import org.deidentifier.arx.ARXConfiguration.AnonymizationAlgorithm;
+import org.deidentifier.arx.ARXLattice;
+import org.deidentifier.arx.ARXLattice.ARXNode;
 import org.deidentifier.arx.ARXResult;
 import org.deidentifier.arx.Data;
 import org.deidentifier.arx.DataHandle;
@@ -19,6 +21,7 @@ import org.deidentifier.arx.criteria.KAnonymity;
 import org.deidentifier.arx.criteria.PopulationUniqueness;
 import org.deidentifier.arx.criteria.PrivacyCriterion;
 import org.deidentifier.arx.exceptions.RollbackRequiredException;
+import org.deidentifier.arx.framework.lattice.Transformation;
 import org.deidentifier.arx.metric.Metric;
 import org.deidentifier.arx.metric.Metric.AggregateFunction;
 import org.deidentifier.arx.risk.RiskModelPopulationUniqueness.PopulationUniquenessModel;
@@ -93,9 +96,11 @@ public abstract class AbstractBenchmark {
     public void start() throws IOException {
         List<TestConfiguration> testConfigurations = new ArrayList<TestConfiguration>();
         generateTestConfigurations(testConfigurations); 
-        for(TestConfiguration testConfiguration : testConfigurations) {
-            if (verbose) {
-                System.out.println(java.time.LocalTime.now() + " - " + testConfiguration);
+        
+        for(int i = 0; i < testConfigurations.size(); i++) {
+            TestConfiguration testConfiguration = testConfigurations.get(i);
+            if(verbose) {
+                System.out.println(java.time.LocalTime.now() + " - (" + i +"/" + testConfigurations.size()+ ") " + testConfiguration);
             }
             executeTest(testConfiguration);
         }
@@ -211,7 +216,7 @@ public abstract class AbstractBenchmark {
                                      String.valueOf(testConfiguration.limitByOptimalLoss),
                                      String.valueOf(testConfiguration.testRunNumber),
                                      String.valueOf(trackedOptimum.getTime()),
-                                     String.valueOf(trackedOptimum.getUtility()));
+                                     String.valueOf(trackedOptimum.getInternalUtility()));
                     BENCHMARK.getResults().write(file);
 
                 }
@@ -220,6 +225,18 @@ public abstract class AbstractBenchmark {
         AbstractAlgorithm.getTrackedOptimums().clear();
     }
 
+    
+    private void calculateUtilityForTransformation(ARXResult result, List<TimeUtilityTuple> tuTuples) {
+        for(TimeUtilityTuple tuTuple : tuTuples) {
+            Transformation<?> transformation = tuTuple.getTransfomration();
+            ARXLattice lattice = result.getLattice();
+            ARXNode bottom = lattice.getBottom();
+            
+            ARXNode[] nodes = bottom.getSuccessors();
+        }
+        
+    }
+    
     /**
      * Simple method to load the input data using the BenchmarkSetup class.
      * 
