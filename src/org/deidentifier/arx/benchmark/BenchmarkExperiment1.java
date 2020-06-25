@@ -16,7 +16,7 @@ public class BenchmarkExperiment1 extends AbstractBenchmark{
     }
     
     public static void main(String args[]) throws IOException {
-        new BenchmarkExperiment1("Experiment1_popUnique_MP005_pruneFix.csv").start();
+        new BenchmarkExperiment1("Experiment1_kAnon_pruneFix.csv").start();
     }
     
 
@@ -47,14 +47,14 @@ public class BenchmarkExperiment1 extends AbstractBenchmark{
                     testConfig.algorithm = algorithm;
                     testConfig.dataset = dataset;
                     testConfig.testRunNumber = testRun;
-                    testConfig.privacyModel = PrivacyModel.POPULATION_UNIQUENESS;
+                    testConfig.privacyModel = PrivacyModel.K_ANONYMITY;
                     
                     testConfig.crossoverFraction = 0.4;
                     testConfig.mutationProbability = 0.05;
                     
                     
                     testConfig.limitByOptimalLoss = true;
-                    testConfig.timeLimit = 100000;
+                    testConfig.timeLimit = 600000;
                     
 
                     if (testRun == 0) testConfig.writeToFile = false;

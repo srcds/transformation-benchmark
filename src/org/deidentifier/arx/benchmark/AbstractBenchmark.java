@@ -3,6 +3,8 @@ package org.deidentifier.arx.benchmark;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
@@ -51,7 +53,8 @@ public abstract class AbstractBenchmark {
                                                                                   "limitByOptimalLoss",
                                                                                   "batchNumber",
                                                                                   "time",
-                                                                                  "utility" });
+                                                                                  "externalUtility",
+                                                                                  "internalUtility" });
     
     // log file handle
     private File                     file;
@@ -100,7 +103,7 @@ public abstract class AbstractBenchmark {
         for(int i = 0; i < testConfigurations.size(); i++) {
             TestConfiguration testConfiguration = testConfigurations.get(i);
             if(verbose) {
-                System.out.println(java.time.LocalTime.now() + " - (" + i +"/" + testConfigurations.size()+ ") " + testConfiguration);
+                System.out.println(java.time.LocalTime.now() + " - (" + (i+1) +"/" + testConfigurations.size()+ ") " + testConfiguration);
             }
             executeTest(testConfiguration);
         }
@@ -174,9 +177,9 @@ public abstract class AbstractBenchmark {
             if (!writeAllTrackedOptimums) {
             // write just the final result
                 
-                Double utility = 0d;
+                Double externalUtility = 0d;
                 if (result.isResultAvailable()) {
-                    utility = output
+                    externalUtility = output
                             .getStatistics()
                             .getQualityStatistics()
                             .getGranularity()
@@ -196,12 +199,13 @@ public abstract class AbstractBenchmark {
                                  String.valueOf(testConfiguration.limitByOptimalLoss),
                                  String.valueOf(testConfiguration.testRunNumber),
                                  String.valueOf(time),
-                                 String.valueOf(utility));
+                                 String.valueOf(externalUtility),
+                                 String.valueOf(0));
                 BENCHMARK.getResults().write(file);
             } else {
             // write all tracked optimums (does not work for local transformation)
-                
                 List<TimeUtilityTuple> trackedOptimums = AbstractAlgorithm.getTrackedOptimums();
+                calculateUtilityForTransformation(result, trackedOptimums);
                 for (TimeUtilityTuple trackedOptimum : trackedOptimums) {
                     BENCHMARK.addRun(String.valueOf(testConfiguration.algorithm),
                                      String.valueOf(testConfiguration.dataset),
@@ -216,6 +220,7 @@ public abstract class AbstractBenchmark {
                                      String.valueOf(testConfiguration.limitByOptimalLoss),
                                      String.valueOf(testConfiguration.testRunNumber),
                                      String.valueOf(trackedOptimum.getTime()),
+                                     String.valueOf(trackedOptimum.getExternalUtility()),
                                      String.valueOf(trackedOptimum.getInternalUtility()));
                     BENCHMARK.getResults().write(file);
 
@@ -226,15 +231,69 @@ public abstract class AbstractBenchmark {
     }
 
     
-    private void calculateUtilityForTransformation(ARXResult result, List<TimeUtilityTuple> tuTuples) {
-        for(TimeUtilityTuple tuTuple : tuTuples) {
-            Transformation<?> transformation = tuTuple.getTransfomration();
+    private void calculateUtilityForTransformation(ARXResult result,
+                                                   List<TimeUtilityTuple> tuTuples) {
+        for (TimeUtilityTuple tuTuple : tuTuples) {
+
+            int[] transformation = tuTuple.getTransfomration().getGeneralization();
+
             ARXLattice lattice = result.getLattice();
-            ARXNode bottom = lattice.getBottom();
-            
-            ARXNode[] nodes = bottom.getSuccessors();
+            ARXNode node = lattice.getBottom();
+
+            // Search
+            while (!Arrays.equals(node.getTransformation(), transformation)) {
+
+                // Successors
+                node.expand();
+                ARXNode[] successors = node.getSuccessors().clone();
+
+                // Not found
+                if (successors.length == 0) {
+                    tuTuple.setExternalUtility(0);
+                }
+
+                // Sort according to distance
+                Arrays.sort(successors, new Comparator<ARXNode>() {
+
+                    @Override
+                    public int compare(ARXNode o1, ARXNode o2) {
+                        return Integer.compare(getDistance(o1.getTransformation(), transformation),
+                                               getDistance(o2.getTransformation(), transformation));
+
+                    }
+
+                    /**
+                     * Calculate distance
+                     * 
+                     * @param current
+                     * @param target
+                     * @return
+                     */
+                    private int getDistance(int[] current, int[] target) {
+                        int distance = 0;
+                        for (int i = 0; i < current.length; i++) {
+                            if (current[i] > target[i]) {
+                                return Integer.MAX_VALUE;
+                            } else {
+                                distance += target[i] - current[i];
+                            }
+                        }
+                        return distance;
+                    }
+                });
+
+                // Take closest node
+                node = successors[0];
+            }
+
+            // Done
+            tuTuple.setExternalUtility(result.getOutput(node, false)
+                                             .getStatistics()
+                                             .getQualityStatistics()
+                                             .getGranularity()
+                                             .getArithmeticMean());
         }
-        
+
     }
     
     /**

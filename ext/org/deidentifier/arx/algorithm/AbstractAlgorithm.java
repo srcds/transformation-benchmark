@@ -176,7 +176,7 @@ public abstract class AbstractAlgorithm {
     protected boolean mustStop() {
         return ((int)(System.currentTimeMillis() - timeStart) > timeLimit) ||
                (checker.getNumChecksPerformed() >= checkLimit) ||
-               (optimalInformationLoss != null && (Math.abs(Double.valueOf(optimalInformationLoss.toString()) - lossLimit) < 0.000001));
+               (optimalInformationLoss != null && ((Math.abs(Double.valueOf(optimalInformationLoss.toString()) - lossLimit) < 0.000001) || (Double.valueOf(optimalInformationLoss.toString()) < lossLimit)));
     }
 
     /**

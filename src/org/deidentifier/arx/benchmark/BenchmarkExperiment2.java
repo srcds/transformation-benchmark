@@ -21,7 +21,7 @@ public class BenchmarkExperiment2 extends AbstractBenchmark {
     }
 
     public static void main(String args[]) throws IOException {
-        new BenchmarkExperiment2("results/Experiment2_PopUniqe.csv").start();
+        new BenchmarkExperiment2("results/Experiment2_popUnique.csv").start();
 
     }
 
@@ -30,10 +30,10 @@ public class BenchmarkExperiment2 extends AbstractBenchmark {
 
         
         // Definition of properties that will be varied for the Benchmark
-        AnonymizationAlgorithm[] algorithms = new AnonymizationAlgorithm[] { AnonymizationAlgorithm.BEST_EFFORT_GENETIC,
-                                                                             AnonymizationAlgorithm.BEST_EFFORT_BOTTOM_UP,
+        AnonymizationAlgorithm[] algorithms = new AnonymizationAlgorithm[] { AnonymizationAlgorithm.BEST_EFFORT_BOTTOM_UP,
+                                                                             AnonymizationAlgorithm.BEST_EFFORT_GENETIC,
                                                                              AnonymizationAlgorithm.BEST_EFFORT_TOP_DOWN };
-        
+
         BenchmarkDataset[] datasets = new BenchmarkDataset[] { BenchmarkDataset.CREDITCARD,
                                                                BenchmarkDataset.MACH2019,
                                                                BenchmarkDataset.SS13ACS };
@@ -51,7 +51,7 @@ public class BenchmarkExperiment2 extends AbstractBenchmark {
                     TestConfiguration testConfig = new TestConfiguration();
 
                     testConfig.algorithm = algorithm;
-                    testConfig.timeLimit = 300000;
+                    testConfig.timeLimit = 600000;
                     testConfig.dataset = dataset;
                     testConfig.testRunNumber = testRun;
 

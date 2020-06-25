@@ -24,8 +24,8 @@ public class BenchmarkExperiment3Local extends AbstractBenchmark {
     }
 
     public static void main(String args[]) throws IOException {
-        //new BenchmarkExperiment3Local("results/results_high_dim_2_local_5runs_100iters_5_10_20_cf04_popUnique.csv").start();
-        new BenchmarkExperiment3Local("dummy.csv").start();
+        new BenchmarkExperiment3Local("results/Experiment3_kAnon_only_TD_part2.csv").start();
+        //new BenchmarkExperiment3Local("dummy.csv").start();
 
     }
 
@@ -33,8 +33,8 @@ public class BenchmarkExperiment3Local extends AbstractBenchmark {
     public void generateTestConfigurations(List<TestConfiguration> testConfigs) {
 
         // Definition of properties that will be varied for the Benchmark
-        AnonymizationAlgorithm[] algorithms = new AnonymizationAlgorithm[] { AnonymizationAlgorithm.BEST_EFFORT_BOTTOM_UP,
-                                                                             AnonymizationAlgorithm.BEST_EFFORT_GENETIC,
+        AnonymizationAlgorithm[] algorithms = new AnonymizationAlgorithm[] { //AnonymizationAlgorithm.BEST_EFFORT_BOTTOM_UP,
+                                                                             //AnonymizationAlgorithm.BEST_EFFORT_GENETIC,
                                                                              AnonymizationAlgorithm.BEST_EFFORT_TOP_DOWN };
         BenchmarkDataset[] datasets = new BenchmarkDataset[] { BenchmarkDataset.CREDITCARD,
                                                                BenchmarkDataset.MACH2019,
@@ -63,7 +63,7 @@ public class BenchmarkExperiment3Local extends AbstractBenchmark {
                         testConfig.dataset = dataset;
                         testConfig.testRunNumber = testRun;
                         
-                        testConfig.privacyModel = PrivacyModel.POPULATION_UNIQUENESS;
+                        testConfig.privacyModel = PrivacyModel.K_ANONYMITY;
                         
                         testConfig.mutationProbability = 0.05;
                         testConfig.crossoverFraction = 0.4;
