@@ -24,7 +24,7 @@ public class BenchmarkExperiment2Local extends AbstractBenchmark {
     }
 
     public static void main(String args[]) throws IOException {
-        new BenchmarkExperiment2Local("results_new/Experiment3_popUnique_30s_p2.csv").start();
+        new BenchmarkExperiment2Local("results/Experiment3_popUnique.csv").start();
         //new BenchmarkExperiment3Local("dummy.csv").start();
 
     }

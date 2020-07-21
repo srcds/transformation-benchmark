@@ -16,7 +16,7 @@ public class BenchmarkExperiment1 extends AbstractBenchmark{
     }
     
     public static void main(String args[]) throws IOException {
-        //new BenchmarkExperiment1("results_new/Experiment1_kAnon_suppression_0.csv").start();
+        //new BenchmarkExperiment1("results/Experiment1_kAnon.csv").start();
         new BenchmarkExperiment1("dummy.csv").start();
         
     }
