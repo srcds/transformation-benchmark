@@ -1,11 +1,9 @@
 package org.deidentifier.arx.benchmark;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.deidentifier.arx.ARXConfiguration.AnonymizationAlgorithm;
-import org.deidentifier.arx.benchmark.AbstractBenchmark.TestConfiguration;
 import org.deidentifier.arx.benchmark.BenchmarkSetup.BenchmarkDataset;
 
 
@@ -16,9 +14,7 @@ public class BenchmarkExperiment1 extends AbstractBenchmark{
     }
     
     public static void main(String args[]) throws IOException {
-        //new BenchmarkExperiment1("results/Experiment1_kAnon.csv").start();
-        new BenchmarkExperiment1("dummy.csv").start();
-        
+        new BenchmarkExperiment1("results/Experiment1_kAnon.csv").start();
     }
 
     @Override
@@ -32,7 +28,7 @@ public class BenchmarkExperiment1 extends AbstractBenchmark{
                                                                BenchmarkDataset.IHIS };
         AnonymizationAlgorithm[] algorithms = new AnonymizationAlgorithm[] { //AnonymizationAlgorithm.OPTIMAL,
                                                                              AnonymizationAlgorithm.BEST_EFFORT_GENETIC,
-                                                                             //AnonymizationAlgorithm.BEST_EFFORT_BOTTOM_UP,
+                                                                             AnonymizationAlgorithm.BEST_EFFORT_BOTTOM_UP,
                                                                              //AnonymizationAlgorithm.BEST_EFFORT_TOP_DOWN
                                                                              };
         int testRuns = 6;

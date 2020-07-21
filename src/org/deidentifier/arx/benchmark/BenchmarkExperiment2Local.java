@@ -1,12 +1,9 @@
 package org.deidentifier.arx.benchmark;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.deidentifier.arx.ARXConfiguration.AnonymizationAlgorithm;
-import org.deidentifier.arx.benchmark.AbstractBenchmark.PrivacyModel;
-import org.deidentifier.arx.benchmark.AbstractBenchmark.TestConfiguration;
 import org.deidentifier.arx.benchmark.BenchmarkSetup.BenchmarkDataset;
 
 /**
@@ -25,8 +22,6 @@ public class BenchmarkExperiment2Local extends AbstractBenchmark {
 
     public static void main(String args[]) throws IOException {
         new BenchmarkExperiment2Local("results/Experiment3_popUnique.csv").start();
-        //new BenchmarkExperiment3Local("dummy.csv").start();
-
     }
 
     @Override

@@ -1,7 +1,6 @@
 package org.deidentifier.arx.benchmark;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.deidentifier.arx.ARXConfiguration.AnonymizationAlgorithm;
@@ -51,7 +50,7 @@ public class BenchmarkExperiment2Global extends AbstractBenchmark {
                     TestConfiguration testConfig = new TestConfiguration();
 
                     testConfig.algorithm = algorithm;
-                    testConfig.timeLimit = 300000;
+                    testConfig.timeLimit = 100000;
                     testConfig.dataset = dataset;
                     testConfig.testRunNumber = testRun;
 
