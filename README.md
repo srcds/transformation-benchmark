@@ -4,22 +4,15 @@ Benchmark
 Requirements
 ------
 - MS Windows
+- Eclipse IDE
 
 How to run
 ------
 
-Use build.xml to compile the runnable jar.
+- Add the ARX project to your build path
+- Make sure to include the classes contained in the "ext" folder of the benchmark project in the build path
+- Run the individual benchmark classes (e.g. BenchmarkExperiment1.java)
 
-Use the individual files benchmark-*.xml to perform the experiments through Ant.
-
-Use BenchmarkAnalysis.java to create the final PDFs.
-
-Notes
-------
-
-The UDT Toolbox requires use of a 32bit JVM.
-
-Running the algorithm by Sanchez et al. requires a 64 Bit JVM (due the memory requirements of algorithm).
 
 License
 ------
