@@ -144,6 +144,7 @@ public abstract class AbstractBenchmark {
         arxConfiguration.setGeneticAlgorithmMutationProbability(testConfiguration.mutationProbability);
         arxConfiguration.setGeneticAlgorithmImmigrationFraction(testConfiguration.immigrationFraction);
         arxConfiguration.setGeneticAlgorithmImmigrationInterval(testConfiguration.immigrationInterval);
+        arxConfiguration.setGeneticAlgorithmProductionFraction(testConfiguration.productionFraction);
         arxConfiguration.setHeuristicSearchStepLimit(testConfiguration.stepLimit);
         arxConfiguration.setHeuristicSearchTimeLimit(testConfiguration.timeLimit);
 
@@ -420,6 +421,7 @@ public abstract class AbstractBenchmark {
         double                 crossoverFraction             = 0.2;
         double                 mutationProbability           = 0.2;
         double                 immigrationFraction           = 0.2;
+        double                 productionFraction            = 0.2d;
         int                    immigrationInterval           = 10;
 
         // Limits

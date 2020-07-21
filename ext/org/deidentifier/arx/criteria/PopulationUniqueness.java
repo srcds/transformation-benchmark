@@ -146,7 +146,6 @@ public class PopulationUniqueness extends RiskBasedCriterion { // NO_UCD
         }
     }
 
-    //TODO: copy to transformation benchmark branch
     @Override
     public boolean isLocalRecodingSupported() {
         return true;

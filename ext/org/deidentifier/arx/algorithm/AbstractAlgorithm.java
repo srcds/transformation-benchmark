@@ -83,7 +83,7 @@ public abstract class AbstractAlgorithm {
         this.solutionSpace = solutionSpace;
         this.timeLimit = timeLimit;
         this.checkLimit = checkLimit;
-
+        
         if (timeLimit <= 0) { 
             throw new IllegalArgumentException("Invalid time limit. Must be greater than zero."); 
         }

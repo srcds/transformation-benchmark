@@ -16,10 +16,10 @@ public class BenchmarkExperiment1 extends AbstractBenchmark{
     }
     
     public static void main(String args[]) throws IOException {
-        new BenchmarkExperiment1("Experiment1_kAnon_pruneFix.csv").start();
+        //new BenchmarkExperiment1("results_new/Experiment1_kAnon_suppression_0.csv").start();
+        new BenchmarkExperiment1("dummy.csv").start();
+        
     }
-    
-
 
     @Override
     public void generateTestConfigurations(List<TestConfiguration> testConfigs) {
@@ -30,10 +30,10 @@ public class BenchmarkExperiment1 extends AbstractBenchmark{
                                                                BenchmarkDataset.FARS,
                                                                BenchmarkDataset.ATUS,
                                                                BenchmarkDataset.IHIS };
-        AnonymizationAlgorithm[] algorithms = new AnonymizationAlgorithm[] { AnonymizationAlgorithm.OPTIMAL,
+        AnonymizationAlgorithm[] algorithms = new AnonymizationAlgorithm[] { //AnonymizationAlgorithm.OPTIMAL,
                                                                              AnonymizationAlgorithm.BEST_EFFORT_GENETIC,
-                                                                             AnonymizationAlgorithm.BEST_EFFORT_BOTTOM_UP,
-                                                                             AnonymizationAlgorithm.BEST_EFFORT_TOP_DOWN
+                                                                             //AnonymizationAlgorithm.BEST_EFFORT_BOTTOM_UP,
+                                                                             //AnonymizationAlgorithm.BEST_EFFORT_TOP_DOWN
                                                                              };
         int testRuns = 6;
         
@@ -48,13 +48,14 @@ public class BenchmarkExperiment1 extends AbstractBenchmark{
                     testConfig.dataset = dataset;
                     testConfig.testRunNumber = testRun;
                     testConfig.privacyModel = PrivacyModel.K_ANONYMITY;
+                    testConfig.supression = 1d;
                     
                     testConfig.crossoverFraction = 0.4;
                     testConfig.mutationProbability = 0.05;
                     
                     
                     testConfig.limitByOptimalLoss = true;
-                    testConfig.timeLimit = 600000;
+                    testConfig.timeLimit = 300000;
                     
 
                     if (testRun == 0) testConfig.writeToFile = false;

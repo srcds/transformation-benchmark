@@ -24,7 +24,7 @@ public class BenchmarkExperiment3Local extends AbstractBenchmark {
     }
 
     public static void main(String args[]) throws IOException {
-        new BenchmarkExperiment3Local("results/Experiment3_kAnon_only_TD_part2.csv").start();
+        new BenchmarkExperiment3Local("results_new/Experiment3_popUnique_30s_p2.csv").start();
         //new BenchmarkExperiment3Local("dummy.csv").start();
 
     }
@@ -33,13 +33,15 @@ public class BenchmarkExperiment3Local extends AbstractBenchmark {
     public void generateTestConfigurations(List<TestConfiguration> testConfigs) {
 
         // Definition of properties that will be varied for the Benchmark
-        AnonymizationAlgorithm[] algorithms = new AnonymizationAlgorithm[] { //AnonymizationAlgorithm.BEST_EFFORT_BOTTOM_UP,
-                                                                             //AnonymizationAlgorithm.BEST_EFFORT_GENETIC,
-                                                                             AnonymizationAlgorithm.BEST_EFFORT_TOP_DOWN };
+        AnonymizationAlgorithm[] algorithms = new AnonymizationAlgorithm[] { AnonymizationAlgorithm.BEST_EFFORT_BOTTOM_UP,
+                                                                             AnonymizationAlgorithm.BEST_EFFORT_GENETIC,
+                                                                             AnonymizationAlgorithm.BEST_EFFORT_TOP_DOWN 
+                                                                             };
         BenchmarkDataset[] datasets = new BenchmarkDataset[] { BenchmarkDataset.CREDITCARD,
                                                                BenchmarkDataset.MACH2019,
                                                                BenchmarkDataset.SS13ACS };
-        int[] timeLimits = new int[] {500000, 1000000, 2000000};
+        //int[] timeLimits = new int[] {500000, 1000000, 2000000};
+        int[] timeLimits = new int[] {3000000};
         
         // Number of testruns
         int testRuns = 6;
@@ -63,7 +65,7 @@ public class BenchmarkExperiment3Local extends AbstractBenchmark {
                         testConfig.dataset = dataset;
                         testConfig.testRunNumber = testRun;
                         
-                        testConfig.privacyModel = PrivacyModel.K_ANONYMITY;
+                        testConfig.privacyModel = PrivacyModel.POPULATION_UNIQUENESS;
                         
                         testConfig.mutationProbability = 0.05;
                         testConfig.crossoverFraction = 0.4;
