@@ -17,14 +17,14 @@ import org.deidentifier.arx.benchmark.BenchmarkSetup.BenchmarkDataset;
  *         capable of using local transformation.
  * 
  */
-public class BenchmarkExperiment3Local extends AbstractBenchmark {
+public class BenchmarkExperiment2Local extends AbstractBenchmark {
 
-    BenchmarkExperiment3Local(String fileName) {
+    BenchmarkExperiment2Local(String fileName) {
         super(fileName, true, false);
     }
 
     public static void main(String args[]) throws IOException {
-        new BenchmarkExperiment3Local("results_new/Experiment3_popUnique_30s_p2.csv").start();
+        new BenchmarkExperiment2Local("results_new/Experiment3_popUnique_30s_p2.csv").start();
         //new BenchmarkExperiment3Local("dummy.csv").start();
 
     }
@@ -40,8 +40,9 @@ public class BenchmarkExperiment3Local extends AbstractBenchmark {
         BenchmarkDataset[] datasets = new BenchmarkDataset[] { BenchmarkDataset.CREDITCARD,
                                                                BenchmarkDataset.MACH2019,
                                                                BenchmarkDataset.SS13ACS };
-        //int[] timeLimits = new int[] {500000, 1000000, 2000000};
-        int[] timeLimits = new int[] {3000000};
+        
+        int[] timeLimits = new int[] {500000, 1000000, 2000000, 3000000};
+        
         
         // Number of testruns
         int testRuns = 6;
