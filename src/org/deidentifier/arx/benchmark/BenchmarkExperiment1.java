@@ -22,14 +22,12 @@ public class BenchmarkExperiment1 extends AbstractBenchmark{
                 
         // Definition of properties that will be varied for the Benchmark
         BenchmarkDataset[] datasets = new BenchmarkDataset[] { BenchmarkDataset.ADULT,
-                                                               BenchmarkDataset.CUP,
-                                                               BenchmarkDataset.FARS,
                                                                BenchmarkDataset.ATUS,
                                                                BenchmarkDataset.IHIS };
-        AnonymizationAlgorithm[] algorithms = new AnonymizationAlgorithm[] { //AnonymizationAlgorithm.OPTIMAL,
+        AnonymizationAlgorithm[] algorithms = new AnonymizationAlgorithm[] { AnonymizationAlgorithm.OPTIMAL,
                                                                              AnonymizationAlgorithm.BEST_EFFORT_GENETIC,
                                                                              AnonymizationAlgorithm.BEST_EFFORT_BOTTOM_UP,
-                                                                             //AnonymizationAlgorithm.BEST_EFFORT_TOP_DOWN
+                                                                             AnonymizationAlgorithm.BEST_EFFORT_TOP_DOWN
                                                                              };
         int testRuns = 6;
         
