@@ -1,5 +1,5 @@
 /*
- * Heuristic Algorithm Benchmark for ARX
+ * Benchmark of ARX's Heuristic Algorithms
  * Copyright 2020 by Thierry Meurers and contributors
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
