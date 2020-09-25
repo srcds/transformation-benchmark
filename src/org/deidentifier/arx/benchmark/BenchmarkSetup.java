@@ -33,26 +33,26 @@ import org.deidentifier.arx.DataHandle;
  */
 public class BenchmarkSetup {
 
-	/**
-	 * Datasets
-	 */
-	public static enum BenchmarkDataset {
-		ADULT, CUP, FARS, ATUS, IHIS, SS13ACS, ADULT_FULL, CREDITCARD, CHRONIC2010, MACH2019
-	}
+    /**
+     * Datasets
+     */
+    public static enum BenchmarkDataset {
+        ADULT, CUP, FARS, ATUS, IHIS, SS13ACS, ADULT_FULL, CREDITCARD, CHRONIC2010, MACH2019
+    }
 
     /**
      * Quality models
      */
-	public static enum BenchmarkQualityModel {
-		LOSS, NUENTROPY, SSE
+    public static enum BenchmarkQualityModel {
+        LOSS, NUENTROPY, SSE
 	}
 
-	/**
-	 * Transformation models
-	 */
-	public static enum BenchmarkTransformationModel {
-		MULTI_DIMENSIONAL_GENERALIZATION, LOCAL_GENERALIZATION, 
-	}
+    /**
+     * Transformation models
+     */
+    public static enum BenchmarkTransformationModel {
+        MULTI_DIMENSIONAL_GENERALIZATION, LOCAL_GENERALIZATION, 
+    }
 
     /** 1 hour*/
     public static final int TIME_LIMIT = 3600000;
@@ -76,7 +76,6 @@ public class BenchmarkSetup {
             	break;
             }
         }
-
         return data;
     }
 
@@ -190,8 +189,7 @@ public class BenchmarkSetup {
     public static String[] getQuasiIdentifyingAttributes(BenchmarkDataset dataset) {
         switch (dataset) {
         case ADULT:
-            return new String[] {
-                                  "sex",
+            return new String[] { "sex",
                                   "age",
                                   "race",
                                   "marital-status",
@@ -201,8 +199,7 @@ public class BenchmarkSetup {
                                   "occupation",
                                   "salary-class" };
         case ADULT_FULL:
-            return new String[] {
-                                  "sex",
+            return new String[] { "sex",
                                   "age",
                                   "race",
                                   "marital-status",
@@ -215,11 +212,9 @@ public class BenchmarkSetup {
                                   "relationship",
                                   "capital-gain",
                                   "capital-loss",
-                                  "hours-per-week"
-                                  };
+                                  "hours-per-week" };
         case ATUS:
-            return new String[] {
-                                  "Region",
+            return new String[] { "Region",
                                   "Age",
                                   "Sex",
                                   "Race",
@@ -227,33 +222,27 @@ public class BenchmarkSetup {
                                   "Citizenship status",
                                   "Birthplace",
                                   "Highest level of school completed",
-                                  "Labor force status"
-            };
+                                  "Labor force status" };
         case CUP:
-            return new String[] {
-                                  "ZIP",
+            return new String[] { "ZIP",
                                   "AGE",
                                   "GENDER",
                                   "INCOME",
                                   "STATE",
                                   "RAMNTALL",
                                   "NGIFTALL",
-                                  "MINRAMNT"
-            };
+                                  "MINRAMNT" };
         case FARS:
-            return new String[] {
-                                  "iage",
+            return new String[] { "iage",
                                   "irace",
                                   "ideathmon",
                                   "ideathday",
                                   "isex",
                                   "ihispanic",
                                   "istatenum",
-                                  "iinjury"
-            };
+                                  "iinjury" };
         case IHIS:
-            return new String[] {
-                                  "YEAR",
+            return new String[] { "YEAR",
                                   "QUARTER",
                                   "REGION",
                                   "PERNUM",
@@ -261,41 +250,38 @@ public class BenchmarkSetup {
                                   "MARSTAT",
                                   "SEX",
                                   "RACEA",
-                                  "EDUC"
-            };
+                                  "EDUC" };
         case SS13ACS:
-            return new String[] {
-            		"Insurance purchased",
-            		"Workclass",
-            		"Divorced",
-            		"Income",
-            		"Sex",
-            		"Mobility",
-            		"Military service",
-            		"Self-care",
-            		"Grade level",
-            		"Married",
-            		"Education",
-            		"Widowed",
-            		"Cognitive",
-            		"Insurance Medicaid",
-            		"Ambulatory",
-            		"Living with grandchildren",
-            		"Age",
-            		"Insurance employer",
-            		"Citizenship",
-            		"Indian Health Service",
-            		"Independent living",
-            		"Weight",
-            		"Insurance Medicare",
-            		"Hearing",
-            		"Marital status",
-            		"Vision",
-            		"Insurance Veteran's Association",
-            		"Relationship",
-            		"Insurance Tricare",
-            		"Childbirth"
-            };
+            return new String[] { "Insurance purchased",
+                                  "Workclass",
+                                  "Divorced",
+                                  "Income",
+                                  "Sex",
+                                  "Mobility",
+                                  "Military service",
+                                  "Self-care",
+                                  "Grade level",
+                                  "Married",
+                                  "Education",
+                                  "Widowed",
+                                  "Cognitive",
+                                  "Insurance Medicaid",
+                                  "Ambulatory",
+                                  "Living with grandchildren",
+                                  "Age",
+                                  "Insurance employer",
+                                  "Citizenship",
+                                  "Indian Health Service",
+                                  "Independent living",
+                                  "Weight",
+                                  "Insurance Medicare",
+                                  "Hearing",
+                                  "Marital status",
+                                  "Vision",
+                                  "Insurance Veteran's Association",
+                                  "Relationship",
+                                  "Insurance Tricare",
+                                  "Childbirth" };
         case CREDITCARD:
             return new String[] { "LIMIT_BAL",
                                   "SEX",
@@ -357,10 +343,8 @@ public class BenchmarkSetup {
                                   "ah",
                                   "ai",
                                   "aj" };
-      
         case MACH2019:
-            return new String[] {
-                                  "age",
+            return new String[] { "age",
                                   "familysize",
                                   "gender",
                                   "married",
@@ -375,10 +359,7 @@ public class BenchmarkSetup {
                                   "Q7A",
                                   "Q8A",
                                   "Q9A",
-                                  "Q10A"
-                         
-            };
-        
+                                  "Q10A"};
         default:
             throw new RuntimeException("Invalid dataset");
         }
