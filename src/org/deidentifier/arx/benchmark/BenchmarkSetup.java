@@ -35,7 +35,6 @@ public class BenchmarkSetup {
 
 	/**
 	 * Datasets
-	 *
 	 */
 	public static enum BenchmarkDataset {
 		ADULT, CUP, FARS, ATUS, IHIS, SS13ACS, ADULT_FULL, CREDITCARD, CHRONIC2010, MACH2019
@@ -48,6 +47,9 @@ public class BenchmarkSetup {
 		LOSS, NUENTROPY, SSE
 	}
 
+	/**
+	 * Transformation models
+	 */
 	public static enum BenchmarkTransformationModel {
 		MULTI_DIMENSIONAL_GENERALIZATION, LOCAL_GENERALIZATION, 
 	}
@@ -63,7 +65,6 @@ public class BenchmarkSetup {
      * @return
      * @throws IOException
      */
-
     public static Data getData(BenchmarkDataset dataset, int qis) throws IOException {
 
         Data data = getProjectedDataset(getData(dataset), Arrays.copyOf(getQuasiIdentifyingAttributes(dataset), qis));
@@ -84,31 +85,31 @@ public class BenchmarkSetup {
      * @param dataset
      * @return
      */
-	public static String getDataLabel(BenchmarkDataset dataset) {
-		switch (dataset) {
-		case ADULT:
-			return "US Census";
-		case ADULT_FULL:
+    public static String getDataLabel(BenchmarkDataset dataset) {
+        switch (dataset) {
+        case ADULT:
+            return "US Census";
+        case ADULT_FULL:
             return "US Census (extended dataset)";
-		case CUP:
-			return "Competition";
-		case FARS:
-			return "Crash Statistics";
-		case ATUS:
-			return "Time Use Survey";
-		case IHIS:
-			return "Health Interviews";
-		case SS13ACS:
-			return "Community Survey";
-		case CREDITCARD:
+        case CUP:
+            return "Competition";
+        case FARS:
+            return "Crash Statistics";
+        case ATUS:
+            return "Time Use Survey";
+        case IHIS:
+            return "Health Interviews";
+        case SS13ACS:
+            return "Community Survey";
+        case CREDITCARD:
             return "Creditcard information";
         case CHRONIC2010:
             return "Chronic diseases 2010";
         case MACH2019:
             return "Machivallianism Test";
-		}
-		throw new IllegalArgumentException("Unknown dataset: " + dataset);
-	};
+        }
+        throw new IllegalArgumentException("Unknown dataset: " + dataset);
+    };
 
     /**
      * Returns labels for the paper
@@ -390,21 +391,21 @@ public class BenchmarkSetup {
      * @throws IOException
      */
     public static Data getData(BenchmarkDataset dataset) throws IOException {
-    	String filename = null;
-		switch (dataset) {
-		case ADULT:
-			filename = "adult_int.csv";
-			break;
-	     case ADULT_FULL:
-	        filename = "adult_full.csv";
-	        break;
-		case CUP:
-			filename = "cup_int.csv";
-			break;
-		case FARS:
-			filename = "fars_int.csv";
-			break;
-		case ATUS:
+        String filename = null;
+        switch (dataset) {
+        case ADULT:
+            filename = "adult_int.csv";
+            break;
+        case ADULT_FULL:
+            filename = "adult_full.csv";
+            break;
+        case CUP:
+            filename = "cup_int.csv";
+            break;
+        case FARS:
+            filename = "fars_int.csv";
+            break;
+        case ATUS:
             filename = "atus_int.csv";
             break;
         case IHIS:
@@ -423,9 +424,9 @@ public class BenchmarkSetup {
             filename = "mach2019.csv";
             break;
         default:
-			throw new RuntimeException("Invalid dataset");
-		}
-		return Data.create("data/" + filename, Charset.defaultCharset(), ';');
+            throw new RuntimeException("Invalid dataset");
+        }
+        return Data.create("data/" + filename, Charset.defaultCharset(), ';');
     }
 
     /**
