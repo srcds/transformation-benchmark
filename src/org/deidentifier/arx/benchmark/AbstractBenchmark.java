@@ -144,6 +144,9 @@ public abstract class AbstractBenchmark {
         /** Number of attributes included in anonymization */
         int                    qids                          = 0;
 
+        /** Assign qids with ascending weights */
+        boolean                weightedQids                  = false;
+        
         /** Generates hash of dataset configuration */
         Integer hashInputConfig() {
             return (int) (dataset.hashCode() + qids);
@@ -324,6 +327,10 @@ public abstract class AbstractBenchmark {
         arxConfiguration.setHeuristicSearchStepLimit(testConfiguration.stepLimit);
         arxConfiguration.setHeuristicSearchTimeLimit(testConfiguration.timeLimit);
 
+        if (testConfiguration.weightedQids) {
+            setAttributeWeights(arxConfiguration, testConfiguration);
+        }
+        
         // find and set optimum as stop limit
         if (testConfiguration.limitByOptimalLoss) {
             findAndSetOptimum(testConfiguration);
@@ -406,6 +413,22 @@ public abstract class AbstractBenchmark {
         AbstractAlgorithm.getTrackedOptimums().clear();
     }
 
+    /**
+     * Assigned weights to each qid in ascending order ranging from 0.0 to 1.0.
+     * 
+     * @param arxConfiguration
+     * @param testConfiguration
+     */
+    private void setAttributeWeights(ARXConfiguration arxConfiguration, TestConfiguration testConfiguration) {
+        String [] qis = BenchmarkSetup.getQuasiIdentifyingAttributes(testConfiguration.dataset);
+        double stepSize = 1d / (qis.length - 1);
+        //System.out.println("Step: "+ stepSize);
+        for(int i = 0; i < qis.length; i++) {
+            double weight = Math.min(1, i * stepSize);
+            arxConfiguration.setAttributeWeight(qis[i], weight);
+            //System.out.println(qis[i] + " " + weight);
+        }
+    }
     
     /**
      * Method used to get the optimal solution for a given configuration. The

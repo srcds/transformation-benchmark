@@ -46,7 +46,7 @@ public class BenchmarkExperiment2Global extends AbstractBenchmark {
      * @param args the arguments
      */
     public static void main(String args[]) throws IOException {
-        new BenchmarkExperiment2Global("results/Experiment2_kAnon_final.csv").start();
+        new BenchmarkExperiment2Global("results/2021/Experiment2_kAnon_weighted.csv").start();
     }
 
     /**
@@ -86,6 +86,7 @@ public class BenchmarkExperiment2Global extends AbstractBenchmark {
                     testConfig.privacyModel = PrivacyModel.K_ANONYMITY;
 
                     testConfig.useLocalTransformation = false;
+                    testConfig.weightedQids = true;
 
                     if (testRun == 0) {
                         testConfig.writeToFile = false;
