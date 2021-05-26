@@ -35,6 +35,7 @@ import org.deidentifier.arx.Data;
 import org.deidentifier.arx.DataHandle;
 import org.deidentifier.arx.algorithm.AbstractAlgorithm;
 import org.deidentifier.arx.algorithm.AbstractAlgorithm.TimeUtilityTuple;
+import org.deidentifier.arx.algorithm.GeneticAlgorithm;
 import org.deidentifier.arx.benchmark.BenchmarkSetup.BenchmarkDataset;
 import org.deidentifier.arx.criteria.KAnonymity;
 import org.deidentifier.arx.criteria.PopulationUniqueness;
@@ -126,6 +127,9 @@ public abstract class AbstractBenchmark {
         
         /** Immigration Fraction */
         double                 immigrationFraction           = 0.2;
+        
+        /** Use triangle pattern for initialization of 1st population */
+        public Boolean         useTriangle                   = true;
 
         // Limits
         /** Time limit */
@@ -177,10 +181,12 @@ public abstract class AbstractBenchmark {
                                                                                   "dataset",
                                                                                   "k",
                                                                                   "qids",
+                                                                                  "weighted",
                                                                                   "iterations",
                                                                                   "eliteFraction",
                                                                                   "crossoverFraction",
                                                                                   "mutationProbability",
+                                                                                  "trianglePattern",
                                                                                   "timeLimit",
                                                                                   "stepLimit",
                                                                                   "limitByOptimalLoss",
@@ -327,6 +333,8 @@ public abstract class AbstractBenchmark {
         arxConfiguration.setHeuristicSearchStepLimit(testConfiguration.stepLimit);
         arxConfiguration.setHeuristicSearchTimeLimit(testConfiguration.timeLimit);
 
+        GeneticAlgorithm.useTriangle = testConfiguration.useTriangle;
+        
         if (testConfiguration.weightedQids) {
             setAttributeWeights(arxConfiguration, testConfiguration);
         }
@@ -373,10 +381,12 @@ public abstract class AbstractBenchmark {
                                  String.valueOf(testConfiguration.dataset),
                                  String.valueOf(testConfiguration.k),
                                  String.valueOf(testConfiguration.qids),
+                                 String.valueOf(testConfiguration.weightedQids),
                                  String.valueOf(testConfiguration.gaIterations),
                                  String.valueOf(testConfiguration.eliteFraction),
                                  String.valueOf(testConfiguration.crossoverFraction),
                                  String.valueOf(testConfiguration.mutationProbability),
+                                 String.valueOf(testConfiguration.useTriangle),
                                  String.valueOf(testConfiguration.timeLimit),
                                  String.valueOf(testConfiguration.stepLimit),
                                  String.valueOf(testConfiguration.limitByOptimalLoss),
@@ -394,10 +404,12 @@ public abstract class AbstractBenchmark {
                                      String.valueOf(testConfiguration.dataset),
                                      String.valueOf(testConfiguration.k),
                                      String.valueOf(testConfiguration.qids),
+                                     String.valueOf(testConfiguration.weightedQids),
                                      String.valueOf(testConfiguration.gaIterations),
                                      String.valueOf(testConfiguration.eliteFraction),
                                      String.valueOf(testConfiguration.crossoverFraction),
                                      String.valueOf(testConfiguration.mutationProbability),
+                                     String.valueOf(testConfiguration.useTriangle),
                                      String.valueOf(testConfiguration.timeLimit),
                                      String.valueOf(testConfiguration.stepLimit),
                                      String.valueOf(testConfiguration.limitByOptimalLoss),

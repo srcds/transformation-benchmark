@@ -46,7 +46,7 @@ public class BenchmarkExperiment2Global extends AbstractBenchmark {
      * @param args the arguments
      */
     public static void main(String args[]) throws IOException {
-        new BenchmarkExperiment2Global("results/2021/Experiment2_kAnon_weighted.csv").start();
+        new BenchmarkExperiment2Global("results/2021/Experiment2_LD_popUnique_weighted_wo_triangle.csv").start();
     }
 
     /**
@@ -56,15 +56,16 @@ public class BenchmarkExperiment2Global extends AbstractBenchmark {
     public void generateTestConfigurations(List<TestConfiguration> testConfigs) {
         
         // Definition of properties that will be varied for the Benchmark
-        AnonymizationAlgorithm[] algorithms = new AnonymizationAlgorithm[] { AnonymizationAlgorithm.BEST_EFFORT_BOTTOM_UP,
+        AnonymizationAlgorithm[] algorithms = new AnonymizationAlgorithm[] { 
                                                                              AnonymizationAlgorithm.BEST_EFFORT_GENETIC,
-                                                                             AnonymizationAlgorithm.BEST_EFFORT_TOP_DOWN 
+                                                                             
                                                                              };
 
-        BenchmarkDataset[] datasets = new BenchmarkDataset[] { BenchmarkDataset.CREDITCARD,
-                                                               BenchmarkDataset.MACH2019,
-                                                               BenchmarkDataset.SS13ACS };
-
+        //BenchmarkDataset[] datasets = new BenchmarkDataset[] { BenchmarkDataset.CREDITCARD,BenchmarkDataset.MACH2019, BenchmarkDataset.SS13ACS };
+        BenchmarkDataset[] datasets = new BenchmarkDataset[] { BenchmarkDataset.ADULT,
+                                                               BenchmarkDataset.ATUS,
+                                                               BenchmarkDataset.IHIS };
+        
         // Number of testruns
         int testRuns = 6;
 
@@ -76,17 +77,18 @@ public class BenchmarkExperiment2Global extends AbstractBenchmark {
                     TestConfiguration testConfig = new TestConfiguration();
 
                     testConfig.algorithm = algorithm;
-                    testConfig.timeLimit = 100000;
+                    testConfig.timeLimit = 50000;
                     testConfig.dataset = dataset;
                     testConfig.testRunNumber = testRun;
 
                     testConfig.crossoverFraction = 0.4;
                     testConfig.mutationProbability = 0.05;
 
-                    testConfig.privacyModel = PrivacyModel.K_ANONYMITY;
+                    testConfig.privacyModel = PrivacyModel.POPULATION_UNIQUENESS;
 
                     testConfig.useLocalTransformation = false;
                     testConfig.weightedQids = true;
+                    testConfig.useTriangle = false;
 
                     if (testRun == 0) {
                         testConfig.writeToFile = false;
